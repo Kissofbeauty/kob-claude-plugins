@@ -1,6 +1,6 @@
 ---
-name: git-standard
-description: Team Git/GitHub standards. Use whenever performing git work in ANY project — committing, pushing, branching, opening PRs, or merging to production. Enforces a custom 3-tier branch model (main ← uat ← z-feature/<name>), a CRITICAL pre-commit credential gate, Conventional Commit messages, and PR-only/protected main. Trigger on git/commit/push/branch/merge/PR requests, or "/git-standard".
+name: skill-git-standard
+description: Team Git/GitHub standards. Use whenever performing git work in ANY project — committing, pushing, branching, opening PRs, or merging to production. Enforces a custom 3-tier branch model (main ← uat ← z-feature/<name>), a CRITICAL pre-commit credential gate, Conventional Commit messages, PR-only/protected main, and a mandatory README.md (project description + Technical Information). Trigger on git/commit/push/branch/merge/PR requests, or "/skill-git-standard".
 ---
 
 # Git Standard
@@ -53,6 +53,29 @@ subject เป็นคำสั่ง/ตัวพิมพ์เล็ก/ไ�
 
 ---
 
+## 📄 กฎ README.md ต้องมีเสมอ (Mandatory README)
+
+**ทุก project ที่ใช้ git ต้องมีไฟล์ `README.md` เสมอ** และต้องอัปเดตให้ทันสมัย
+เมื่อทำงาน git ในโปรเจกต์ใด ๆ (init / commit / push) → ถ้ายังไม่มี README.md หรือมีแต่ไม่ครบ ให้สร้าง/เติมก่อน
+
+`README.md` ต้องมี **2 ส่วนหลัก** ตามลำดับ:
+
+1. **คำอธิบาย project (Project Description)** — โปรเจกต์นี้คืออะไร ทำอะไร แก้ปัญหาอะไร ฟีเจอร์หลัก วิธีเริ่มใช้งาน
+2. **Technical Information (ข้อมูลทางเทคนิค)** — ต่อท้ายเสมอ อธิบาย**ทุกอย่างที่ dev ควรรู้**เพื่อทำงานกับโปรเจกต์นี้ได้ เช่น:
+   - Tech stack & dependencies (ภาษา/เฟรมเวิร์ก/เวอร์ชัน)
+   - โครงสร้างโปรเจกต์ (project structure) — โฟลเดอร์/ไฟล์สำคัญทำหน้าที่อะไร
+   - การติดตั้ง & รัน (setup / build / run / test commands)
+   - Environment variables & config (รวมถึงไฟล์ `.env.example`)
+   - Database / external services / integrations (schema, migration, การเชื่อมต่อ)
+   - Architecture / data flow (ภาพรวมการทำงาน, decision สำคัญ)
+   - Deployment (deploy ยังไง, environment ไหน) — อ้าง branch model: `main`=prod, `uat`=UAT
+   - Conventions & gotchas (ข้อตกลงในทีม, จุดที่พลาดบ่อย, สิ่งที่ต้องระวัง)
+
+> ใช้ `templates/README.template.md` เป็นโครงเริ่มต้นได้เลย — เติมเนื้อหาให้ครบทั้ง 2 ส่วน
+> เป้าหมาย: dev คนใหม่เปิด README แล้วเข้าใจและเริ่มงานต่อได้ทันทีโดยไม่ต้องถามใคร
+
+---
+
 ## 🚦 Push Rules (สรุป)
 
 1. ❌ ห้าม push ตรงเข้า `main` (บังคับ) — ผ่าน PR เสมอ
@@ -76,6 +99,7 @@ git config core.hooksPath hooks          # เปิด credential pre-commit ga
 ไฟล์ใน `templates/`:
 | ไฟล์ | ใช้ทำอะไร |
 |---|---|
+| `README.template.md` | โครง README (project description + Technical Information) — กฎต้องมีเสมอ |
 | `.gitmessage` | commit message template |
 | `.gitattributes` | normalize line endings (CRLF/LF) |
 | `gitignore` | rename เป็น `.gitignore` — กัน secret/build/OS junk |

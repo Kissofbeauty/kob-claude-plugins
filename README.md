@@ -15,7 +15,7 @@ Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (�
 
 | Plugin | รายละเอียด | Skills |
 |---|---|---|
-| [`devops`](plugins/devops) | DevOps toolkit | `git-standard` (เพิ่ม Docker / SSL / CI/CD เร็ว ๆ นี้) |
+| [`devops`](plugins/devops) | DevOps toolkit | `skill-git-standard` (เพิ่ม Docker / SSL / CI/CD เร็ว ๆ นี้) |
 
 ---
 
@@ -31,8 +31,8 @@ Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (�
 /plugin install devops@kissofbeauty
 ```
 
-> หลังติดตั้ง skill `git-standard` จะถูกหยิบมาใช้อัตโนมัติเมื่อทำงานกับ git
-> (commit / push / branch / merge / PR) หรือเรียกตรงด้วย `/devops:git-standard`
+> หลังติดตั้ง skill `skill-git-standard` จะถูกหยิบมาใช้อัตโนมัติเมื่อทำงานกับ git
+> (commit / push / branch / merge / PR) หรือเรียกตรงด้วย `/devops:skill-git-standard`
 
 ### อัปเดตเป็นเวอร์ชันล่าสุด
 ```bash
@@ -53,7 +53,7 @@ plugin นี้**ไม่ตั้ง `version`** ในมanifest → ทุ�
 │       ├── .claude-plugin/
 │       │   └── plugin.json           # manifest ของ plugin
 │       └── skills/
-│           └── git-standard/         # skill: git-standard
+│           └── skill-git-standard/   # skill: skill-git-standard
 │               ├── SKILL.md
 │               ├── references/        # เอกสารมาตรฐานเต็ม
 │               ├── hooks/             # pre-commit credential scanner
