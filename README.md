@@ -1,10 +1,9 @@
 # kissofbeauty — Kiss of Beauty Marketplace
 
-Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (ดูแลโดยทีม BI)
-รวม plugin และมาตรฐานการทำงาน — ติดตั้งครั้งเดียว ใช้ได้ทุก project และอัปเดตตามอัตโนมัติ
+Claude **plugin marketplace** ขององค์กร Kiss of Beauty (ดูแลโดยทีม BI)
+รวม plugin · skill · subagent และมาตรฐานการทำงาน — ติดตั้งครั้งเดียว ใช้ได้ทุก project และอัปเดตต่อเนื่อง
 
-> Kiss of Beauty's Claude Code plugin marketplace, maintained by the BI Team.
-> Install once, use across all projects, auto-updates.
+> Kiss of Beauty's Claude plugin marketplace, maintained by the BI Team.
 
 - **Marketplace:** `kissofbeauty`
 - **Owner:** BI-Team · database@kissofbeauty.co.th
@@ -19,26 +18,30 @@ Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (�
 
 ---
 
-## 🚀 วิธีติดตั้ง (สำหรับ teammate)
+## 🚀 วิธีใช้งาน (แยกตาม surface)
 
-ใน Claude Code:
+ปัจจุบัน skill เผยแพร่ **2 ช่องทาง** เพราะ Claude Code กับ claude.ai ใช้กลไกคนละแบบ:
 
+### A) Claude Code (ดึงจาก repo นี้ตรง ๆ)
 ```bash
-# 1. เพิ่ม marketplace (ใช้ชื่อ owner/repo บน GitHub)
-/plugin marketplace add <your-org>/<this-repo>
+# 1. เพิ่ม marketplace (ต้องมีสิทธิ์เข้า repo — เป็น member ของ GitHub org)
+/plugin marketplace add <org/repo>
 
-# 2. ติดตั้ง plugin devops (ใช้ชื่อ marketplace = kissofbeauty)
+# 2. ติดตั้ง plugin
 /plugin install devops@kissofbeauty
 ```
+- หลังติดตั้ง `skill-git-standard` จะถูกหยิบมาใช้อัตโนมัติเมื่อทำงานกับ git หรือเรียกตรง `/devops:skill-git-standard`
+- **อัปเดต:** `/plugin marketplace update kissofbeauty` (ดึง commit ล่าสุดจาก git อัตโนมัติ)
+- plugin **ไม่ตั้ง `version`** → ทุก commit บน `main` คือเวอร์ชันล่าสุด
 
-> หลังติดตั้ง skill `skill-git-standard` จะถูกหยิบมาใช้อัตโนมัติเมื่อทำงานกับ git
-> (commit / push / branch / merge / PR) หรือเรียกตรงด้วย `/devops:skill-git-standard`
+### B) claude.ai — chat / cowork / Projects
+skill ตัวเดียวกันใช้บน claude.ai ได้ (รูปแบบ `SKILL.md` เป็น open format เดียวกัน) แต่ **ไม่ได้ดึงจาก GitHub** — **admin** ต้องอัปเข้า workspace:
+- admin อัป/อัปเดต skill ที่ **`claude.ai/admin-settings/skills`** → provision เปิดให้สมาชิกทุกคนในองค์กรอัตโนมัติ
+- แจกเฉพาะกลุ่ม: bundle skill เป็น plugin แล้ว assign ให้ group
+- ใช้ได้เฉพาะ **สมาชิกใน Claude for Team workspace** (บัญชี personal นอก workspace ต้องเชิญเข้ามาก่อน)
+- ⚠️ ปัจจุบัน publish เป็น **manual** — ยังไม่มี Admin API ให้ automate
 
-### อัปเดตเป็นเวอร์ชันล่าสุด
-```bash
-/plugin marketplace update kissofbeauty
-```
-plugin นี้**ไม่ตั้ง `version`** ในมanifest → ทุก commit ใหม่ถือเป็นเวอร์ชันล่าสุด (auto-update)
+> รายละเอียด/ข้อจำกัดทั้งหมด: ดู [`requirements.md`](requirements.md) §5.1 (distribution matrix) และ §8 (Spike S1)
 
 ---
 
@@ -46,26 +49,35 @@ plugin นี้**ไม่ตั้ง `version`** ในมanifest → ทุ�
 
 ```
 .
-├── .claude-plugin/
-│   └── marketplace.json              # สารบัญ marketplace
+├── .claude-plugin/marketplace.json   # สารบัญ marketplace
 ├── plugins/
 │   └── devops/                       # plugin: devops
-│       ├── .claude-plugin/
-│       │   └── plugin.json           # manifest ของ plugin
-│       └── skills/
-│           └── skill-git-standard/   # skill: skill-git-standard
-│               ├── SKILL.md
-│               ├── references/        # เอกสารมาตรฐานเต็ม
-│               ├── hooks/             # pre-commit credential scanner
-│               └── templates/         # .gitmessage, .gitignore, PR/issue templates
-├── .gitignore
+│       ├── .claude-plugin/plugin.json
+│       └── skills/skill-git-standard/   (SKILL.md + references/ hooks/ templates/)
+├── scripts/validate.py               # ตัวตรวจ manifest/skill (รันก่อนเปิด PR)
+├── .github/workflows/validate.yml    # CI: รัน validate.py ทุก push/PR
+├── CLAUDE.md                          # บริบทโปรเจกต์ (อ่านก่อนเริ่มงาน)
+├── requirements.md                   # requirement + scope + การตัดสินใจ
+├── CONTRIBUTING.md                   # วิธีเพิ่ม/แก้ plugin สำหรับ dev BI
 └── README.md
 ```
 
 ---
 
-## ➕ เพิ่ม skill / plugin ใหม่ในอนาคต
+## 📚 เอกสาร
 
-- **เพิ่ม skill ใน devops:** สร้างโฟลเดอร์ใหม่ใต้ `plugins/devops/skills/<skill-name>/` พร้อม `SKILL.md`
-- **เพิ่ม subagent:** สร้าง `plugins/devops/agents/<name>.md` (อย่าลืมใส่ `Skill` ใน tools ถ้าต้องเรียก skill)
-- **เพิ่ม plugin ใหม่ (เช่น `qa`, `pm`):** สร้าง `plugins/<name>/` แล้วเพิ่ม entry ใน `marketplace.json`
+| ไฟล์ | สำหรับ |
+|---|---|
+| [`CLAUDE.md`](CLAUDE.md) | บริบทโปรเจกต์ — อ่านก่อนเริ่มงานทุกครั้ง |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | **dev** ที่จะเพิ่ม/แก้ plugin · branch model · validation · governance |
+| [`requirements.md`](requirements.md) | scope · มติการออกแบบ · distribution strategy |
+
+---
+
+## ➕ อยากเพิ่ม skill / plugin?
+
+ดูขั้นตอนเต็มใน **[`CONTRIBUTING.md`](CONTRIBUTING.md)** โดยสรุป:
+1. แตก branch `z-feature/<name>` จาก `main`
+2. วางไฟล์ตามมาตรฐาน (skill → `plugins/<plugin>/skills/<name>/SKILL.md`)
+3. รัน `python scripts/validate.py` ให้ผ่าน
+4. เปิด PR → review โดยคน + security gate → merge
