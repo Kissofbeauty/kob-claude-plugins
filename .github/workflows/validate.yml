@@ -1,0 +1,23 @@
+name: Validate manifests
+
+# ตรวจ manifest อัตโนมัติ กัน JSON พัง / skill ผิดมาตรฐาน ก่อนรวมเข้า main
+on:
+  pull_request:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run manifest validator
+        run: python scripts/validate.py
