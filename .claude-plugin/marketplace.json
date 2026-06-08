@@ -1,10 +1,10 @@
 {
-  "name": "mixovage-marketplace",
+  "name": "KissgroupTH",
   "owner": {
-    "name": "Mixovage",
-    "email": "mixovage@gmail.com"
+    "name": "BI-Team",
+    "email": "database@kissofbeauty.co.th"
   },
-  "description": "Mixovage's Claude Code plugins — DevOps toolkit and team standards",
+  "description": "Kiss of Beauty — Claude Code plugins maintained by the BI Team (DevOps toolkit and team standards)",
   "plugins": [
     {
       "name": "devops",
