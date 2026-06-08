@@ -1,0 +1,9 @@
+{
+  "name": "devops",
+  "description": "DevOps toolkit for Claude Code. Currently bundles the git-standard skill (team Git/GitHub standards: 3-tier branch model, credential pre-commit gate, Conventional Commits, PR-only protected main). More skills to come (Docker, SSL/TLS, CI/CD).",
+  "author": {
+    "name": "Mixovage",
+    "email": "mixovage@gmail.com"
+  },
+  "keywords": ["devops", "git", "github", "standards", "workflow"]
+}

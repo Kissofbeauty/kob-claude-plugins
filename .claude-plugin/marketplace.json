@@ -1,0 +1,15 @@
+{
+  "name": "mixovage-marketplace",
+  "owner": {
+    "name": "Mixovage",
+    "email": "mixovage@gmail.com"
+  },
+  "description": "Mixovage's Claude Code plugins — DevOps toolkit and team standards",
+  "plugins": [
+    {
+      "name": "devops",
+      "source": "./plugins/devops",
+      "description": "DevOps toolkit for Claude Code — Git/GitHub standards (more skills coming: Docker, SSL, CI/CD)"
+    }
+  ]
+}
