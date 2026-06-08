@@ -1,4 +1,4 @@
-# KissgroupTH — Kiss of Beauty Marketplace
+# kissofbeauty — Kiss of Beauty Marketplace
 
 Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (ดูแลโดยทีม BI)
 รวม plugin และมาตรฐานการทำงาน — ติดตั้งครั้งเดียว ใช้ได้ทุก project และอัปเดตตามอัตโนมัติ
@@ -6,7 +6,7 @@ Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (�
 > Kiss of Beauty's Claude Code plugin marketplace, maintained by the BI Team.
 > Install once, use across all projects, auto-updates.
 
-- **Marketplace:** `KissgroupTH`
+- **Marketplace:** `kissofbeauty`
 - **Owner:** BI-Team · database@kissofbeauty.co.th
 
 ---
@@ -27,8 +27,8 @@ Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (�
 # 1. เพิ่ม marketplace (ใช้ชื่อ owner/repo บน GitHub)
 /plugin marketplace add <your-org>/<this-repo>
 
-# 2. ติดตั้ง plugin devops (ใช้ชื่อ marketplace = KissgroupTH)
-/plugin install devops@KissgroupTH
+# 2. ติดตั้ง plugin devops (ใช้ชื่อ marketplace = kissofbeauty)
+/plugin install devops@kissofbeauty
 ```
 
 > หลังติดตั้ง skill `git-standard` จะถูกหยิบมาใช้อัตโนมัติเมื่อทำงานกับ git
@@ -36,7 +36,7 @@ Claude Code **plugin marketplace** ขององค์กร Kiss of Beauty (�
 
 ### อัปเดตเป็นเวอร์ชันล่าสุด
 ```bash
-/plugin marketplace update KissgroupTH
+/plugin marketplace update kissofbeauty
 ```
 plugin นี้**ไม่ตั้ง `version`** ในมanifest → ทุก commit ใหม่ถือเป็นเวอร์ชันล่าสุด (auto-update)
 
