@@ -7,6 +7,12 @@
 
 ## 0. ก่อนเริ่ม
 - ขอสิทธิ์เข้า GitHub org (repo เป็น **private**) + ตั้งค่า git auth (`gh auth login` หรือ SSH key)
+- **ตั้ง git identity เป็นของตัวเอง** (commit จะได้ระบุชื่อคนทำถูกต้อง — ทีมใช้ชื่อจริงต่อคน):
+  ```bash
+  git config user.name  "<ชื่อคุณ>"
+  git config user.email "<email ที่ verify ใน GitHub>"
+  ```
+  > email ต้องถูก **เพิ่ม + verify** ในบัญชี GitHub (Settings → Emails) ไม่งั้น commit จะแสดงชื่อแต่ไม่ลิงก์โปรไฟล์/avatar · อย่าใช้ identity กลาง (เช่น BI-Team) commit แทนกัน
 - อ่าน `CLAUDE.md` (บริบทโปรเจกต์) และ `requirements.md` (scope ปัจจุบัน)
 - ติดตั้ง marketplace ของตัวเองไว้ทดสอบ: `/plugin marketplace add <org/repo>`
 
