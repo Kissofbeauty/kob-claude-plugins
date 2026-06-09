@@ -10,6 +10,11 @@
       "name": "devops",
       "source": "./plugins/devops",
       "description": "DevOps toolkit for Claude Code — Git/GitHub standards (more skills coming: Docker, SSL, CI/CD)"
+    },
+    {
+      "name": "management",
+      "source": "./plugins/management",
+      "description": "Project management & orchestration — PM playbook (discovery → Project Proposal) + skill scaffolder"
     }
   ]
 }
