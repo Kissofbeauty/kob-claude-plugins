@@ -127,3 +127,4 @@ checklist เดิม (ตอนนี้ครอบคลุมโดย `val
 2. ก่อน push รัน `python scripts/validate.py` ให้เขียวในเครื่องก่อนเสมอ (จะได้ไม่ต้องรอ CI แดง)
 3. ถ้า CI แดง / branch ตามหลัง main → **แก้ที่ branch ตัวเอง → push ใหม่ → CI รันซ้ำ** (ไม่แก้ที่ main)
 4. รอ reviewer อนุมัติ → merge
+5. **หลัง merge → ลบ branch ทั้ง remote + local** (`git fetch --prune` + `git branch -d feature/<name>`) — อยากแก้เพิ่มทีหลังให้ **แตก branch ใหม่จาก `uat`** เสมอ (ห้ามใช้ branch เก่าต่อ)

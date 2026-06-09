@@ -117,6 +117,16 @@ subject เป็นคำสั่ง/ตัวพิมพ์เล็ก/ไ�
 
 ---
 
+## 🧹 Cleanup หลัง merge (กฎ)
+
+- PR ถูก merge แล้ว → **ลบ feature branch ทั้ง remote และ local**
+  - remote: เปิด GitHub **Settings → Automatically delete head branches** (ลบให้อัตโนมัติ) หรือ `git push origin --delete feature/<name>`
+  - **local (ต้องลบเองเสมอ):** `git fetch --prune` แล้ว `git branch -d feature/<name>` (`-d` ลบเฉพาะที่ merge แล้ว = ปลอดภัย)
+- **ห้ามใช้ feature branch เดิมต่อหลัง merge** — ถ้าต้องแก้เพิ่มทีหลัง ให้ **แตก branch ใหม่จาก `uat` ล่าสุด** เสมอ → ทำงาน → merge เข้า `uat` อีกรอบ
+  > 1 รอบงาน = 1 branch อายุสั้น · กัน branch เก่าตามหลัง uat แล้วเกิด conflict/ของซ้อน
+
+---
+
 ## ⚙️ Setup repo ปลายทางให้ตรงมาตรฐาน
 
 ก๊อปไฟล์จาก `templates/` ไปไว้ที่ root ของ repo จริง แล้วตั้งค่า:

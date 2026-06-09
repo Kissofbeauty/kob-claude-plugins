@@ -101,7 +101,8 @@ git push -u origin feature/user-login
 | `uat` ผ่าน PR (ตามธรรมเนียม) | ควร merge ผ่าน PR แต่ไม่ได้บังคับฝั่ง server |
 | ต้อง review / Require review | PR เข้า `main` ต้องได้รับ approve อย่างน้อย 1 คน |
 | Sync ก่อน merge / Sync first | rebase หรือ merge `uat` ล่าสุดก่อนเปิด PR เพื่อกัน conflict |
-| ลบ branch หลัง merge / Clean up | ลบ `feature/*` ออกหลัง merge เข้า `uat` แล้ว — แนะนำเปิด GitHub **Settings → General → Automatically delete head branches** ให้ลบอัตโนมัติ |
+| ลบ branch หลัง merge / Clean up | ลบ `feature/*` หลัง merge **ทั้ง remote และ local** — remote: เปิด GitHub **Settings → General → Automatically delete head branches**; local: `git fetch --prune` + `git branch -d feature/<name>` |
+| ห้ามใช้ branch เก่าต่อ / No stale reuse | แก้เพิ่มหลัง merge → **แตก branch ใหม่จาก `uat` ล่าสุด** เสมอ แล้ว merge เข้า `uat` อีกรอบ (อย่ารื้อ branch ที่ลบแล้วมาใช้ต่อ) |
 
 ---
 
