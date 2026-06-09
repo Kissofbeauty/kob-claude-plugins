@@ -105,3 +105,27 @@ checklist เดิม (ตอนนี้ครอบคลุมโดย `val
 2. manifest valid · โครงสร้างตามมาตรฐาน
 3. docs ที่เกี่ยวข้องอัปเดต (`README.md` / `CLAUDE.md` ถ้ากระทบ)
 4. ผ่าน governance gate §6 (review + security)
+
+## 9. กฎ Branch Protection (มีผลบังคับจริงบน GitHub)
+
+> ตั้งค่าด้วย GitHub Ruleset แล้ว — ทุกคนต้องทำงานภายใต้กฎนี้
+
+### `uat` — หลวม
+- **ไม่บังคับ PR** merge เข้าเพื่อทดสอบได้เลย
+
+### `main` (production) — เข้ม 🔒
+ห้าม push ตรง ต้องผ่าน **PR เท่านั้น** โดย PR ต้อง:
+| กฎ | หมายความว่า |
+|---|---|
+| ✅ Require PR + **approval ≥ 1** | ต้องมีคนรีวิว+อนุมัติอย่างน้อย 1 คนก่อน merge |
+| ✅ Require status check **`validate`** | CI ตรวจ manifest ต้องผ่าน (เขียว) ถึง merge ได้ |
+| ✅ Require branch up to date | ต้องดึง main ล่าสุดมารวมก่อน merge |
+| ✅ Block force pushes | ห้ามเขียนทับ history ของ main |
+| ✅ Restrict deletions | ห้ามลบ branch main |
+| 🔑 Bypass = `kiss-bim` (admin) | มีแค่ admin ข้ามกฎได้ ไว้ **break-glass ฉุกเฉินเท่านั้น** — ห้ามใช้เป็นทางปกติ |
+
+### สิ่งที่ dev ต้องจำ
+1. งานทุกอย่างทำบน `z-feature/<name>` → push → เปิด PR (เข้า `uat` ก่อน, แล้ว `uat` → `main`)
+2. ก่อน push รัน `python scripts/validate.py` ให้เขียวในเครื่องก่อนเสมอ (จะได้ไม่ต้องรอ CI แดง)
+3. ถ้า CI แดง / branch ตามหลัง main → **แก้ที่ branch ตัวเอง → push ใหม่ → CI รันซ้ำ** (ไม่แก้ที่ main)
+4. รอ reviewer อนุมัติ → merge
