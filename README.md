@@ -15,6 +15,7 @@ Claude **plugin marketplace** ขององค์กร Kiss of Beauty (ดู
 | Plugin | รายละเอียด | Skills |
 |---|---|---|
 | [`devops`](plugins/devops) | DevOps toolkit | `skill-git-standard` (เพิ่ม Docker / SSL / CI/CD เร็ว ๆ นี้) |
+| [`management`](plugins/management) | PM & orchestration | `skill-PM` (discovery → Project Proposal) · `skill-init` (สร้าง skill ใหม่) |
 
 ---
 
