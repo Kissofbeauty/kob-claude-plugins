@@ -40,7 +40,7 @@ skill · subagent · (ภายหลัง) MCP และให้คนใน�
 | D6 | Repo access | GitHub ระดับ **organization** → เพิ่มคนในองค์กรเข้า repo ได้ตรง (org member) |
 | D7 | Governance gate | merge เข้า `main` ต้องผ่าน **PR review โดยคน (≥1)** + **security gate** (สแกน secret/ตรวจ skill) |
 | D8 | Publish automation | **ปัจจุบันทำได้แค่ manual** ผ่าน admin UI (`claude.ai/admin-settings/skills`) — ยังไม่มี Admin API ให้ automate (Spike S1 ยืนยัน) → คง automate เป็นเป้าหมายอนาคตเมื่อ API เปิด |
-| D9 | Branch protection | **`uat`:** ไม่บังคับ PR (merge ตรงได้). **`main`:** protected — บังคับ PR + review + CI; **Bypass list = `kiss-bim` (admin) คนเดียว** ไว้ break-glass ฉุกเฉินเท่านั้น |
+| D9 | Branch protection | **ทั้ง `uat` และ `main` protected เหมือนกัน** — บังคับ PR + review ≥1 + CI `validate` + branch up to date + block force push + restrict deletions; **Bypass = `kiss-bim` (admin) คนเดียว** ไว้ break-glass ฉุกเฉินเท่านั้น *(แก้จากเดิมที่ uat เคยหลวม — 2026-06-09)* |
 
 ## 5. ข้อเท็จจริง/ข้อจำกัดเชิงเทคนิค (ต้องออกแบบรอบ)
 - **F1 — สอง surface คนละกลไกเผยแพร่:**

@@ -21,8 +21,8 @@
 main (เผยแพร่) ──◄── uat (ทดสอบรวม) ──◄── z-feature/<ชื่องาน>
 ```
 - แตกงานใหม่จาก `main`: `git checkout main && git pull && git checkout -b z-feature/<name>`
-- `uat`: **ไม่บังคับ PR** — merge เข้าเพื่อทดสอบได้เลย
-- `main`: **protected** เข้าได้ผ่าน **PR เท่านั้น** (PR + review + CI ผ่าน) — bypass มีแค่ admin `kiss-bim` ไว้ break-glass ฉุกเฉิน (ห้ามใช้เป็นทางปกติ)
+- **ทั้ง `uat` และ `main` protected เหมือนกัน** — เข้าได้ผ่าน **PR เท่านั้น** (PR + review ≥1 + CI ผ่าน), ห้าม push ตรง
+- bypass มีแค่ admin `kiss-bim` ไว้ break-glass ฉุกเฉิน (ห้ามใช้เป็นทางปกติ)
 
 ## 2. โครงสร้างที่ต้องวางให้ถูก
 ```
@@ -110,11 +110,8 @@ checklist เดิม (ตอนนี้ครอบคลุมโดย `val
 
 > ตั้งค่าด้วย GitHub Ruleset แล้ว — ทุกคนต้องทำงานภายใต้กฎนี้
 
-### `uat` — หลวม
-- **ไม่บังคับ PR** merge เข้าเพื่อทดสอบได้เลย
-
-### `main` (production) — เข้ม 🔒
-ห้าม push ตรง ต้องผ่าน **PR เท่านั้น** โดย PR ต้อง:
+### `uat` และ `main` — เข้มเหมือนกัน 🔒
+ทั้งสอง branch ห้าม push ตรง ต้องผ่าน **PR เท่านั้น** โดย PR ต้อง:
 | กฎ | หมายความว่า |
 |---|---|
 | ✅ Require PR + **approval ≥ 1** | ต้องมีคนรีวิว+อนุมัติอย่างน้อย 1 คนก่อน merge |
