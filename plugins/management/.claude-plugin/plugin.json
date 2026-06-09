@@ -1,0 +1,9 @@
+{
+  "name": "management",
+  "description": "Project management & orchestration toolkit for Claude Code. Bundles skill-PM (Product Manager playbook: discovery → Project Proposal → optional, environment-aware subagent orchestration) and skill-init (scaffold new Claude Code skills with SKILL.md + README).",
+  "author": {
+    "name": "BI-Team",
+    "email": "database@kissofbeauty.co.th"
+  },
+  "keywords": ["management", "product-manager", "orchestration", "project-proposal", "skill-creator"]
+}
