@@ -10,7 +10,7 @@
 
 ```
 1. sync uat        →  2. สร้าง branch     →  3. เขียนโค้ด + commit
-   (pull)              z-feature/<name>        (commit ย่อย ๆ บ่อย ๆ)
+   (pull)              feature/<name>        (commit ย่อย ๆ บ่อย ๆ)
                                                        │
 6. merge → main    ←  5. PR → uat          ←  4. push branch
    (UAT ผ่าน)          (dev เสร็จ)              (origin)
@@ -28,7 +28,7 @@ git pull origin uat
 
 ### Step 2 — สร้าง feature branch (Create feature branch)
 ```bash
-git checkout -b z-feature/user-login
+git checkout -b feature/user-login
 ```
 
 ### Step 3 — เขียนโค้ดและ commit (Code & commit)
@@ -41,12 +41,12 @@ git commit                 # เปิด editor ตาม .gitmessage template
 
 ### Step 4 — Push branch ขึ้น remote (Push)
 ```bash
-git push -u origin z-feature/user-login   # ครั้งแรกใช้ -u
+git push -u origin feature/user-login   # ครั้งแรกใช้ -u
 git push                                   # ครั้งถัดไป
 ```
 
 ### Step 5 — เปิด Pull Request เข้า `uat`
-- เปิด PR บน GitHub: `z-feature/user-login` ──▶ `uat`
+- เปิด PR บน GitHub: `feature/user-login` ──▶ `uat`
 - กรอกตาม PR template, ขอ reviewer, รอ approve
 - merge แล้วลบ branch
 
@@ -61,8 +61,8 @@ git push                                   # ครั้งถัดไป
 | # | กฎ (Rule) | คำอธิบาย (Why) |
 |---|---|---|
 | 1 | ❌ **ห้าม push ตรงเข้า `main`** (บังคับ) | ต้องผ่าน PR เสมอ — ล็อกด้วย GitHub Branch Protection. `uat` ใช้ PR ตามธรรมเนียมแต่ไม่บังคับ |
-| 2 | ✅ **push เฉพาะ `z-feature/*` ของตัวเอง** | แต่ละคนรับผิดชอบ branch ตัวเอง |
-| 3 | ⚠️ **ห้าม `--force` บน shared branch** | ใช้ได้เฉพาะ `z-feature/*` ของตัวเอง และใช้ `--force-with-lease` |
+| 2 | ✅ **push เฉพาะ `feature/*` ของตัวเอง** | แต่ละคนรับผิดชอบ branch ตัวเอง |
+| 3 | ⚠️ **ห้าม `--force` บน shared branch** | ใช้ได้เฉพาะ `feature/*` ของตัวเอง และใช้ `--force-with-lease` |
 | 4 | 🔄 **pull/rebase ก่อน push เสมอ** | ลด merge conflict |
 | 5 | 🧪 **รันเทสต์/lint ก่อน push** | อย่า push โค้ดที่พังขึ้นไป |
 | 6 | 🔐 **ห้าม commit secret** | password, API key, .env — ใช้ .gitignore |
@@ -71,7 +71,7 @@ git push                                   # ครั้งถัดไป
 ### `--force` ที่ปลอดภัย (Safe force-push)
 ```bash
 # ใช้ force-with-lease เสมอ — จะไม่ทับงานคนอื่นที่ push มาก่อน
-git push --force-with-lease origin z-feature/user-login
+git push --force-with-lease origin feature/user-login
 ```
 
 ---
@@ -80,7 +80,7 @@ git push --force-with-lease origin z-feature/user-login
 
 ```bash
 # ดึง uat ล่าสุดมา rebase บน feature branch
-git checkout z-feature/user-login
+git checkout feature/user-login
 git fetch origin
 git rebase origin/uat
 

@@ -55,11 +55,11 @@ git diff --staged          # ดูสิ่งที่ stage แล้ว
 
 ```bash
 git branch                      # list branch
-git checkout -b z-feature/x     # สร้าง + สลับไป branch ใหม่
+git checkout -b feature/x     # สร้าง + สลับไป branch ใหม่
 git switch uat                  # สลับ branch (คำสั่งใหม่ที่ชัดกว่า)
-git merge z-feature/x           # merge branch เข้า branch ปัจจุบัน
-git branch -d z-feature/x       # ลบ branch (local)
-git push origin --delete z-feature/x   # ลบ branch บน remote
+git merge feature/x           # merge branch เข้า branch ปัจจุบัน
+git branch -d feature/x       # ลบ branch (local)
+git push origin --delete feature/x   # ลบ branch บน remote
 ```
 
 ---
@@ -71,7 +71,7 @@ git remote -v                       # ดู remote
 git remote add origin <url>         # ผูก remote
 git pull origin uat                 # ดึง + merge
 git fetch origin                    # ดึงอย่างเดียว (ไม่ merge)
-git push -u origin z-feature/x      # push ครั้งแรก (ตั้ง upstream)
+git push -u origin feature/x      # push ครั้งแรก (ตั้ง upstream)
 git push                            # push ครั้งถัดไป
 ```
 
@@ -127,7 +127,7 @@ git rebase --abort             # ยกเลิก rebase
 git log --oneline --graph --all     # กราฟทุก branch
 git show <hash>                     # ดูรายละเอียด commit
 git blame <file>                    # ดูว่าใครแก้บรรทัดไหน
-git diff uat..z-feature/x           # เทียบ 2 branch
+git diff uat..feature/x           # เทียบ 2 branch
 git bisect start                    # หา commit ที่ทำให้บั๊ก (binary search)
 ```
 
