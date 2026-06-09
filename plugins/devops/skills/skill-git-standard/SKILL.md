@@ -60,6 +60,24 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 
 ---
 
+## 🔄 กฎ: เตือนให้ sync เมื่อ feature branch ตามหลัง `uat`
+
+เมื่อทำงาน git บน feature branch (โดยเฉพาะ **ก่อน push / ก่อนเปิด PR / เมื่อ user กลับมาทำ branch เก่า**) ให้เช็กก่อนว่า branch ตามหลัง `uat` แค่ไหน:
+
+```bash
+git fetch origin
+git rev-list --count HEAD..origin/uat   # uat มีงานใหม่กี่ commit ที่ branch เรายังไม่มี (= ตามหลังเท่านี้)
+```
+
+- ถ้าผล **> 0 (ตามหลัง)** → **แจ้งเตือน user เชิงรุก** ว่า _"branch นี้ตามหลัง `uat` อยู่ N commit — ควร sync ก่อนทำต่อ/ก่อนเปิด PR"_ พร้อมเสนอคำสั่ง:
+  ```bash
+  git merge origin/uat        # (หรือ git rebase origin/uat) นำงานล่าสุดของ uat มารวม
+  ```
+- **ยิ่ง branch แตกมานาน / ตามหลังเยอะ ยิ่งเน้นเตือน** — branch ที่ทิ้งไว้นานแล้วไม่ sync เสี่ยง conflict ก้อนใหญ่ + เทสบนของเก่า อย่าปล่อยให้ push/PR ทั้งที่ตามหลัง
+- เป็นการเตือนเชิงรุก ไม่ต้องรอ user ถาม
+
+---
+
 ## 🚨 กฎ CRITICAL: ตรวจ Credential ก่อน Commit ทุกครั้ง
 
 **ก่อนจะ commit เสมอ** ให้สแกนไฟล์ที่จะ commit ว่ามี credential หลุดเข้าไปไหม
