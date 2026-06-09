@@ -77,7 +77,7 @@ skill ตัวเดียวกันใช้บน claude.ai ได้ (ร�
 ## ➕ อยากเพิ่ม skill / plugin?
 
 ดูขั้นตอนเต็มใน **[`CONTRIBUTING.md`](CONTRIBUTING.md)** โดยสรุป:
-1. แตก branch `z-feature/<name>` จาก `main`
+1. แตก branch `feature/<name>` จาก `main`
 2. วางไฟล์ตามมาตรฐาน (skill → `plugins/<plugin>/skills/<name>/SKILL.md`)
 3. รัน `python scripts/validate.py` ให้ผ่าน
 4. เปิด PR → review โดยคน + security gate → merge

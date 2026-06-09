@@ -1,6 +1,6 @@
 ---
 name: skill-git-standard
-description: Team Git/GitHub standards. Use whenever performing git work in ANY project — committing, pushing, branching, opening PRs, or merging to production. Enforces a custom 3-tier branch model (main ← uat ← z-feature/<name>), a CRITICAL pre-commit credential gate, Conventional Commit messages, PR-only/protected main, and a mandatory README.md (project description + Technical Information). Trigger on git/commit/push/branch/merge/PR requests, or "/skill-git-standard".
+description: Team Git/GitHub standards. Use whenever performing git work in ANY project — committing, pushing, branching, opening PRs, or merging to production. Enforces a custom 3-tier branch model (main ← uat ← feature/<name>), a CRITICAL pre-commit credential gate, Conventional Commit messages, PR-only/protected main, and a mandatory README.md (project description + Technical Information). Trigger on git/commit/push/branch/merge/PR requests, or "/skill-git-standard".
 ---
 
 # Git Standard
@@ -14,15 +14,15 @@ description: Team Git/GitHub standards. Use whenever performing git work in ANY 
 ## 🌳 Branch Model (3-tier) — กฎหลัก
 
 ```
-main  (production)  ←──PR──  uat  ←──PR──  z-feature/<featureName>
+main  (production)  ←──PR──  uat  ←──PR──  feature/<featureName>
 ```
 
 - **`main`** = production. **PR เท่านั้น + protected** (ห้าม push ตรง — GitHub Branch Protection บังคับ)
 - **`uat`** = UAT. แยกมาจาก `main`. ใช้ PR ตามธรรมเนียม (**ไม่บังคับ** ฝั่ง server)
-- **`z-feature/<featureName>`** = dev. แยกมาจาก `uat`. ชื่อ kebab-case เช่น `z-feature/user-login`
+- **`feature/<featureName>`** = dev. แยกมาจาก `uat`. ชื่อ kebab-case เช่น `feature/user-login`
 
 **Promotion flow:**
-1. `z-feature/*` แยกจาก `uat` → พัฒนา
+1. `feature/*` แยกจาก `uat` → พัฒนา
 2. dev เสร็จ → merge เข้า `uat` → ทดสอบบน UAT
 3. UAT ผ่าน → **เปิด PR** `uat` → `main` (อย่า `git push origin main` ตรง — จะถูก GitHub ปฏิเสธ)
 
@@ -39,7 +39,7 @@ main  (production)  ←──PR──  uat  ←──PR──  z-feature/<featur
 - คำสั่งที่ **กลับยาก/อันตราย** (`push --force`, `reset --hard`, `rebase`, `branch -D`) → เตือนผลกระทบ + ขอ confirm ก่อนรัน
 - ตัวอย่างรูปแบบที่ควรแสดง:
   ```bash
-  git checkout -b z-feature/login   # แตก branch ใหม่จาก branch ปัจจุบัน ไว้พัฒนา (ยังไม่กระทบใคร)
+  git checkout -b feature/login   # แตก branch ใหม่จาก branch ปัจจุบัน ไว้พัฒนา (ยังไม่กระทบใคร)
   git add src/auth.ts               # เลือกไฟล์เข้า staging เตรียม commit
   git commit -m "feat(auth): ..."   # บันทึกลง history ของ branch นี้ (ยังอยู่แค่ในเครื่อง)
   ```
@@ -50,7 +50,7 @@ main  (production)  ←──PR──  uat  ←──PR──  z-feature/<featur
 
   ```
   main ── c1 ── c2 ── c3                      ← main/uat อยู่ที่นี่
-                       └── z-feature/fullstack ── c4   ◄ คุณอยู่ตรงนี้ (ยังไม่ push)
+                       └── feature/fullstack ── c4   ◄ คุณอยู่ตรงนี้ (ยังไม่ push)
 
   ขั้นถัดไป:  รัน validate → git push → เปิด PR เข้า uat
   ```
@@ -109,7 +109,7 @@ subject เป็นคำสั่ง/ตัวพิมพ์เล็ก/ไ�
 ## 🚦 Push Rules (สรุป)
 
 1. ❌ ห้าม push ตรงเข้า `main` (บังคับ) — ผ่าน PR เสมอ
-2. ✅ push เฉพาะ `z-feature/*` ของตัวเอง
+2. ✅ push เฉพาะ `feature/*` ของตัวเอง
 3. ⚠️ force ได้เฉพาะ branch ตัวเอง และใช้ `--force-with-lease`
 4. 🔄 pull/rebase ก่อน push เสมอ
 5. 🧪 รัน test/lint ก่อน push

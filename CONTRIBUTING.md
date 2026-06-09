@@ -18,9 +18,9 @@
 
 ## 1. Branch model (org standard)
 ```
-main (เผยแพร่) ──◄── uat (ทดสอบรวม) ──◄── z-feature/<ชื่องาน>
+main (เผยแพร่) ──◄── uat (ทดสอบรวม) ──◄── feature/<ชื่องาน>
 ```
-- แตกงานใหม่จาก `main`: `git checkout main && git pull && git checkout -b z-feature/<name>`
+- แตกงานใหม่จาก `main`: `git checkout main && git pull && git checkout -b feature/<name>`
 - **ทั้ง `uat` และ `main` protected เหมือนกัน** — เข้าได้ผ่าน **PR เท่านั้น** (PR + review ≥1 + CI ผ่าน), ห้าม push ตรง
 - bypass มีแค่ admin `kiss-bim` ไว้ break-glass ฉุกเฉิน (ห้ามใช้เป็นทางปกติ)
 
@@ -122,7 +122,7 @@ checklist เดิม (ตอนนี้ครอบคลุมโดย `val
 | 🔑 Bypass = `kiss-bim` (admin) | มีแค่ admin ข้ามกฎได้ ไว้ **break-glass ฉุกเฉินเท่านั้น** — ห้ามใช้เป็นทางปกติ |
 
 ### สิ่งที่ dev ต้องจำ
-1. งานทุกอย่างทำบน `z-feature/<name>` → push → เปิด PR (เข้า `uat` ก่อน, แล้ว `uat` → `main`)
+1. งานทุกอย่างทำบน `feature/<name>` → push → เปิด PR (เข้า `uat` ก่อน, แล้ว `uat` → `main`)
 2. ก่อน push รัน `python scripts/validate.py` ให้เขียวในเครื่องก่อนเสมอ (จะได้ไม่ต้องรอ CI แดง)
 3. ถ้า CI แดง / branch ตามหลัง main → **แก้ที่ branch ตัวเอง → push ใหม่ → CI รันซ้ำ** (ไม่แก้ที่ main)
 4. รอ reviewer อนุมัติ → merge
