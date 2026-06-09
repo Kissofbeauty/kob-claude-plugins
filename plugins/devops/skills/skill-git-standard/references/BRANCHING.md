@@ -12,7 +12,7 @@
 |---|---|---|---|---|
 | `main` | 🟢 Production | — (branch หลัก / root) | ❌ ห้าม push ตรง / no direct push | ✅ **บังคับ / enforced** (PR + approve) |
 | `uat` | 🟡 UAT | `main` | ผ่าน PR ตามธรรมเนียม / PR by convention | ➖ ไม่บังคับฝั่ง server / not enforced |
-| `z-feature/<featureName>` | 🔵 Development | `uat` | ✅ developer | ➖ ไม่บังคับ / none |
+| `feature/<featureName>` | 🔵 Development | `uat` | ✅ developer | ➖ ไม่บังคับ / none |
 
 > **กฎเหล็ก / Hard rule:** เข้า `main` ได้เฉพาะผ่าน Pull Request เท่านั้น และถูก **บังคับด้วย GitHub Branch Protection**
 > Code enters `main` **only** through a Pull Request — enforced server-side via GitHub Branch Protection.
@@ -35,29 +35,29 @@
             │               ▲
             │ branch        │ PR (merge เมื่อ dev เสร็จ)
             ▼               │
-   z-feature/login ●──●──●──┘
+   feature/login ●──●──●──┘
    (development)
 ```
 
 **อ่านจากบนลงล่าง / Read top-to-bottom:**
 1. `uat` แยกออกมาจาก `main`
-2. `z-feature/<featureName>` แยกออกมาจาก `uat`
-3. dev เสร็จ → PR merge `z-feature/*` → `uat`
+2. `feature/<featureName>` แยกออกมาจาก `uat`
+3. dev เสร็จ → PR merge `feature/*` → `uat`
 4. UAT ผ่าน → PR merge `uat` → `main`
 
 ---
 
 ## 3. การตั้งชื่อ Feature Branch (Naming Convention)
 
-รูปแบบ: `z-feature/<featureName>`
+รูปแบบ: `feature/<featureName>`
 
 | ✅ ดี (Good) | ❌ ไม่ดี (Bad) | เหตุผล (Reason) |
 |---|---|---|
-| `z-feature/user-login` | `z-feature/Login` | ใช้ kebab-case ตัวพิมพ์เล็ก |
-| `z-feature/payment-gateway` | `z-feature/fix` | ตั้งชื่อให้สื่อความหมาย |
-| `z-feature/export-report-csv` | `feature/report` | ต้องขึ้นต้นด้วย `z-feature/` |
+| `feature/user-login` | `feature/Login` | ใช้ kebab-case ตัวพิมพ์เล็ก |
+| `feature/payment-gateway` | `feature/fix` | ตั้งชื่อให้สื่อความหมาย |
+| `feature/export-report-csv` | `report` | ต้องขึ้นต้นด้วย `feature/` |
 
-> เคล็ดลับ / Tip: ใส่หมายเลข ticket ได้ เช่น `z-feature/JIRA-123-user-login`
+> เคล็ดลับ / Tip: ใส่หมายเลข ticket ได้ เช่น `feature/JIRA-123-user-login`
 
 ---
 
@@ -71,16 +71,16 @@ git checkout uat
 git pull origin uat
 
 # สร้าง feature branch จาก uat / branch from uat
-git checkout -b z-feature/user-login
+git checkout -b feature/user-login
 ```
 
 ### 4.2 dev เสร็จ → ขึ้น UAT (Merge feature → uat)
 
 ```bash
 # push feature branch ขึ้น remote
-git push -u origin z-feature/user-login
+git push -u origin feature/user-login
 
-# จากนั้นเปิด Pull Request:  z-feature/user-login  ──▶  uat
+# จากนั้นเปิด Pull Request:  feature/user-login  ──▶  uat
 # (เปิดผ่านหน้าเว็บ GitHub แล้วรอ review/approve)
 ```
 
@@ -101,7 +101,8 @@ git push -u origin z-feature/user-login
 | `uat` ผ่าน PR (ตามธรรมเนียม) | ควร merge ผ่าน PR แต่ไม่ได้บังคับฝั่ง server |
 | ต้อง review / Require review | PR เข้า `main` ต้องได้รับ approve อย่างน้อย 1 คน |
 | Sync ก่อน merge / Sync first | rebase หรือ merge `uat` ล่าสุดก่อนเปิด PR เพื่อกัน conflict |
-| ลบ branch หลัง merge / Clean up | ลบ `z-feature/*` ออกหลัง merge เข้า `uat` แล้ว |
+| ลบ branch หลัง merge / Clean up | ลบ `feature/*` หลัง merge **ทั้ง remote และ local** — remote: เปิด GitHub **Settings → General → Automatically delete head branches**; local: `git fetch --prune` + `git branch -d feature/<name>` |
+| ห้ามใช้ branch เก่าต่อ / No stale reuse | แก้เพิ่มหลัง merge → **แตก branch ใหม่จาก `uat` ล่าสุด** เสมอ แล้ว merge เข้า `uat` อีกรอบ (อย่ารื้อ branch ที่ลบแล้วมาใช้ต่อ) |
 
 ---
 
@@ -112,7 +113,7 @@ git push -u origin z-feature/user-login
 ```bash
 git checkout main
 git pull origin main
-git checkout -b z-feature/hotfix-payment-bug   # แยกจาก main
+git checkout -b feature/hotfix-payment-bug   # แยกจาก main
 
 # แก้เสร็จ → PR เข้า main → จากนั้น sync กลับลง uat ด้วย
 ```

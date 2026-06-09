@@ -38,7 +38,7 @@ Kiss of Beauty ดูแลโดยทีม **BI** เป้าหมาย: �
 ```
 
 ## Conventions & workflow
-- **Branch model (org standard):** `main` (prod/เผยแพร่) ← `uat` ← `z-feature/<name>`
+- **Branch model (org standard):** `main` (prod/เผยแพร่) ← `uat` ← `feature/<name>`
   - แตก feature จาก `main` → merge เข้า `uat` ทดสอบ → merge เข้า `main`
   - ทั้ง `uat` และ `main` protected เหมือนกัน เข้าได้ผ่าน **PR เท่านั้น** (PR + review + CI · bypass = admin `kiss-bim` ไว้ฉุกเฉิน)
 - **Commit:** Conventional Commits (`feat:`/`fix:`/`chore:`/`docs:`…)

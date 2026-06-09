@@ -40,7 +40,8 @@ skill · subagent · (ภายหลัง) MCP และให้คนใน�
 | D6 | Repo access | GitHub ระดับ **organization** → เพิ่มคนในองค์กรเข้า repo ได้ตรง (org member) |
 | D7 | Governance gate | merge เข้า `main` ต้องผ่าน **PR review โดยคน (≥1)** + **security gate** (สแกน secret/ตรวจ skill) |
 | D8 | Publish automation | **ปัจจุบันทำได้แค่ manual** ผ่าน admin UI (`claude.ai/admin-settings/skills`) — ยังไม่มี Admin API ให้ automate (Spike S1 ยืนยัน) → คง automate เป็นเป้าหมายอนาคตเมื่อ API เปิด |
-| D9 | Branch protection | **ทั้ง `uat` และ `main` protected เหมือนกัน** — บังคับ PR + review ≥1 + CI `validate` + branch up to date + block force push + restrict deletions; **Bypass = `kiss-bim` (admin) คนเดียว** ไว้ break-glass ฉุกเฉินเท่านั้น *(แก้จากเดิมที่ uat เคยหลวม — 2026-06-09)* |
+| D9 | Branch protection | **ตั้ง ruleset ไว้แล้ว** (uat+main: PR + review ≥1 + CI `validate` + up to date + block force push + restrict deletions; bypass = `kiss-bim`). **แต่ยังไม่ enforced** — ดู D10 |
+| D10 | Plan / enforcement | **อยู่ GitHub Free + repo private → ruleset ไม่ถูกบังคับฝั่ง server** (ต้อง GitHub Team หรือ public ถึงจะ enforce). **มติ: ไปต่อ private+free ก่อน** ใช้ discipline (ทีมยึดถือ PR/review กันเอง) — revisit เมื่อมี budget/เหตุจำเป็น |
 
 ## 5. ข้อเท็จจริง/ข้อจำกัดเชิงเทคนิค (ต้องออกแบบรอบ)
 - **F1 — สอง surface คนละกลไกเผยแพร่:**
@@ -52,6 +53,7 @@ skill · subagent · (ภายหลัง) MCP และให้คนใน�
   หมายเหตุ: Claude Code ไม่สนว่าบัญชี Claude เป็น Team หรือ personal — ขอแค่ git auth เข้า repo ได้
 - **F3 — open format ร่วม:** `SKILL.md` ใช้ได้ทั้งสอง surface → ออกแบบ skill ให้
   **surface-neutral** (ไม่ผูกกับ path/เครื่องมือเฉพาะ Claude Code) เพื่อ reuse ได้
+- **F5 — GitHub Free + private = ไม่ enforce ruleset:** branch protection/ruleset บังคับได้เฉพาะ repo **public** บนแพลน Free — repo **private** ต้อง **GitHub Team (เสียเงิน)** ขึ้นไป. CI (Actions) ยังรันได้ปกติบน private free (~2000 นาที/เดือน) แค่เอามาเป็น required gate ไม่ได้ → ปัจจุบัน governance = discipline-based (ดู D10)
 - **F4 — personal บน claude.ai:** Skills ที่ admin push เข้า workspace ได้เฉพาะ **สมาชิกใน Claude for Team workspace** เท่านั้น — ผู้ที่ใช้บัญชี Claude **personal** บน chat/cowork จะไม่ได้รับอัตโนมัติ (ต้องเชิญเข้า workspace หรือ add skill เอง)
 
 ## 5.1 Distribution matrix (สรุปช่องทาง)

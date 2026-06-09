@@ -68,5 +68,5 @@ cp .env.example .env   # แล้วแก้ค่าให้ครบ
 - **วิธี deploy:** <CI/CD pipeline, manual steps, ที่ deploy>
 
 ## Conventions & Gotchas
-- ใช้ Git ตามมาตรฐานทีม: branch model `main ← uat ← z-feature/<name>`, Conventional Commits, ห้าม commit secret
+- ใช้ Git ตามมาตรฐานทีม: branch model `main ← uat ← feature/<name>`, Conventional Commits, ห้าม commit secret
 - <ข้อตกลงเฉพาะโปรเจกต์ / จุดที่พลาดบ่อย / สิ่งที่ต้องระวัง>

@@ -18,9 +18,9 @@
 
 ## 1. Branch model (org standard)
 ```
-main (เผยแพร่) ──◄── uat (ทดสอบรวม) ──◄── z-feature/<ชื่องาน>
+main (เผยแพร่) ──◄── uat (ทดสอบรวม) ──◄── feature/<ชื่องาน>
 ```
-- แตกงานใหม่จาก `main`: `git checkout main && git pull && git checkout -b z-feature/<name>`
+- แตกงานใหม่จาก `main`: `git checkout main && git pull && git checkout -b feature/<name>`
 - **ทั้ง `uat` และ `main` protected เหมือนกัน** — เข้าได้ผ่าน **PR เท่านั้น** (PR + review ≥1 + CI ผ่าน), ห้าม push ตรง
 - bypass มีแค่ admin `kiss-bim` ไว้ break-glass ฉุกเฉิน (ห้ามใช้เป็นทางปกติ)
 
@@ -108,7 +108,8 @@ checklist เดิม (ตอนนี้ครอบคลุมโดย `val
 
 ## 9. กฎ Branch Protection (มีผลบังคับจริงบน GitHub)
 
-> ตั้งค่าด้วย GitHub Ruleset แล้ว — ทุกคนต้องทำงานภายใต้กฎนี้
+> ตั้งค่า GitHub Ruleset ไว้แล้ว — แต่ตอนนี้ repo เป็น **private + แพลน Free** ทำให้ **GitHub ยังไม่ enforce ฝั่ง server** (ดู requirements D10/F5)
+> → ระหว่างนี้กฎพวกนี้ยึดถือกันเอง (**discipline-based**) ทุกคนต้องทำตามแม้ระบบยังไม่บล็อกให้ · จะ enforce จริงเมื่ออัป GitHub Team หรือเปลี่ยนเป็น public
 
 ### `uat` และ `main` — เข้มเหมือนกัน 🔒
 ทั้งสอง branch ห้าม push ตรง ต้องผ่าน **PR เท่านั้น** โดย PR ต้อง:
@@ -122,7 +123,8 @@ checklist เดิม (ตอนนี้ครอบคลุมโดย `val
 | 🔑 Bypass = `kiss-bim` (admin) | มีแค่ admin ข้ามกฎได้ ไว้ **break-glass ฉุกเฉินเท่านั้น** — ห้ามใช้เป็นทางปกติ |
 
 ### สิ่งที่ dev ต้องจำ
-1. งานทุกอย่างทำบน `z-feature/<name>` → push → เปิด PR (เข้า `uat` ก่อน, แล้ว `uat` → `main`)
+1. งานทุกอย่างทำบน `feature/<name>` → push → เปิด PR (เข้า `uat` ก่อน, แล้ว `uat` → `main`)
 2. ก่อน push รัน `python scripts/validate.py` ให้เขียวในเครื่องก่อนเสมอ (จะได้ไม่ต้องรอ CI แดง)
 3. ถ้า CI แดง / branch ตามหลัง main → **แก้ที่ branch ตัวเอง → push ใหม่ → CI รันซ้ำ** (ไม่แก้ที่ main)
 4. รอ reviewer อนุมัติ → merge
+5. **หลัง merge → ลบ branch ทั้ง remote + local** (`git fetch --prune` + `git branch -d feature/<name>`) — อยากแก้เพิ่มทีหลังให้ **แตก branch ใหม่จาก `uat`** เสมอ (ห้ามใช้ branch เก่าต่อ)

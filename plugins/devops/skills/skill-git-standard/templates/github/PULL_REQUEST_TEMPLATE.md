@@ -1,4 +1,4 @@
-<!-- ตรวจ target branch ให้ถูก: z-feature/* → uat  หรือ  uat → main -->
+<!-- ตรวจ target branch ให้ถูก: feature/* → uat  หรือ  uat → main -->
 
 ## 📋 สรุป (Summary)
 <!-- PR นี้ทำอะไร / What does this PR do? -->
@@ -21,7 +21,7 @@
 - [ ] ไม่มี secret / debug log หลงเหลือ
 - [ ] commit message ตรงมาตรฐาน
 - [ ] sync branch ปลายทางล่าสุดแล้ว ไม่มี conflict
-- [ ] target branch ถูกต้อง (z-feature/* → uat, uat → main)
+- [ ] target branch ถูกต้อง (feature/* → uat, uat → main)
 
 ## 🧪 วิธีทดสอบ (How to test)
 <!-- ขั้นตอนให้ reviewer ทดสอบ -->
