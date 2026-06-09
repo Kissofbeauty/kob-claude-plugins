@@ -108,7 +108,8 @@ checklist เดิม (ตอนนี้ครอบคลุมโดย `val
 
 ## 9. กฎ Branch Protection (มีผลบังคับจริงบน GitHub)
 
-> ตั้งค่าด้วย GitHub Ruleset แล้ว — ทุกคนต้องทำงานภายใต้กฎนี้
+> ตั้งค่า GitHub Ruleset ไว้แล้ว — แต่ตอนนี้ repo เป็น **private + แพลน Free** ทำให้ **GitHub ยังไม่ enforce ฝั่ง server** (ดู requirements D10/F5)
+> → ระหว่างนี้กฎพวกนี้ยึดถือกันเอง (**discipline-based**) ทุกคนต้องทำตามแม้ระบบยังไม่บล็อกให้ · จะ enforce จริงเมื่ออัป GitHub Team หรือเปลี่ยนเป็น public
 
 ### `uat` และ `main` — เข้มเหมือนกัน 🔒
 ทั้งสอง branch ห้าม push ตรง ต้องผ่าน **PR เท่านั้น** โดย PR ต้อง:
