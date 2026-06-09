@@ -21,8 +21,8 @@
 main (เผยแพร่) ──◄── uat (ทดสอบรวม) ──◄── z-feature/<ชื่องาน>
 ```
 - แตกงานใหม่จาก `main`: `git checkout main && git pull && git checkout -b z-feature/<name>`
-- เปิด PR เข้า `uat` ก่อนเพื่อทดสอบ → เมื่อโอเค merge `uat` → `main`
-- `main` **protected** เข้าได้ผ่าน **PR เท่านั้น** (ห้าม push ตรง)
+- `uat`: **ไม่บังคับ PR** — merge เข้าเพื่อทดสอบได้เลย
+- `main`: **protected** เข้าได้ผ่าน **PR เท่านั้น** (PR + review + CI ผ่าน) — bypass มีแค่ admin `kiss-bim` ไว้ break-glass ฉุกเฉิน (ห้ามใช้เป็นทางปกติ)
 
 ## 2. โครงสร้างที่ต้องวางให้ถูก
 ```

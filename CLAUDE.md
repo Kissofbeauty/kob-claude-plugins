@@ -40,7 +40,7 @@ Kiss of Beauty ดูแลโดยทีม **BI** เป้าหมาย: �
 ## Conventions & workflow
 - **Branch model (org standard):** `main` (prod/เผยแพร่) ← `uat` ← `z-feature/<name>`
   - แตก feature จาก `main` → merge เข้า `uat` ทดสอบ → merge เข้า `main`
-  - `main` protected, เข้าได้ผ่าน **PR เท่านั้น**
+  - `uat` ไม่บังคับ PR · `main` protected เข้าได้ผ่าน **PR เท่านั้น** (bypass = admin `kiss-bim` ไว้ฉุกเฉิน)
 - **Commit:** Conventional Commits (`feat:`/`fix:`/`chore:`/`docs:`…)
 - **Credential gate:** pre-commit สแกน secret ก่อน commit (ดู `skill-git-standard`)
 - **Versioning:** plugin ไม่ตั้ง `version` → ทุก commit บน `main` = เวอร์ชันล่าสุด (auto-update ฝั่ง Claude Code)
