@@ -23,9 +23,13 @@ Claude **plugin marketplace** ขององค์กร Kiss of Beauty (ดู
 ปัจจุบัน skill เผยแพร่ **2 ช่องทาง** เพราะ Claude Code กับ claude.ai ใช้กลไกคนละแบบ:
 
 ### A) Claude Code (ดึงจาก repo นี้ตรง ๆ)
+
+> ✅ **ข้อสำคัญ:** ใช้ได้เลยถ้า **git ในเครื่องมีสิทธิ์เข้าถึง repo** (เป็น member ของ GitHub org / เคย `git clone` repo นี้ได้) — Claude Code จะใช้ git credential ในเครื่อง ไม่ต้องเชื่อม GitHub บนเว็บ
+
 ```bash
-# 1. เพิ่ม marketplace (ต้องมีสิทธิ์เข้า repo — เป็น member ของ GitHub org)
-/plugin marketplace add <org/repo>
+# 1. เพิ่ม marketplace — ใส่ได้ทั้ง 2 แบบ:
+/plugin marketplace add Kissofbeauty/kob-claude-plugins              # แบบ owner/repo
+/plugin marketplace add https://github.com/Kissofbeauty/kob-claude-plugins.git   # แบบ git URL เต็ม (copy จากปุ่ม Code บน GitHub)
 
 # 2. ติดตั้ง plugin
 /plugin install devops@kissofbeauty
@@ -33,6 +37,8 @@ Claude **plugin marketplace** ขององค์กร Kiss of Beauty (ดู
 - หลังติดตั้ง `skill-git-standard` จะถูกหยิบมาใช้อัตโนมัติเมื่อทำงานกับ git หรือเรียกตรง `/devops:skill-git-standard`
 - **อัปเดต:** `/plugin marketplace update kissofbeauty` (ดึง commit ล่าสุดจาก git อัตโนมัติ)
 - plugin **ไม่ตั้ง `version`** → ทุก commit บน `main` คือเวอร์ชันล่าสุด
+
+> ❗ ถ้าขึ้น **"Repository not found"** = git ในเครื่องยังไม่มีสิทธิ์เข้า repo (private) → ขอให้ admin เพิ่มเข้า GitHub org `Kissofbeauty` ก่อน แล้วตั้ง git auth (`gh auth login` หรือ SSH key)
 
 ### B) claude.ai — chat / cowork / Projects
 skill ตัวเดียวกันใช้บน claude.ai ได้ (รูปแบบ `SKILL.md` เป็น open format เดียวกัน) แต่ **ไม่ได้ดึงจาก GitHub** — **admin** ต้องอัปเข้า workspace:
