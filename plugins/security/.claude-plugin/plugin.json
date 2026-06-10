@@ -1,0 +1,9 @@
+{
+  "name": "security",
+  "description": "Security toolkit for Claude Code. Bundles skill-cybersecurity — a stack-agnostic vulnerability scanner & report generator following OWASP Top 10:2025 with CVSS-style risk scoring and a structured remediation report.",
+  "author": {
+    "name": "BI-Team",
+    "email": "database@kissofbeauty.co.th"
+  },
+  "keywords": ["security", "owasp", "vulnerability-scanner", "code-review", "audit"]
+}

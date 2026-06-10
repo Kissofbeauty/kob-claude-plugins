@@ -15,6 +15,11 @@
       "name": "management",
       "source": "./plugins/management",
       "description": "Project management & orchestration — PM playbook (discovery → Project Proposal) + skill scaffolder"
+    },
+    {
+      "name": "security",
+      "source": "./plugins/security",
+      "description": "Security toolkit — stack-agnostic vulnerability scanner & report generator (OWASP Top 10:2025)"
     }
   ]
 }
