@@ -41,7 +41,8 @@ skill · subagent · (ภายหลัง) MCP และให้คนใน�
 | D7 | Governance gate | merge เข้า `main` ต้องผ่าน **PR review โดยคน (≥1)** + **security gate** (สแกน secret/ตรวจ skill) |
 | D8 | Publish automation | **ปัจจุบันทำได้แค่ manual** ผ่าน admin UI (`claude.ai/admin-settings/skills`) — ยังไม่มี Admin API ให้ automate (Spike S1 ยืนยัน) → คง automate เป็นเป้าหมายอนาคตเมื่อ API เปิด |
 | D9 | Branch protection | **ตั้ง ruleset ไว้แล้ว** (uat+main: PR + review ≥1 + CI `validate` + up to date + block force push + restrict deletions; bypass = `kiss-bim`). **แต่ยังไม่ enforced** — ดู D10 |
-| D10 | Plan / enforcement | **อยู่ GitHub Free + repo private → ruleset ไม่ถูกบังคับฝั่ง server** (ต้อง GitHub Team หรือ public ถึงจะ enforce). **มติ: ไปต่อ private+free ก่อน** ใช้ discipline (ทีมยึดถือ PR/review กันเอง) — revisit เมื่อมี budget/เหตุจำเป็น |
+| D10 | Plan / enforcement | ~~private+free → ไม่ enforce~~ → **แก้ด้วย D11**: repo นี้เปลี่ยนเป็น **public** → ruleset **enforce จริงแล้ว** (free+public บังคับได้) |
+| D11 | Repo visibility policy (มติ management) | **repo นี้ (`kob-claude-plugins`) = public** (marketplace สาธารณะ, ruleset enforce ได้ฟรี, ใครก็ติดตั้งได้) · **repo อื่น ๆ ขององค์กร = private บน GitHub Team + Rules** (จ่าย Team เพื่อ enforce บน private) |
 
 ## 5. ข้อเท็จจริง/ข้อจำกัดเชิงเทคนิค (ต้องออกแบบรอบ)
 - **F1 — สอง surface คนละกลไกเผยแพร่:**
@@ -53,7 +54,8 @@ skill · subagent · (ภายหลัง) MCP และให้คนใน�
   หมายเหตุ: Claude Code ไม่สนว่าบัญชี Claude เป็น Team หรือ personal — ขอแค่ git auth เข้า repo ได้
 - **F3 — open format ร่วม:** `SKILL.md` ใช้ได้ทั้งสอง surface → ออกแบบ skill ให้
   **surface-neutral** (ไม่ผูกกับ path/เครื่องมือเฉพาะ Claude Code) เพื่อ reuse ได้
-- **F5 — GitHub Free + private = ไม่ enforce ruleset:** branch protection/ruleset บังคับได้เฉพาะ repo **public** บนแพลน Free — repo **private** ต้อง **GitHub Team (เสียเงิน)** ขึ้นไป. CI (Actions) ยังรันได้ปกติบน private free (~2000 นาที/เดือน) แค่เอามาเป็น required gate ไม่ได้ → ปัจจุบัน governance = discipline-based (ดู D10)
+- **F5 — GitHub Free + private = ไม่ enforce ruleset** (✅ **คลี่คลายแล้วด้วย D11**): branch protection/ruleset บังคับได้เฉพาะ repo **public** บนแพลน Free — repo **private** ต้อง GitHub Team. → repo นี้เปลี่ยนเป็น **public** จึง enforce ได้ฟรีแล้ว · repo อื่นใช้ Team plan
+- **F6 — repo public = ทุกอย่างเปิดเผย:** ต้องไม่มี secret/PII ในไฟล์**และ git history** · ป้องกัน 2 ชั้น: **pre-commit hook** (`.githooks/pre-commit` รัน `validate.py`) + **CI** (validate.py สแกน credential ทุก push/PR) · ตัวอย่าง secret ในเอกสารใส่คำว่า `allowlist secret` กำกับ
 - **F4 — personal บน claude.ai:** Skills ที่ admin push เข้า workspace ได้เฉพาะ **สมาชิกใน Claude for Team workspace** เท่านั้น — ผู้ที่ใช้บัญชี Claude **personal** บน chat/cowork จะไม่ได้รับอัตโนมัติ (ต้องเชิญเข้า workspace หรือ add skill เอง)
 
 ## 5.1 Distribution matrix (สรุปช่องทาง)
@@ -86,6 +88,7 @@ skill · subagent · (ภายหลัง) MCP และให้คนใน�
   - แหล่ง: support.claude.com (provision skills), claude.com/blog (org skills & plugins/groups), github issue #49530 (ขอ Admin API)
 
 ## Changelog
+- **0.4** — มติ management: repo นี้เป็น **public** (D11) → ปลดล็อก D10/F5 (ruleset enforce ได้ฟรี); เพิ่ม F6 (public = ต้องกัน secret 2 ชั้น: pre-commit hook + CI credential scan ใน validate.py)
 - **0.3** — ปิด OQ3/OQ4 ด้วย D7 (human review + security gate) และ D8 (มุ่ง automate publish, fallback manual); เพิ่ม §8 Spike S1 (Skills API)
 - **0.2** — ปิด OQ1/OQ2 ด้วยมติ D5 (Claude for Team + admin) และ D6 (GitHub org access); เพิ่ม F4 (personal บน claude.ai) + distribution matrix §5.1
 - **0.1** — draft แรก: เก็บวิสัยทัศน์ + scope รากฐาน + 4 มติ (D1–D4) + ข้อจำกัด F1–F3 + AC + open questions

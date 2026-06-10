@@ -15,6 +15,8 @@
   > email ต้องถูก **เพิ่ม + verify** ในบัญชี GitHub (Settings → Emails) ไม่งั้น commit จะแสดงชื่อแต่ไม่ลิงก์โปรไฟล์/avatar · อย่าใช้ identity กลาง (เช่น BI-Team) commit แทนกัน
 - อ่าน `CLAUDE.md` (บริบทโปรเจกต์) และ `requirements.md` (scope ปัจจุบัน)
 - ติดตั้ง marketplace ของตัวเองไว้ทดสอบ: `/plugin marketplace add <org/repo>`
+- **เปิด credential gate (ทำครั้งเดียวต่อ clone):** `git config core.hooksPath .githooks` → ทุกครั้งที่ commit จะรัน `validate.py` (เช็ก manifest + สแกน secret) อัตโนมัติ
+  > repo นี้เป็น **public** — ห้ามมี secret/key หลุดเข้า git เด็ดขาด (หลุดแล้วถือว่ารั่วทันที ต้อง revoke/rotate)
 
 ## 1. Branch model (org standard)
 ```
@@ -71,7 +73,9 @@ plugins/<plugin>/
 ```bash
 python scripts/validate.py
 ```
-สคริปต์นี้ตรวจให้ครบ: marketplace.json valid + key ครบ, ทุก entry มี `name`/`source`/`description` และ source path มีจริง, plugin.json ทุกตัว valid + มี `name`/`description`, และ SKILL.md ทุกตัวมี frontmatter ที่ `name` ตรงชื่อโฟลเดอร์ + `description` ไม่ว่าง (exit 0 = ผ่าน, 1 = มี error). ใช้ stdlib ล้วน ไม่ต้องลง lib เพิ่ม
+สคริปต์นี้ตรวจให้ครบ: marketplace.json valid + key ครบ, ทุก entry มี `name`/`source`/`description` และ source path มีจริง, plugin.json ทุกตัว valid + มี `name`/`description`, SKILL.md ทุกตัวมี frontmatter ที่ `name` ตรงชื่อโฟลเดอร์ + `description` ไม่ว่าง, **และสแกน credential/secret ทุกไฟล์ text** (กันหลุดเข้า public repo) (exit 0 = ผ่าน, 1 = มี error). ใช้ stdlib ล้วน ไม่ต้องลง lib เพิ่ม
+
+> 🔒 **credential gate 2 ชั้น:** (1) **pre-commit hook** (`.githooks/pre-commit` — เปิดด้วย `git config core.hooksPath .githooks`) บล็อกตั้งแต่ commit · (2) **CI** รันซ้ำทุก push/PR · ถ้าเจอ secret ที่เป็น "ตัวอย่าง" จริง ๆ ใส่คำว่า `allowlist secret` ในบรรทัดนั้น
 
 > CI: `.github/workflows/validate.yml` รัน `python scripts/validate.py` อัตโนมัติทุก `push`/`pull_request` — PR ที่ validator ไม่ผ่านจะ merge ไม่ได้
 

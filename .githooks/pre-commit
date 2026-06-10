@@ -1,0 +1,20 @@
+#!/bin/sh
+# kob-claude-plugins — pre-commit gate
+# รัน validate.py (manifest valid + credential scan) ก่อน commit ทุกครั้ง
+# ติดตั้ง: git config core.hooksPath .githooks
+
+if command -v python >/dev/null 2>&1; then
+  PY=python
+elif command -v python3 >/dev/null 2>&1; then
+  PY=python3
+else
+  echo "⚠️  ไม่พบ python — ข้าม validate (ติดตั้ง python เพื่อเปิด credential gate)"
+  exit 0
+fi
+
+"$PY" scripts/validate.py || {
+  echo ""
+  echo "❌ pre-commit gate ไม่ผ่าน — แก้ปัญหาข้างบนก่อน commit"
+  echo "   (ถ้าเป็น secret ตัวอย่างจริง ๆ ใส่คำว่า 'allowlist secret' ในบรรทัดนั้น)"
+  exit 1
+}
