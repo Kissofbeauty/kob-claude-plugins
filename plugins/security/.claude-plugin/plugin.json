@@ -1,6 +1,6 @@
 {
   "name": "security",
-  "description": "Stack-agnostic security toolkit for Claude Code — a suite of skill-cybersecurity-* skills: -general (OWASP Top 10:2025 code scan), -supply-chain (SCA/dependencies), -secret-scan (secrets + git history), -container-iac (Docker/K8s/Terraform), -threat-model (STRIDE design-level). All produce risk-scored, remediation-focused reports.",
+  "description": "Stack-agnostic security toolkit for Claude Code — skill-cybersecurity (OWASP Top 10:2025 code scan) plus focused skill-cybersecurity-* skills: -api (API Top 10:2023), -llm (LLM Top 10:2025), -supply-chain (SCA), -secret-scan (secrets + git history), -container-iac (Docker/K8s/Terraform), -threat-model (STRIDE). Includes subagent-cybersecurity-auditor that runs a full, auto-scoped audit across all dimensions and returns one risk-ranked report.",
   "author": {
     "name": "BI-Team",
     "email": "database@kissofbeauty.co.th"

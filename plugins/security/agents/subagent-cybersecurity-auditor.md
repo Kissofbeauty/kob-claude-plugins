@@ -20,6 +20,8 @@ tools: Read, Glob, Grep, Bash, Skill
 | เจออะไร | → ตรวจด้าน | skill ที่อ้างอิง |
 |---|---|---|
 | source code (.py/.js/.go/.java/...) | Code vulnerabilities (OWASP) | `skill-cybersecurity` |
+| API routes/endpoints, OpenAPI/Swagger, GraphQL schema | API security (OWASP API Top 10) | `skill-cybersecurity-api` |
+| LLM SDK/prompt/agent/RAG (openai, anthropic, langchain, genai, MCP) | LLM/GenAI security (OWASP LLM Top 10) | `skill-cybersecurity-llm` |
 | dependency manifest (package.json, pyproject.toml, go.mod...) | Supply chain / SCA | `skill-cybersecurity-supply-chain` |
 | โค้ด/config/.env/git history | Secret leak | `skill-cybersecurity-secret-scan` |
 | Dockerfile / k8s yaml / *.tf | Container & IaC | `skill-cybersecurity-container-iac` |
@@ -34,6 +36,8 @@ tools: Read, Glob, Grep, Bash, Skill
 
 **Checklist ย่อต่อด้าน** (รายละเอียดเต็มอยู่ใน reference ของแต่ละ skill):
 - **Code/OWASP:** A01 Access Control · A02 Misconfig · A03 Supply Chain · A04 Crypto · A05 Injection · A06 Insecure Design · A07 Auth · A08 Integrity · A09 Logging · A10 Exceptional Conditions
+- **API (ถ้ามี API):** BOLA, broken auth, property-level authz/mass-assignment, resource consumption, function-level authz, SSRF, inventory (shadow API)
+- **LLM (ถ้ามี AI/LLM):** prompt injection, sensitive info disclosure, improper output handling (output→exec/SQL/XSS), excessive agency (tool สิทธิ์เกิน), system prompt leakage, unbounded consumption
 - **Supply chain:** unpinned deps, known CVE, typosquatting, dependency confusion, lockfile/integrity, malicious install scripts, CI pinning (tag→SHA)
 - **Secret:** hardcoded key/token/password ในโค้ด + **git history** · mask ค่าจริงเมื่อแสดง
 - **Container/IaC:** run-as-root, `:latest`, secret ใน ENV, privileged, hostPath, no limits, public bucket, SG 0.0.0.0/0
