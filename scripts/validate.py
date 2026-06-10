@@ -13,6 +13,7 @@ exit 0 = ผ่าน, exit 1 = มี error
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -25,6 +26,38 @@ for _stream in (sys.stdout, sys.stderr):
 
 # repo root = parent ของ scripts/ (ตำแหน่งสคริปต์อยู่ที่ scripts/validate.py)
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# ── Credential scan (ชั้นป้องกัน secret หลุดเข้า repo — สำคัญมากเพราะ repo เป็น public) ──
+# pattern ความเชื่อมั่นสูง (อิงชุดเดียวกับ pre-commit hook ของ skill-git-standard)
+SECRET_PATTERNS = [
+    (re.compile(r"xox[baprs]-[0-9A-Za-z-]{10,}"), "Slack token"),
+    (re.compile(r"gh[pousr]_[0-9A-Za-z]{36,}"), "GitHub token"),
+    (re.compile(r"AKIA[0-9A-Z]{16}"), "AWS access key"),
+    (re.compile(r"sk-[A-Za-z0-9]{20,}"), "OpenAI-style/Generic key"),
+    (re.compile(r"eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"), "JWT"),
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "Private key"),
+    (re.compile(
+        r"(?i)(password|passwd|pwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)"
+        r"""\s*[:=]\s*["']?[^"'\s${}<>]{6,}"""
+    ), "Hardcoded secret/password"),
+]
+
+# ไฟล์ที่ "สอน/อธิบาย" pattern secret โดยธรรมชาติ → ยกเว้น (ไม่งั้น false positive)
+CRED_SCAN_EXCLUDE = {
+    "scripts/validate.py",
+    "plugins/devops/skills/skill-git-standard/SKILL.md",
+    "plugins/devops/skills/skill-git-standard/hooks/pre-commit",
+    "plugins/devops/skills/skill-git-standard/references/SECURITY.md",
+    "plugins/devops/skills/skill-git-standard/references/WORKFLOW.md",
+    "plugins/devops/skills/skill-git-standard/references/COMMIT_CONVENTION.md",
+    "plugins/devops/skills/skill-git-standard/templates/gitignore",
+    "plugins/devops/skills/skill-git-standard/templates/README.template.md",
+}
+
+# scan เฉพาะไฟล์ text — นามสกุลเหล่านี้ + ไฟล์พิเศษไม่มีนามสกุล (เช่น git hook)
+CRED_SCAN_EXTS = {".md", ".py", ".json", ".yml", ".yaml", ".sh",
+                  ".txt", ".cfg", ".ini", ".toml", ".js", ".ts"}
+CRED_SCAN_NAMES = {"pre-commit", ".gitignore", ".gitattributes", ".gitmessage"}
 
 # เก็บ error/warning ที่เจอ
 errors: list[str] = []
@@ -182,17 +215,53 @@ def check_skills() -> None:
     return len(skill_files)
 
 
+def check_credentials() -> int:
+    """สแกนทุกไฟล์ text หา secret/credential ที่อาจหลุด (repo เป็น public)
+
+    - ข้ามไฟล์ใน CRED_SCAN_EXCLUDE (เอกสารสอน pattern โดยธรรมชาติ)
+    - ข้ามบรรทัดที่มีคำว่า 'allowlist secret' (escape hatch สำหรับตัวอย่าง)
+    คืนจำนวนไฟล์ที่สแกนจริง
+    """
+    scanned = 0
+    for path in sorted(REPO_ROOT.rglob("*")):
+        if not path.is_file():
+            continue
+        if ".git" in path.relative_to(REPO_ROOT).parts:
+            continue
+        relpath = rel(path).replace("\\", "/")
+        if relpath in CRED_SCAN_EXCLUDE:
+            continue
+        if path.suffix.lower() not in CRED_SCAN_EXTS and path.name not in CRED_SCAN_NAMES:
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue  # binary/อ่านไม่ได้ → ข้าม
+        scanned += 1
+        for lineno, line in enumerate(text.splitlines(), 1):
+            if "allowlist secret" in line:
+                continue
+            for pat, label in SECRET_PATTERNS:
+                if pat.search(line):
+                    err(f"{relpath}:{lineno} อาจมี {label} หลุด — "
+                        "ตรวจ/ลบก่อน commit (ถ้าเป็นตัวอย่างให้ใส่คำว่า 'allowlist secret' ในบรรทัด)")
+                    break
+    return scanned
+
+
 def main() -> int:
     print(f"ตรวจ manifest จาก repo root: {REPO_ROOT}\n")
 
     check_marketplace()
     check_plugins()
     skill_count = check_skills()
+    cred_count = check_credentials()
 
     plugin_count = len(sorted((REPO_ROOT / "plugins").glob("*/.claude-plugin/plugin.json")))
 
     print(f"  plugin.json ที่ตรวจ : {plugin_count}")
-    print(f"  SKILL.md ที่ตรวจ    : {skill_count}\n")
+    print(f"  SKILL.md ที่ตรวจ    : {skill_count}")
+    print(f"  ไฟล์สแกน credential : {cred_count}\n")
 
     if errors:
         print(f"พบปัญหา {len(errors)} รายการ:")
