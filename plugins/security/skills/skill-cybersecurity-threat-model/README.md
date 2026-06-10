@@ -3,7 +3,7 @@
 ## Overview
 Skill สำหรับทำ **threat modeling เชิงรุกระดับ design** ด้วยกรอบ **STRIDE** — วิเคราะห์ภัยคุกคามจาก **คำอธิบาย architecture / design / feature** หรือเอกสาร (เช่น `requirements.md`, `project-proposal.md`) **ก่อนเขียนโค้ด** ไม่ใช่การสแกนโค้ด เป้าหมายคือหาภัยคุกคามที่ติดมากับโครงสร้างระบบเพื่อแก้ตั้งแต่ขั้นออกแบบ แล้วสรุปเป็น Threat Model document พร้อม mitigation และ residual risk
 
-> ต่างจาก `skill-cybersecurity-general` ที่สแกนช่องโหว่ในโค้ดตาม OWASP — skill นี้ทำงานก่อนหน้านั้น ที่ระดับ design ถ้ามีโค้ดจริงแล้วให้ใช้ทั้งสอง skill เสริมกัน
+> ต่างจาก `skill-cybersecurity` ที่สแกนช่องโหว่ในโค้ดตาม OWASP — skill นี้ทำงานก่อนหน้านั้น ที่ระดับ design ถ้ามีโค้ดจริงแล้วให้ใช้ทั้งสอง skill เสริมกัน
 
 ## วิธีการคิดและการทำงานของ Skill
 

@@ -1,4 +1,4 @@
-# Scoring & Report Templates — skill-cybersecurity-general
+# Scoring & Report Templates — skill-cybersecurity
 
 เกณฑ์ให้คะแนน + เทมเพลตผลลัพธ์สำหรับ Phase 3–6 (stack-agnostic — ใช้ได้ทุกภาษา)
 
