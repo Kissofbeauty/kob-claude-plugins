@@ -45,22 +45,30 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 4. **เคาะ open questions** — ตัดสินกันเองได้ก็เสนอ+recommend, ต้องถาม business/legal ก็ flag
 5. **เขียนลง `project-proposal.md`** ทันที (มี version + changelog) — draft แล้ว iterate จน user อนุมัติ
 
-### โครง Project Proposal (13 หัวข้อ)
-| # | Section | เก็บอะไร |
-|---|---|---|
-| 1 | **Problem / Background** | ปัญหา/ความต้องการคืออะไร ใครเจอ ทำไมต้องทำตอนนี้ |
-| 2 | **Goals & Objectives** | ความสำเร็จหน้าตาเป็นยังไง (เน้น outcome ไม่ใช่ feature) |
-| 3 | **Stakeholders / Users** | ใครเกี่ยวข้อง ใครใช้ผลลัพธ์ ใครตัดสินใจ |
-| 4 | **Scope** | อยู่ใน scope / นอก scope (กันบานปลาย) |
-| 5 | **Requirements / Needs** | functional + non-functional (รายละเอียดเยอะ → แตกไป `requirements.md`) |
-| 6 | **Proposed Approach** | แนวทางแก้ระดับสูง — มีหลาย option ให้เทียบได้ · **จุดที่ตอบว่าปลายทางคืออะไร** (app/pipeline/report/process) |
-| 7 | **Deliverables** | ผลลัพธ์ที่จับต้องได้ส่งมอบจริง |
-| 8 | **Success Criteria** | วัดยังไงว่าสำเร็จ / acceptance |
-| 9 | **Constraints & Assumptions** | งบ, เวลา, เทคโนโลยี, นโยบาย, ข้อสมมติ |
-| 10 | **Risks & Open Questions** | ความเสี่ยง + สิ่งที่ยังไม่เคาะ |
-| 11 | **Timeline / Phases** | เฟส/หมุดหมายคร่าว ๆ |
-| 12 | **Resources Needed** | คน/เครื่องมือ/บทบาท — **PM ประเมินร่วมกับ user** (ดูโหมด 2) ว่าต้องใช้ subagent ไหม/ตัวไหน |
-| 13 | **Next Steps** | ก้าวถัดไปทันทีหลังอนุมัติ proposal |
+### เลือกโหมด Proposal ก่อนเขียน (Full หรือ Lean)
+ก่อนลงมือเขียน ให้ **ถาม user (หรือ recommend)** ว่าจะเอาแบบไหน:
+- **Full (ครบ 13 หัวข้อ)** — งานใหญ่/มีหลาย stakeholder/ความเสี่ยงสูง/ต้องขออนุมัติเป็นทางการ
+- **Lean (8 หัวข้อแกน)** — งานเล็ก/เร่ง/ชัดอยู่แล้ว — ตัดหัวข้อที่ยังไม่จำเป็นออกเพื่อให้ user เริ่มได้เร็ว
+> Lean ขยายเป็น Full ทีหลังได้เสมอ (เติมหัวข้อที่ตัดไว้) — เริ่ม Lean แล้วค่อยโตได้
+
+### โครง Project Proposal (13 หัวข้อ — คอลัมน์ Lean = อยู่ในเวอร์ชัน Lean ด้วย)
+| # | Section | Lean | เก็บอะไร |
+|---|---|:--:|---|
+| 1 | **Problem / Background** | ✅ | ปัญหา/ความต้องการคืออะไร ใครเจอ ทำไมต้องทำตอนนี้ |
+| 2 | **Goals & Objectives** | ✅ | ความสำเร็จหน้าตาเป็นยังไง (เน้น outcome ไม่ใช่ feature) |
+| 3 | **Stakeholders / Users** | – | ใครเกี่ยวข้อง ใครใช้ผลลัพธ์ ใครตัดสินใจ |
+| 4 | **Scope** | ✅ | อยู่ใน scope / นอก scope (กันบานปลาย) |
+| 5 | **Requirements / Needs** | – | functional + non-functional (รายละเอียดเยอะ → แตกไป `requirements.md`) |
+| 6 | **Proposed Approach** | ✅ | แนวทางแก้ระดับสูง — มีหลาย option ให้เทียบได้ · **จุดที่ตอบว่าปลายทางคืออะไร** (app/pipeline/report/process) |
+| 7 | **Deliverables** | ✅ | ผลลัพธ์ที่จับต้องได้ส่งมอบจริง |
+| 8 | **Success Criteria** | ✅ | วัดยังไงว่าสำเร็จ / acceptance |
+| 9 | **Constraints & Assumptions** | – | งบ, เวลา, เทคโนโลยี, นโยบาย, ข้อสมมติ |
+| 10 | **Risks & Open Questions** | – | ความเสี่ยง + สิ่งที่ยังไม่เคาะ |
+| 11 | **Timeline / Phases** | – | เฟส/หมุดหมายคร่าว ๆ |
+| 12 | **Resources Needed** | ✅ | คน/เครื่องมือ/บทบาท — **PM ประเมินร่วมกับ user** (ดูโหมด 2) ว่าต้องใช้ subagent ไหม/ตัวไหน |
+| 13 | **Next Steps** | ✅ | ก้าวถัดไปทันทีหลังอนุมัติ proposal |
+
+> **Lean = หัวข้อ 1, 2, 4, 6, 7, 8, 12, 13** (8 แกนที่ทำให้ proposal ยังตัดสินใจ + รู้ทรัพยากรที่ต้องใช้) · **Full = ครบ 13**
 
 **ของที่ PM กำหนด (ไม่ delegate):** scope, priority/phasing, acceptance criteria, business rules, การ trade-off
 
