@@ -1,4 +1,4 @@
-# skill-cybersecurity
+# skill-cybersecurity-general
 
 ## Overview
 Skill สำหรับทำ security vulnerability assessment แบบครอบคลุม **(stack-agnostic — รองรับทุกภาษา/เฟรมเวิร์ก)** เมื่อถูกเรียกใช้จะ detect stack แล้ว scan source code และ configuration files เพื่อหาช่องโหว่ตาม OWASP Top 10:2025 จากนั้นให้คะแนน CVSS เรียงลำดับความเสี่ยง วิเคราะห์ deep dive แต่ละช่องโหว่ และสรุปเป็น security report พร้อม remediation roadmap
@@ -19,16 +19,16 @@ Skill สำหรับทำ security vulnerability assessment แบบคร
 
 ## วิธีใช้
 ```
-/skill-cybersecurity
-/skill-cybersecurity src/auth/client.py
-/skill-cybersecurity src/
+/skill-cybersecurity-general
+/skill-cybersecurity-general src/auth/client.py
+/skill-cybersecurity-general src/
 ```
 
 ## ตัวอย่าง
 ```
-/skill-cybersecurity
+/skill-cybersecurity-general
 → Scans entire project, finds VULN-001 through VULN-N, generates full report
 
-/skill-cybersecurity src/auth/login.py
+/skill-cybersecurity-general src/auth/login.py
 → Deep scan of single file, focused authentication vulnerability report
 ```

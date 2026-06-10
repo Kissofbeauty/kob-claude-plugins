@@ -1,6 +1,6 @@
 # Supply Chain Patterns — รายละเอียดต่อ ecosystem
 
-reference สำหรับ skill-supply-chain · ใช้ประกอบ Phase 1–8 · เนื้อหา defensive เท่านั้น
+reference สำหรับ skill-cybersecurity-supply-chain · ใช้ประกอบ Phase 1–8 · เนื้อหา defensive เท่านั้น
 
 > หมายเหตุ credential scanner: บรรทัดใดที่มีตัวอย่าง token/secret จะต่อท้ายด้วย `allowlist secret` เพื่อกัน false positive
 

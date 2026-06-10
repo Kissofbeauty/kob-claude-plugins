@@ -1,12 +1,12 @@
 ---
-name: skill-supply-chain
-description: Software supply chain security scanner for dependencies, lockfiles, and CI/CD. Use when user asks to "check dependencies", "ตรวจ dependency", "scan supply chain", "ตรวจ supply chain", "SCA", "dependency audit", "ตรวจ CVE dependency", or "/skill-supply-chain".
+name: skill-cybersecurity-supply-chain
+description: Software supply chain security scanner for dependencies, lockfiles, and CI/CD. Use when user asks to "check dependencies", "ตรวจ dependency", "scan supply chain", "ตรวจ supply chain", "SCA", "dependency audit", "ตรวจ CVE dependency", or "/skill-cybersecurity-supply-chain".
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
-# skill-supply-chain — Software Supply Chain Security Scanner
+# skill-cybersecurity-supply-chain — Software Supply Chain Security Scanner
 
 เมื่อถูกเรียก ให้ทำ supply chain security assessment แล้วสรุปเป็น report — **ทำครบทุก Phase ตามลำดับ**
 

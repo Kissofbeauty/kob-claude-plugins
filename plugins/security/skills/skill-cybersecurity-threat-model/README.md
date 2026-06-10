@@ -1,9 +1,9 @@
-# skill-threat-model
+# skill-cybersecurity-threat-model
 
 ## Overview
 Skill สำหรับทำ **threat modeling เชิงรุกระดับ design** ด้วยกรอบ **STRIDE** — วิเคราะห์ภัยคุกคามจาก **คำอธิบาย architecture / design / feature** หรือเอกสาร (เช่น `requirements.md`, `project-proposal.md`) **ก่อนเขียนโค้ด** ไม่ใช่การสแกนโค้ด เป้าหมายคือหาภัยคุกคามที่ติดมากับโครงสร้างระบบเพื่อแก้ตั้งแต่ขั้นออกแบบ แล้วสรุปเป็น Threat Model document พร้อม mitigation และ residual risk
 
-> ต่างจาก `skill-cybersecurity` ที่สแกนช่องโหว่ในโค้ดตาม OWASP — skill นี้ทำงานก่อนหน้านั้น ที่ระดับ design ถ้ามีโค้ดจริงแล้วให้ใช้ทั้งสอง skill เสริมกัน
+> ต่างจาก `skill-cybersecurity-general` ที่สแกนช่องโหว่ในโค้ดตาม OWASP — skill นี้ทำงานก่อนหน้านั้น ที่ระดับ design ถ้ามีโค้ดจริงแล้วให้ใช้ทั้งสอง skill เสริมกัน
 
 ## วิธีการคิดและการทำงานของ Skill
 
@@ -24,16 +24,16 @@ Skill สำหรับทำ **threat modeling เชิงรุกระด�
 
 ## วิธีใช้
 ```
-/skill-threat-model
-/skill-threat-model requirements.md
-/skill-threat-model "ออกแบบ API ให้ user อัปโหลดไฟล์ แล้วเก็บใน S3 + DB"
+/skill-cybersecurity-threat-model
+/skill-cybersecurity-threat-model requirements.md
+/skill-cybersecurity-threat-model "ออกแบบ API ให้ user อัปโหลดไฟล์ แล้วเก็บใน S3 + DB"
 ```
 
 ## ตัวอย่าง
 ```
-/skill-threat-model project-proposal.md
+/skill-cybersecurity-threat-model project-proposal.md
 → อ่าน design, วาด DFD + trust boundaries, ไล่ STRIDE ทุก element, ออก Threat Model doc
 
-/skill-threat-model
+/skill-cybersecurity-threat-model
 → ไม่มี design ให้อ่าน → ถาม user เรื่องระบบ/component/asset/trust boundary ก่อนเริ่ม
 ```

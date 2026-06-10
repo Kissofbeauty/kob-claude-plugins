@@ -1,12 +1,12 @@
 ---
-name: skill-container-iac
-description: Container & Infrastructure-as-Code security scanner. Use when user asks to "ตรวจ Dockerfile", "ตรวจ k8s", "ตรวจ terraform", "scan container", "container security", "IaC security", "ตรวจ docker-compose", "harden Kubernetes", or "/skill-container-iac".
+name: skill-cybersecurity-container-iac
+description: Container & Infrastructure-as-Code security scanner. Use when user asks to "ตรวจ Dockerfile", "ตรวจ k8s", "ตรวจ terraform", "scan container", "container security", "IaC security", "ตรวจ docker-compose", "harden Kubernetes", or "/skill-cybersecurity-container-iac".
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
-# skill-container-iac — Container & IaC Security Scanner
+# skill-cybersecurity-container-iac — Container & IaC Security Scanner
 
 เมื่อถูกเรียก ให้สแกนหา misconfiguration ด้านความปลอดภัยใน container image และ Infrastructure-as-Code แล้วสรุปเป็น report — **ทำครบทุก Phase ตามลำดับ**
 

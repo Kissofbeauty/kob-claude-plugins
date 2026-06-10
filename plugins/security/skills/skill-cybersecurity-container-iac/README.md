@@ -1,4 +1,4 @@
-# skill-container-iac
+# skill-cybersecurity-container-iac
 
 ## Overview
 Skill สำหรับสแกนหา misconfiguration ด้านความปลอดภัยใน **container image และ Infrastructure-as-Code** เมื่อถูกเรียกใช้จะ detect ประเภทไฟล์ IaC (Dockerfile, docker-compose, Kubernetes manifest, Helm, Terraform) แล้วตรวจตาม checklist ของแต่ละประเภท — รัน as root, `:latest`/ไม่ pin digest, secret ฝังใน image, privileged pod, ไม่ตั้ง resource limits, storage public, security group เปิดกว้าง, IAM กว้างเกิน ฯลฯ — จากนั้นเรียงตาม severity และสรุปเป็น report พร้อม remediation ที่ใช้ได้จริง **(defensive-only)**
@@ -19,17 +19,17 @@ Skill สำหรับสแกนหา misconfiguration ด้านคว�
 
 ## วิธีใช้
 ```
-/skill-container-iac
-/skill-container-iac Dockerfile
-/skill-container-iac k8s/
-/skill-container-iac infra/terraform/
+/skill-cybersecurity-container-iac
+/skill-cybersecurity-container-iac Dockerfile
+/skill-cybersecurity-container-iac k8s/
+/skill-cybersecurity-container-iac infra/terraform/
 ```
 
 ## ตัวอย่าง
 ```
-/skill-container-iac
+/skill-cybersecurity-container-iac
 → Detect IaC ทั้ง project แล้วสแกนครบทุกประเภทที่เจอ + report เรียง severity
 
-/skill-container-iac Dockerfile
+/skill-cybersecurity-container-iac Dockerfile
 → ตรวจ Dockerfile ไฟล์เดียว: root user, latest tag, secret, ADD/COPY + วิธี harden
 ```

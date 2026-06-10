@@ -1,12 +1,12 @@
 ---
-name: skill-secret-scan
-description: Secret/credential leak scanner for code and git history. Use when user asks to "scan for secrets", "find hardcoded key", "secret scan", "ตรวจ credential หลุด", "สแกน secret", "หา hardcoded key", or "/skill-secret-scan".
+name: skill-cybersecurity-secret-scan
+description: Secret/credential leak scanner for code and git history. Use when user asks to "scan for secrets", "find hardcoded key", "secret scan", "ตรวจ credential หลุด", "สแกน secret", "หา hardcoded key", or "/skill-cybersecurity-secret-scan".
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
-# skill-secret-scan — Secret & Credential Leak Scanner
+# skill-cybersecurity-secret-scan — Secret & Credential Leak Scanner
 
 เมื่อถูกเรียก ให้ค้นหา secret/credential ที่หลุดเข้ามาในโค้ด **และ git history** แล้วสรุปเป็น report พร้อม remediation playbook — **ทำครบทุก Phase ตามลำดับ**
 

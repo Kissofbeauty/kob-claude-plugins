@@ -1,4 +1,4 @@
-# skill-supply-chain
+# skill-cybersecurity-supply-chain
 
 ## Overview
 Skill สำหรับทำ software supply chain security assessment แบบครอบคลุม **(stack-agnostic — รองรับ npm / pip / go / maven / composer / gem / cargo / nuget)** เมื่อถูกเรียกใช้จะ detect ecosystem ของ project แล้วสำรวจ manifest, lockfile, dependency tree, install scripts และ CI/CD config เพื่อหาความเสี่ยงด้าน supply chain — known CVE, typosquatting, dependency confusion, unpinned versions, malicious install scripts, และ CI/CD ที่ไม่ pin — จากนั้นสรุปเป็น SBOM + report เรียงตาม severity พร้อม remediation roadmap ที่ใช้ได้จริง
@@ -21,16 +21,16 @@ Skill สำหรับทำ software supply chain security assessment แบ�
 
 ## วิธีใช้
 ```
-/skill-supply-chain
-/skill-supply-chain package.json
-/skill-supply-chain .
+/skill-cybersecurity-supply-chain
+/skill-cybersecurity-supply-chain package.json
+/skill-cybersecurity-supply-chain .
 ```
 
 ## ตัวอย่าง
 ```
-/skill-supply-chain
+/skill-cybersecurity-supply-chain
 → Detect ทุก ecosystem ใน project, scan dependency + CI/CD, สร้าง SBOM + report เต็ม
 
-/skill-supply-chain package.json
+/skill-cybersecurity-supply-chain package.json
 → โฟกัส manifest เดียว: เช็ค pinning, install scripts, typosquatting, known CVE
 ```

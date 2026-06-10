@@ -1,12 +1,12 @@
 ---
-name: skill-cybersecurity
-description: Cybersecurity expert for screening code/systems for vulnerabilities. Use when user asks to "scan for vulnerabilities", "security review", "check security", "ตรวจสอบช่องโหว่", "security audit", or "/skill-cybersecurity".
+name: skill-cybersecurity-general
+description: Cybersecurity expert for screening code/systems for vulnerabilities. Use when user asks to "scan for vulnerabilities", "security review", "check security", "ตรวจสอบช่องโหว่", "security audit", or "/skill-cybersecurity-general".
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
-# skill-cybersecurity — Security Vulnerability Scanner & Report Generator
+# skill-cybersecurity-general — Security Vulnerability Scanner & Report Generator
 
 เมื่อถูกเรียก ให้ทำ security screening แบบ deep-dive แล้วสรุปเป็น report — **ทำครบทุก Phase ตามลำดับ**
 

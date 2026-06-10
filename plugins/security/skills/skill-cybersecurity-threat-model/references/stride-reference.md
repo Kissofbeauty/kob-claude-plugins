@@ -1,6 +1,6 @@
 # STRIDE Reference — นิยาม · คำถาม · ตัวอย่าง · control + trust boundary + เทมเพลต
 
-อ้างอิงสำหรับ `skill-threat-model` — ใช้ตอนทำ Phase 2 (trust boundary), Phase 3 (STRIDE), Phase 6 (เทมเพลต doc)
+อ้างอิงสำหรับ `skill-cybersecurity-threat-model` — ใช้ตอนทำ Phase 2 (trust boundary), Phase 3 (STRIDE), Phase 6 (เทมเพลต doc)
 
 ---
 
@@ -107,10 +107,10 @@ STRIDE จับคู่ภัยคุกคามกับคุณสมบ�
 
 ## 5. Residual Risk & Decision
 - ความเสี่ยงที่ยังเหลือหลังใส่ control + ต้องให้ใครตัดสินใจรับ/แก้
-- Next step (เช่น: ส่งต่อให้ skill-cybersecurity ตอนมีโค้ด, pen test, review รอบหน้า)
+- Next step (เช่น: ส่งต่อให้ skill-cybersecurity-general ตอนมีโค้ด, pen test, review รอบหน้า)
 ```
 
 ---
 
 ## หมายเหตุ
-- skill นี้ทำงานระดับ **design** — เมื่อมีโค้ดจริงให้ใช้ `skill-cybersecurity` (OWASP) สแกนต่อ เพื่อ verify ว่า control ที่ออกแบบไว้ถูก implement จริง
+- skill นี้ทำงานระดับ **design** — เมื่อมีโค้ดจริงให้ใช้ `skill-cybersecurity-general` (OWASP) สแกนต่อ เพื่อ verify ว่า control ที่ออกแบบไว้ถูก implement จริง

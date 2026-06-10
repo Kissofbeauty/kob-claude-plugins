@@ -1,4 +1,4 @@
-# skill-secret-scan
+# skill-cybersecurity-secret-scan
 
 ## Overview
 Skill สำหรับสแกนหา **secret/credential ที่หลุดเข้ามาในโค้ดและ git history** เมื่อถูกเรียกใช้จะสำรวจไฟล์ที่เสี่ยง (source, config, `.env`, notebook, log) แล้วค้นหาตาม pattern ของ secret (cloud key, token, JWT, private key, DB connection string, generic high-entropy) ทั้งใน working tree และ **ทุก commit ของ git history** จากนั้นกรอง false positive จัดชนิด และสรุปเป็น report พร้อม remediation playbook ที่เน้นว่า "ลบไฟล์เฉย ๆ ไม่พอ ต้อง revoke + rotate key"
@@ -18,16 +18,16 @@ Skill สำหรับสแกนหา **secret/credential ที่หล�
 
 ## วิธีใช้
 ```
-/skill-secret-scan
-/skill-secret-scan src/config/settings.py
-/skill-secret-scan src/
+/skill-cybersecurity-secret-scan
+/skill-cybersecurity-secret-scan src/config/settings.py
+/skill-cybersecurity-secret-scan src/
 ```
 
 ## ตัวอย่าง
 ```
-/skill-secret-scan
+/skill-cybersecurity-secret-scan
 → สแกนทั้ง repo + git history, พบ SECRET-001..N, สร้าง report + remediation playbook
 
-/skill-secret-scan config/database.yml
+/skill-cybersecurity-secret-scan config/database.yml
 → สแกนไฟล์เดียว เน้น DB connection string / credential ที่ hardcode
 ```

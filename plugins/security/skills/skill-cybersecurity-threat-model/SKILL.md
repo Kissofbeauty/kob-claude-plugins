@@ -1,16 +1,16 @@
 ---
-name: skill-threat-model
-description: Proactive design-level threat modeling using STRIDE. Use BEFORE writing code, on an architecture/design/feature description or docs (requirements.md, project-proposal.md) — not a code scan. Trigger when user asks to "threat model", "threat modeling", "STRIDE", "ทำ threat model", "วิเคราะห์ภัยคุกคาม", "ประเมินภัยคุกคามตั้งแต่ออกแบบ", or "/skill-threat-model".
+name: skill-cybersecurity-threat-model
+description: Proactive design-level threat modeling using STRIDE. Use BEFORE writing code, on an architecture/design/feature description or docs (requirements.md, project-proposal.md) — not a code scan. Trigger when user asks to "threat model", "threat modeling", "STRIDE", "ทำ threat model", "วิเคราะห์ภัยคุกคาม", "ประเมินภัยคุกคามตั้งแต่ออกแบบ", or "/skill-cybersecurity-threat-model".
 user-invocable: true
 disable-model-invocation: false
 allowed-tools: Read, Glob, Grep
 ---
 
-# skill-threat-model — Design-Level Threat Modeling (STRIDE)
+# skill-cybersecurity-threat-model — Design-Level Threat Modeling (STRIDE)
 
 เมื่อถูกเรียก ให้ทำ **threat modeling เชิงรุกระดับ design** — วิเคราะห์ภัยคุกคามจาก **คำอธิบาย architecture / design / feature** หรือ docs (เช่น `requirements.md`, `project-proposal.md`) **ก่อนเขียนโค้ด** — ทำครบทุก Phase ตามลำดับ
 
-> **Input คือ "การออกแบบ" ไม่ใช่ "โค้ด":** skill นี้ไม่สแกนหาช่องโหว่ในโค้ด (ใช้ `skill-cybersecurity` สำหรับงานนั้น) — แต่หาภัยคุกคามที่ติดมากับ **โครงสร้างระบบ** เพื่อแก้ตั้งแต่ยังออกแบบ
+> **Input คือ "การออกแบบ" ไม่ใช่ "โค้ด":** skill นี้ไม่สแกนหาช่องโหว่ในโค้ด (ใช้ `skill-cybersecurity-general` สำหรับงานนั้น) — แต่หาภัยคุกคามที่ติดมากับ **โครงสร้างระบบ** เพื่อแก้ตั้งแต่ยังออกแบบ
 
 ## ถ้า input ไม่พอ → ถามก่อน
 
@@ -95,7 +95,7 @@ allowed-tools: Read, Glob, Grep
 - **Defensive เท่านั้น:** ชี้ภัยคุกคาม + control/วิธีลดความเสี่ยง — ไม่เขียน exploit หรือ attack tool พร้อมใช้
 - mitigation ต้อง **ปฏิบัติได้จริง** ในระดับ design (เช่น "ใช้ mutual TLS", "เพิ่ม authz check ต่อ resource") ไม่ใช่คำลอย ๆ
 - แยก **threat ที่ mitigate แล้ว** ออกจาก **residual risk** ให้ชัดเสมอ
-- เป็นงาน design — **ไม่อ้าง line number โค้ด** (ถ้ามีโค้ดให้สแกน ใช้ `skill-cybersecurity`)
+- เป็นงาน design — **ไม่อ้าง line number โค้ด** (ถ้ามีโค้ดให้สแกน ใช้ `skill-cybersecurity-general`)
 
 ## References
 | ไฟล์ | เนื้อหา |
