@@ -16,7 +16,7 @@ Claude **plugin marketplace** ขององค์กร Kiss of Beauty (ดู
 |---|---|---|
 | [`devops`](plugins/devops) | DevOps toolkit | `skill-git-standard` (เพิ่ม Docker / SSL / CI/CD เร็ว ๆ นี้) |
 | [`management`](plugins/management) | PM & orchestration | `skill-PM` (discovery → Project Proposal) · `skill-init` (สร้าง skill ใหม่) |
-| [`security`](plugins/security) | Security toolkit | `skill-cybersecurity` (สแกนช่องโหว่ OWASP Top 10:2025 — รองรับทุกภาษา) |
+| [`security`](plugins/security) | Security toolkit | `skill-cybersecurity` (OWASP code scan) · `skill-supply-chain` (SCA/deps) · `skill-secret-scan` (secret + git history) · `skill-container-iac` (Docker/K8s/Terraform) · `skill-threat-model` (STRIDE) |
 
 ---
 
