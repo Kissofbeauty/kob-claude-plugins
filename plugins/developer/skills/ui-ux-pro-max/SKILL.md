@@ -11,6 +11,33 @@ Comprehensive design guide for web and mobile applications. Contains 50+ styles,
 > รัน script จาก**โฟลเดอร์ของ skill นี้** — ถ้าตัวอย่างใน doc ขึ้นต้น `skills/ui-ux-pro-max/scripts/...` ให้ปรับ base เป็น path จริงของ skill (เช่น `plugins/developer/skills/ui-ux-pro-max/scripts/search.py`)
 > ใช้คู่กับ `skill-frontend-web` (โค้ด frontend) — ui-ux-pro-max เลือก design/สี/ฟอนต์, frontend-web ลงมือ implement
 
+## 🔄 kob Design Workflow — design-brief → Claude Design → fullstack
+
+เมื่อทำขั้น **design system** (`--design-system`) เสร็จ → **อย่าจบแค่นั้น** ให้ทำ handoff ต่อ:
+
+1. **เขียน `design-brief.md` ส่งให้ user** — สรุป design system เป็น brief ที่ **เอาไปป้อน Claude Design ได้ทันที** (เป็น material ตั้งต้นการออกแบบ)
+2. user นำ design-brief → **Claude Design** (ภายนอก) → ได้งานออกแบบ + **source code** (React/HTML/Tailwind ฯลฯ)
+3. **source code จาก Claude Design = material ส่งต่อให้ `subagent-fullstack`** พัฒนาต่อ (ต่อ backend/data/logic ตาม proposal)
+
+```
+ui-ux-pro-max (design system) → 📄 design-brief.md → 🧑 user → Claude Design → source code
+                                                                                   ↓
+                                                              material ให้ subagent-fullstack
+```
+
+### โครง design-brief.md (material สำหรับ Claude Design)
+- **Product & goal** — จาก proposal/PM (ทำอะไร เพื่อใคร)
+- **Target users + context** — ใครใช้ ใช้ตอนไหน
+- **Style direction** — pattern / style / mood (จาก design system)
+- **Color palette** — semantic tokens + hex
+- **Typography** — font pairing + type scale
+- **Key screens / components** — รายการหน้า/ส่วนที่ต้องออกแบบ
+- **UX & a11y constraints** — priority 1–3 (contrast, touch target, responsive)
+- **Do / Don't** — anti-patterns ที่ต้องเลี่ยง
+- **Stack target** — default Next.js / web
+
+> design-brief เป็น **เอกสารส่งมอบ** (ไม่ใช่โค้ด) — เขียนให้ Claude Design เข้าใจทิศทางครบในไฟล์เดียว
+
 ## When to Apply
 
 This Skill should be used when the task involves **UI structure, visual design decisions, interaction patterns, or user experience quality control**.
