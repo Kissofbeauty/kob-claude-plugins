@@ -20,6 +20,11 @@
       "name": "security",
       "source": "./plugins/security",
       "description": "Security toolkit — stack-agnostic vulnerability scanner & report generator (OWASP Top 10:2025)"
+    },
+    {
+      "name": "team-tech",
+      "source": "./plugins/team-tech",
+      "description": "Engineering team toolkit — coding skills (frontend-web, sql, software-testing) for the dev/QA subagents"
     }
   ]
 }
