@@ -1,6 +1,6 @@
 {
   "name": "devops",
-  "description": "DevOps toolkit for Claude Code. Bundles skill-git-standard (team Git/GitHub standards: 3-tier branch model, credential gate, Conventional Commits, PR-only protected main) and skill-docker-standard (containerization standard: 2-role model, no-credentials-in-image, build-official-image-from-main CI/CD to a private registry). More to come (SSL/TLS).",
+  "description": "DevOps & engineering-standards toolkit for Claude Code. Bundles skill-git-standard (Git/GitHub: 3-tier branch model, credential gate, PR-only main), skill-docker-standard (containerization: 2-role model, no-credentials-in-image, build-from-main CI/CD to a private registry), and skill-architecture-standard (approved tech stack + UAT/prod topology + decision guide).",
   "author": {
     "name": "BI-Team",
     "email": "database@kissofbeauty.co.th"
