@@ -9,3 +9,9 @@ Thumbs.db
 *.log
 *.tmp
 tmp/
+
+# Python artifacts
+__pycache__/
+*.pyc
+.venv/
+venv/
