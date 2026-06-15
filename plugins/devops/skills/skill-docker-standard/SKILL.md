@@ -58,6 +58,26 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Edit
 
 ---
 
+## 📁 Commit vs Gitignore — ไฟล์ไหนขึ้น GitHub
+
+> แยกให้ชัด: ที่ห้ามขึ้น git คือ **"ค่าลับ (values)"** ไม่ใช่ "ไฟล์ config/compose ทั้งหมด"
+
+| ไฟล์ | ขึ้น GitHub? | เพราะ |
+|---|---|---|
+| `docker-compose.yml` | ✅ **commit** | recipe วิธีรัน · **CI ต้องใช้ build image จาก main** · teammate ต้องใช้ |
+| `Dockerfile` · `.dockerignore` | ✅ commit | โครง build |
+| config ที่ไม่มีค่าลับ (ports, app settings) | ✅ commit | ทีมต้องใช้ |
+| `.env.example` · `config.example.*` | ✅ commit | template บอกว่าต้องตั้งค่าอะไร (ไม่ใส่ค่าจริง) |
+| `.env` (ค่าจริง) | ❌ **gitignore** | มี secret |
+| config ที่มี credential จริง | ❌ gitignore | ใช้ `.example` แทน |
+| `*.pem` · `secrets/` · `*.key` | ❌ gitignore | ค่าลับ |
+| `docker-compose.override.yml` (ถ้ามี secret เฉพาะเครื่อง) | ❌ gitignore | base compose ยัง commit |
+
+**กฎ:** `docker-compose.yml` ต้อง **ไม่มีค่าลับในตัว** — อ้าง secret ผ่าน `env_file: .env` หรือ `${VAR}` เสมอ → ตัวไฟล์ commit ได้ปลอดภัย
+> ⚠️ ถ้าไม่ commit compose/Dockerfile → CI build official image จาก main ไม่ได้ = พัง flow · เก็บ "ค่าลับ" ออกพอ ไม่ใช่เก็บทั้งไฟล์
+
+---
+
 ## 🔵 สำหรับ "BI เท่านั้น" — Promote ขึ้น Production
 
 ทำ**หลัง management approve** เท่านั้น:
