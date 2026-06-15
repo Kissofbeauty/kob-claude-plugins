@@ -1,6 +1,6 @@
 {
   "name": "developer",
-  "description": "Engineering team toolkit for Claude Code. Coding-quality skills used by the dev subagents: skill-frontend-web (HTML/CSS/SCSS/Tailwind/JS/TS/React), skill-sql (schema/query/security/migration), and skill-software-testing (test design + UAT docs + QA loop). Reuses skill-python, skill-fastapi, and the security plugin. Subagents (subagent-fullstack, subagent-qa-tester) coming in Phase B.",
+  "description": "Engineering team toolkit for Claude Code. Coding-quality skills used by the dev subagents: skill-frontend-web (HTML/CSS/SCSS/Tailwind/JS/TS/React), skill-backend (API/server design + controller/service/repository layering), skill-sql (schema/query/security/migration), and skill-software-testing (test design + UAT docs + QA loop). Reuses skill-python, skill-fastapi, and the security plugin. Subagents (subagent-fullstack, subagent-qa-tester) coming in Phase B.",
   "author": {
     "name": "BI-Team",
     "email": "database@kissofbeauty.co.th"
