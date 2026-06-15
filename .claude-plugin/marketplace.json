@@ -22,8 +22,8 @@
       "description": "Security toolkit — stack-agnostic vulnerability scanner & report generator (OWASP Top 10:2025)"
     },
     {
-      "name": "team-tech",
-      "source": "./plugins/team-tech",
+      "name": "developer",
+      "source": "./plugins/developer",
       "description": "Engineering team toolkit — coding skills (frontend-web, sql, software-testing) for the dev/QA subagents"
     }
   ]
