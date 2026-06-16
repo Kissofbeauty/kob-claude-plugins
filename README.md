@@ -21,6 +21,74 @@ Claude **plugin marketplace** ขององค์กร Kiss of Beauty (ดู
 
 ---
 
+## 🗺️ โครงสร้าง skill & flow การทำงาน
+
+marketplace แบ่งเป็น 4 plugin ตามบทบาท — **management** (วางแผน) · **devops** (มาตรฐานวิศวกรรม) · **security** (ความปลอดภัย) · **developer** (ทีม dev ลงมือทำ)
+
+### โครงสร้าง skill ทั้งหมด
+
+```
+kob-claude-plugins  (marketplace: kissofbeauty)
+│
+├── management ──┬── skill-init ───────────── สร้างโครง skill ใหม่ (SKILL.md + README) ตามมาตรฐาน
+│   (PM/วางแผน)  └── skill-PM ──────────────── main agent = PM: คุย user → 📄 Project Proposal
+│                                            (Full/Lean) → ประเมิน stack/subagent → คุมให้ทำตาม requirement
+│
+├── devops ──────┬── skill-git-standard ───── มาตรฐาน git: main←uat←feature, credential gate, PR-only
+│   (มาตรฐาน     ├── skill-docker-standard ── containerize: dev ด้วย compose, ไม่ฝัง cred ใน image,
+│    วิศวกรรม)   │                            BI build จาก main → push registry (private)
+│               └── skill-architecture-standard ── stack/เครื่องมือที่อนุมัติ + topology UAT/prod
+│
+├── security ────┬── skill-cybersecurity ──────────── สแกนโค้ด OWASP Top 10:2025
+│   (ความ        ├── skill-cybersecurity-api ───────── OWASP API Top 10:2023
+│    ปลอดภัย)    ├── skill-cybersecurity-llm ───────── OWASP LLM Top 10:2025
+│               ├── skill-cybersecurity-supply-chain ─ SCA/deps/CVE
+│               ├── skill-cybersecurity-secret-scan ── secret + git history
+│               ├── skill-cybersecurity-container-iac ─ Docker/K8s/Terraform
+│               ├── skill-cybersecurity-threat-model ─ STRIDE (design-level)
+│               ├── 🤖 subagent-cybersecurity-auditor ─ รวมทุกด้าน → report เดียว
+│               └── ⌘ /security-check ──────────────── สั่ง audit ทั้ง project
+│
+└── developer ───┬── skill-frontend-web ────── HTML/CSS/SCSS/Tailwind/JS/TS/React
+    (ทีม dev)    ├── skill-backend ─────────── API/server design + controller/service/repository
+                 ├── skill-sql ─────────────── schema/query/security/migration
+                 ├── skill-python ──────────── PEP8/OOP/SOLID + venv แยกต่อ project
+                 ├── skill-fastapi ─────────── FastAPI (data API / ML serving)
+                 ├── ui-ux-pro-max ─────────── design intelligence → design-brief → Claude Design
+                 ├── skill-software-testing ── test design + UAT + defect report
+                 ├── 🤖 subagent-fullstack ─── build ตาม proposal (ใช้ coding skills ทั้งหมด)
+                 └── 🤖 subagent-qa-tester ─── test + UAT + security → loop กลับ fullstack (ผ่าน PM)
+```
+
+### flow การทำงานจริง (วงจรทีม)
+
+```
+🧑 user ↔ skill-PM ──► 📄 Project Proposal
+                          │
+              ui-ux-pro-max ──► 📄 design-brief ──► 🧑 Claude Design ──► source code
+                          │                                                  │
+                          ▼                                                  ▼
+                  subagent-fullstack ◄───────────────────────────── (เอา design มาต่อ)
+                  (frontend/backend/sql/python · docker · git)
+                          │  ส่งงาน
+                          ▼
+                  subagent-qa-tester  (test + UAT + /security-check)
+                          │  เจอ defect
+                          ▼
+                  🧑 PM เคาะว่าต้องแก้ไหม ──► loop กลับ fullstack ──► จน qa ผ่าน ──► deploy
+```
+
+**อ่าน flow:**
+1. **PM** (`skill-PM`) คุยกับ user กลั่นความต้องการ → **Project Proposal** (ปลายทางไม่จำเป็นต้องเป็น app)
+2. ถ้าต้องสร้างของ → **ui-ux-pro-max** ออกแบบ design system แล้วเขียน **design-brief** ส่งให้ user ไปป้อน **Claude Design** → ได้ source code
+3. **subagent-fullstack** เอา design มาต่อ + เขียน backend/data ตาม proposal (ใช้ skill มาตรฐาน devops/developer)
+4. **subagent-qa-tester** ทดสอบ + ทำ UAT + ตรวจความปลอดภัย (`/security-check`) → เจอ defect ส่งกลับ
+5. **PM** เป็นคนเคาะว่าต้องแก้ตาม qa ไหม (PM รู้ความต้องการ user สุด) → วน loop จน qa ผ่าน → BI promote ขึ้น prod
+
+> ทุก stage ยึดมาตรฐาน: git (`skill-git-standard`) · container (`skill-docker-standard`) · stack (`skill-architecture-standard`) · security gate ก่อน deploy
+
+---
+
 ## 🚀 วิธีใช้งาน (แยกตาม surface)
 
 ปัจจุบัน skill เผยแพร่ **2 ช่องทาง** เพราะ Claude Code กับ claude.ai ใช้กลไกคนละแบบ:
