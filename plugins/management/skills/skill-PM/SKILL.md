@@ -16,7 +16,18 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 > ⚠️ subagent ใน Claude Code **ไม่มี state ถาวร** — จบงานแล้วความจำหาย
 - ทุกอย่างที่ต้องคงอยู่ **ต้องเขียนลง docs/โค้ด** ไม่ใช่พึ่งความจำ agent
 - ก่อน spawn subagent: ชี้ให้มันอ่าน docs ที่เกี่ยวข้อง · หลัง subagent เสร็จ: PM sync ผลลัพธ์กลับเข้า docs
-- Docs แกนของงาน: `project-proposal.md` (แกนหลัก) · `requirements.md` (รายละเอียด ถ้าจำเป็น) · `CLAUDE.md` · docs อื่นตามที่ proposal ระบุ
+
+### 📁 ที่เก็บไฟล์ (convention — ทำตามเสมอเพื่อความเป็นระเบียบ)
+> ไฟล์ information ที่ PM สร้าง **ให้วางใน `docs/` ของ project ทุกไฟล์** — ถ้ายังไม่มีโฟลเดอร์ `docs/` ให้สร้างก่อน
+
+| ไฟล์ | ที่อยู่ | เหตุผล |
+|---|---|---|
+| `project-proposal.md` (แกนหลัก) | `docs/project-proposal.md` | information doc |
+| `requirements.md` (รายละเอียด ถ้าจำเป็น) | `docs/requirements.md` | information doc |
+| design-brief / UAT / research / proposal อื่น ๆ | `docs/<ชื่อ>.md` | information doc |
+| `CLAUDE.md` · `README.md` | **root (คงเดิม)** | spec บังคับให้ Claude/marketplace อ่านจาก root — ห้ามย้าย |
+
+> มีโครงเดิมที่ไฟล์เหล่านี้อยู่ root อยู่แล้ว → เคารพของเดิม (ไม่ต้องย้ายให้วุ่น) แต่ **ไฟล์ใหม่ที่สร้างต่อจากนี้ลง `docs/`**
 
 ---
 
@@ -43,7 +54,7 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 2. **แยก WHAT จาก HOW** — เก็บความต้องการ/เป้าหมาย/ข้อจำกัด ไม่รีบกระโดดไป solution
 3. **จับ ambiguity + edge cases** — ถามต่อจุดกำกวม, เคสสุดขอบ, สิ่งที่ user ไม่พูดแต่กระทบ
 4. **เคาะ open questions** — ตัดสินกันเองได้ก็เสนอ+recommend, ต้องถาม business/legal ก็ flag
-5. **เขียนลง `project-proposal.md`** ทันที (มี version + changelog) — draft แล้ว iterate จน user อนุมัติ
+5. **เขียนลง `docs/project-proposal.md`** ทันที (มี version + changelog · สร้างโฟลเดอร์ `docs/` ถ้ายังไม่มี) — draft แล้ว iterate จน user อนุมัติ
 
 ### เลือกโหมด Proposal ก่อนเขียน (Full หรือ Lean)
 ก่อนลงมือเขียน ให้ **ถาม user (หรือ recommend)** ว่าจะเอาแบบไหน:
@@ -58,7 +69,7 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 | 2 | **Goals & Objectives** | ✅ | ความสำเร็จหน้าตาเป็นยังไง (เน้น outcome ไม่ใช่ feature) |
 | 3 | **Stakeholders / Users** | – | ใครเกี่ยวข้อง ใครใช้ผลลัพธ์ ใครตัดสินใจ |
 | 4 | **Scope** | ✅ | อยู่ใน scope / นอก scope (กันบานปลาย) |
-| 5 | **Requirements / Needs** | – | functional + non-functional (รายละเอียดเยอะ → แตกไป `requirements.md`) |
+| 5 | **Requirements / Needs** | – | functional + non-functional (รายละเอียดเยอะ → แตกไป `docs/requirements.md`) |
 | 6 | **Proposed Approach** | ✅ | แนวทางแก้ระดับสูง — มีหลาย option ให้เทียบได้ · **จุดที่ตอบว่าปลายทางคืออะไร** (app/pipeline/report/process) |
 | 7 | **Deliverables** | ✅ | ผลลัพธ์ที่จับต้องได้ส่งมอบจริง |
 | 8 | **Success Criteria** | ✅ | วัดยังไงว่าสำเร็จ / acceptance |
@@ -107,7 +118,7 @@ architect (data model/API) · fullstack (เขียนโค้ด) · ux-ui (
 ---
 
 ## เช็กก่อนปิดงานทุกครั้ง
-1. `project-proposal.md` (และ docs ที่เกี่ยวข้อง) อัปเดตตรงกับสิ่งที่ทำจริง
+1. `docs/project-proposal.md` (และ docs ที่เกี่ยวข้องใน `docs/`) อัปเดตตรงกับสิ่งที่ทำจริง
 2. ถ้ามีการสร้างของ: acceptance criteria ผ่านครบ · security gate ผ่าน (ถ้ามี)
 3. ไม่มี secret/PII หลุดเข้า git (`.gitignore` ครอบ `.env`/ไฟล์ลับ)
 
