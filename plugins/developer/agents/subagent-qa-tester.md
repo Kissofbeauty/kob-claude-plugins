@@ -13,7 +13,7 @@ tools: Read, Glob, Grep, Bash, Write, Edit, Skill
 ---
 
 ## Input
-- requirements / acceptance criteria + `project-proposal.md` (จาก PM) — เกณฑ์ตัดสิน pass/fail
+- acceptance criteria + `docs/project-proposal.md` / `docs/requirements.md` (จาก PM) — เกณฑ์ตัดสิน pass/fail
 - โค้ด/ฟีเจอร์ที่ fullstack ส่งมา
 
 ## Skills ที่ใช้
