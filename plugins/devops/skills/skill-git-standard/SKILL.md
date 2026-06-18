@@ -39,16 +39,20 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 - ก่อนกด/แนะนำ merge PR ใด ๆ ที่ base = `main` → **เช็กก่อนว่า head เป็น `uat` ไหม** ถ้าไม่ใช่ `uat` (เช่นเป็น feature) → **หยุด เตือน user ทันที** ว่ากำลังจะข้าม UAT
 - ลำดับเดียวที่ยอมรับ: `feature/* → uat` (ทดสอบ) → `uat → main` (เผยแพร่)
 
-#### 🔗 กฎลิงก์เปิด PR — ฝัง base=uat มาในลิงก์เสมอ (กันพลาดถาวร)
+#### 🔗 กฎลิงก์เปิด PR — ฝัง base=uat + title + description มาในลิงก์เสมอ (กันพลาดถาวร)
 > เวลาเสนอลิงก์ให้ user เปิด PR ของ feature **ห้ามใช้** ลิงก์แบบ `…/pull/new/<branch>` — เพราะมันตั้ง base เป็น default branch (`main`) เสมอ → หลุดข้าม uat ง่าย
 
-- **ใช้ฟอร์แมต compare ที่ระบุ base ในตัวลิงก์เลย:**
+- **ใช้ฟอร์แมต compare ที่ระบุ base + กรอก title/body มาในตัวลิงก์เลย:**
   ```
-  https://github.com/<org>/<repo>/compare/uat...<feature-branch>?expand=1
+  https://github.com/<org>/<repo>/compare/uat...<feature-branch>?expand=1&title=<TITLE>&body=<BODY>
   ```
   - `uat...<branch>` → **ตัวหน้า = base = `uat`** · ตัวหลัง = compare (feature) · ลำดับห้ามสลับ
   - `?expand=1` → เปิดฟอร์ม PR ให้ทันที
-  - ผลคือหน้า PR ขึ้น **base: uat** มาตั้งแต่แรก user ไม่ต้องแตะ dropdown
+  - `&title=<TITLE>` → เติม PR title (ใช้ Conventional Commit เช่น `feat(scope): ...`)
+  - `&body=<BODY>` → เติม PR description ให้พร้อม
+  - ผลคือหน้า PR ขึ้น **base: uat + title + description กรอกมาให้แล้ว** user แค่กด Create
+- **ต้อง URL-encode** ค่า title/body เสมอ (เว้นวรรค→`%20`, ขึ้นบรรทัด→`%0A`, `#`→`%23`, `&`→`%26`) — ไม่งั้นลิงก์เพี้ยน
+- **description ที่ฝัง ต้องเขียนทุกครั้ง** — สรุปสั้น ๆ ว่า PR นี้ทำอะไร/แก้อะไร/กระทบอะไร (อย่าปล่อยว่าง)
 - ถ้าจำเป็นต้องใช้หน้า GitHub ที่ base เป็น `main` อยู่ → **ย้ำ user ให้เปลี่ยน base dropdown เป็น `uat` ก่อน** create
 
 ### 2) 🤝 ใครทำขั้นไหน — สำคัญ
