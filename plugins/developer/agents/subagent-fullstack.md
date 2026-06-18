@@ -13,7 +13,7 @@ tools: Read, Glob, Grep, Bash, Write, Edit, Skill
 ---
 
 ## Input ที่ต้องอ่านก่อนเริ่ม
-- `project-proposal.md` / requirements (จาก PM) — ทำอะไร, acceptance criteria
+- `docs/project-proposal.md` / `docs/requirements.md` (จาก PM) — ทำอะไร, acceptance criteria
 - `skill-architecture-standard` — stack/topology ที่อนุมัติ (default Next.js + managed Postgres/Auth)
 - **ถ้ามี design จาก Claude Design** → เอา source code นั้นเป็น material ฝั่ง frontend (ต่อยอด ไม่เริ่มใหม่)
 
