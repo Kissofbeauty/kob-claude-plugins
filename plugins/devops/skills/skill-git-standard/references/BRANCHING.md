@@ -91,12 +91,16 @@ git push -u origin feature/user-login
 # ต้องผ่านการทดสอบบน UAT และได้รับ approve ก่อน merge
 ```
 
+> ⚠️ **ขั้นนี้ user เป็นคนกดเอง** — เป็น gate เผยแพร่ขึ้น production. ผู้ช่วย/Claude **ห้ามเปิดหรือ merge PR `uat → main` แทน** (ทำได้แค่เตรียมให้ + ชี้ลิงก์)
+
 ---
 
 ## 5. กฎการ Merge (Merge Rules)
 
 | กฎ (Rule) | รายละเอียด (Detail) |
 |---|---|
+| ❌ **ห้าม PR ข้าม UAT** | `feature/*` PR เข้า `uat` เท่านั้น — **ห้าม `feature/* → main` ตรง** (base PR ต้องเป็น `uat`; GitHub default เป็น `main` ต้องเปลี่ยนเอง). ทุกการเปลี่ยนแปลงต้องผ่าน uat ก่อนเสมอ |
+| 🤝 **ใครทำขั้นไหน** | `feature/* → uat` = ผู้ช่วย/Claude ช่วยได้ · `uat → main` (prod) = **user กดเองเท่านั้น** ผู้ช่วยห้ามทำแทน |
 | `main` ผ่าน PR เท่านั้น (บังคับ) | ห้าม `git push` ตรงเข้า `main` — ล็อกด้วย GitHub Branch Protection |
 | `uat` ผ่าน PR (ตามธรรมเนียม) | ควร merge ผ่าน PR แต่ไม่ได้บังคับฝั่ง server |
 | ต้อง review / Require review | PR เข้า `main` ต้องได้รับ approve อย่างน้อย 1 คน |

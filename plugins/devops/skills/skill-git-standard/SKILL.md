@@ -30,6 +30,27 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 
 ---
 
+## 🚧 กฎเหล็ก: ห้าม PR ข้าม UAT + ใครเปิด PR ขั้นไหน
+
+> มาจากความผิดพลาดจริง: PR feature เผลอตั้ง base เป็น `main` (GitHub default) → merge ข้าม uat เข้า prod ตรง ๆ โดยไม่ได้ทดสอบ
+
+### 1) ❌ ห้ามข้าม UAT — ทุกการเปลี่ยนแปลงต้องผ่าน `uat` ก่อนเสมอ
+- PR ของ `feature/*` **base ต้องเป็น `uat` เท่านั้น** — **ห้าม** `feature/* → main` เด็ดขาด
+- ก่อนกด/แนะนำ merge PR ใด ๆ ที่ base = `main` → **เช็กก่อนว่า head เป็น `uat` ไหม** ถ้าไม่ใช่ `uat` (เช่นเป็น feature) → **หยุด เตือน user ทันที** ว่ากำลังจะข้าม UAT
+- เปิด PR ผ่านลิงก์/หน้า GitHub ทุกครั้ง → **ย้ำ user ให้เปลี่ยน base dropdown จาก `main` เป็น `uat`** (GitHub default เป็น main เสมอ — พลาดง่ายมาก)
+- ลำดับเดียวที่ยอมรับ: `feature/* → uat` (ทดสอบ) → `uat → main` (เผยแพร่)
+
+### 2) 🤝 ใครทำขั้นไหน — สำคัญ
+| ขั้น | ใครทำ | skill ช่วยได้ไหม |
+|---|---|---|
+| `feature/* → uat` | **Claude ช่วยได้** (ตามมาตรฐานนี้) | ✅ commit/push/เปิด PR/แนะนำ merge เข้า uat ได้ |
+| `uat → main` (ขึ้น production) | **user เท่านั้น** | ❌ **Claude ห้ามเปิด/กด merge PR เข้า main เอง** |
+
+- ขั้น **`uat → main` คือ gate เผยแพร่ขึ้น prod — เป็นการตัดสินใจของคน** Claude ทำได้แค่ **เตรียมให้** (สรุปว่าพร้อมไหม, บอกลิงก์เปิด PR, บอกว่าต้องเช็กอะไร) แล้ว **ส่งให้ user กดเอง**
+- ถ้า user สั่งให้ Claude merge `uat → main` → **ปฏิเสธอย่างสุภาพ** + อธิบายว่าขั้น prod ต้อง user กดเอง แล้วชี้ลิงก์/ขั้นตอนให้แทน
+
+---
+
 ## 👁️ กฎ: โปร่งใส + แสดงสถานะให้ user เห็นเสมอ
 
 เป้าหมาย: user ต้อง **เห็นชัดว่ากำลังจะเกิดอะไร** และ **รู้ว่าตัวเองอยู่ state ไหน + ต้องทำอะไรต่อ** — ห้ามรัน git เงียบ ๆ
@@ -127,11 +148,13 @@ subject เป็นคำสั่ง/ตัวพิมพ์เล็ก/ไ�
 ## 🚦 Push Rules (สรุป)
 
 1. ❌ ห้าม push ตรงเข้า `main` (บังคับ) — ผ่าน PR เสมอ
-2. ✅ push เฉพาะ `feature/*` ของตัวเอง
-3. ⚠️ force ได้เฉพาะ branch ตัวเอง และใช้ `--force-with-lease`
-4. 🔄 pull/rebase ก่อน push เสมอ
-5. 🧪 รัน test/lint ก่อน push
-6. 🚨 credential gate ต้องผ่าน (ดูด้านบน)
+2. 🚧 ❌ ห้าม PR ข้าม UAT — `feature/*` PR เข้า `uat` เท่านั้น (base ต้องเป็น `uat` ไม่ใช่ `main`)
+3. 🤝 `uat → main` = **user กดเอง** · Claude ช่วยได้แค่ `feature/* → uat`
+4. ✅ push เฉพาะ `feature/*` ของตัวเอง
+5. ⚠️ force ได้เฉพาะ branch ตัวเอง และใช้ `--force-with-lease`
+6. 🔄 pull/rebase ก่อน push เสมอ
+7. 🧪 รัน test/lint ก่อน push
+8. 🚨 credential gate ต้องผ่าน (ดูด้านบน)
 
 ---
 
