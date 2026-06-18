@@ -37,8 +37,19 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 ### 1) ❌ ห้ามข้าม UAT — ทุกการเปลี่ยนแปลงต้องผ่าน `uat` ก่อนเสมอ
 - PR ของ `feature/*` **base ต้องเป็น `uat` เท่านั้น** — **ห้าม** `feature/* → main` เด็ดขาด
 - ก่อนกด/แนะนำ merge PR ใด ๆ ที่ base = `main` → **เช็กก่อนว่า head เป็น `uat` ไหม** ถ้าไม่ใช่ `uat` (เช่นเป็น feature) → **หยุด เตือน user ทันที** ว่ากำลังจะข้าม UAT
-- เปิด PR ผ่านลิงก์/หน้า GitHub ทุกครั้ง → **ย้ำ user ให้เปลี่ยน base dropdown จาก `main` เป็น `uat`** (GitHub default เป็น main เสมอ — พลาดง่ายมาก)
 - ลำดับเดียวที่ยอมรับ: `feature/* → uat` (ทดสอบ) → `uat → main` (เผยแพร่)
+
+#### 🔗 กฎลิงก์เปิด PR — ฝัง base=uat มาในลิงก์เสมอ (กันพลาดถาวร)
+> เวลาเสนอลิงก์ให้ user เปิด PR ของ feature **ห้ามใช้** ลิงก์แบบ `…/pull/new/<branch>` — เพราะมันตั้ง base เป็น default branch (`main`) เสมอ → หลุดข้าม uat ง่าย
+
+- **ใช้ฟอร์แมต compare ที่ระบุ base ในตัวลิงก์เลย:**
+  ```
+  https://github.com/<org>/<repo>/compare/uat...<feature-branch>?expand=1
+  ```
+  - `uat...<branch>` → **ตัวหน้า = base = `uat`** · ตัวหลัง = compare (feature) · ลำดับห้ามสลับ
+  - `?expand=1` → เปิดฟอร์ม PR ให้ทันที
+  - ผลคือหน้า PR ขึ้น **base: uat** มาตั้งแต่แรก user ไม่ต้องแตะ dropdown
+- ถ้าจำเป็นต้องใช้หน้า GitHub ที่ base เป็น `main` อยู่ → **ย้ำ user ให้เปลี่ยน base dropdown เป็น `uat` ก่อน** create
 
 ### 2) 🤝 ใครทำขั้นไหน — สำคัญ
 | ขั้น | ใครทำ | skill ช่วยได้ไหม |

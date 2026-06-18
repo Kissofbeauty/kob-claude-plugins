@@ -48,6 +48,7 @@ git push                                   # ครั้งถัดไป
 ### Step 5 — เปิด Pull Request เข้า `uat`
 - เปิด PR บน GitHub: `feature/user-login` ──▶ `uat`
 - ⚠️ **base ต้องเป็น `uat`** — GitHub default เป็น `main` ต้องเปลี่ยน dropdown เอง · **ห้าม PR `feature/* → main` ตรง (ห้ามข้าม UAT)**
+- 🔗 **ใช้ลิงก์ที่ฝัง base=uat เสมอ:** `https://github.com/<org>/<repo>/compare/uat...<feature-branch>?expand=1` (อย่าใช้ `…/pull/new/<branch>` ที่ default base = main)
 - กรอกตาม PR template, ขอ reviewer, รอ approve
 - merge แล้วลบ branch
 - ✅ ขั้นนี้ **ผู้ช่วย/Claude ช่วยทำได้** (commit/push/เปิด PR เข้า uat)
