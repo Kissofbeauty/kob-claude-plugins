@@ -47,12 +47,16 @@ git push                                   # ครั้งถัดไป
 
 ### Step 5 — เปิด Pull Request เข้า `uat`
 - เปิด PR บน GitHub: `feature/user-login` ──▶ `uat`
+- ⚠️ **base ต้องเป็น `uat`** — GitHub default เป็น `main` ต้องเปลี่ยน dropdown เอง · **ห้าม PR `feature/* → main` ตรง (ห้ามข้าม UAT)**
+- 🔗 **ใช้ลิงก์ที่ฝัง base=uat + title + body เสมอ:** `https://github.com/<org>/<repo>/compare/uat...<feature-branch>?expand=1&title=<TITLE>&body=<BODY>` (URL-encode ค่า · อย่าใช้ `…/pull/new/<branch>` ที่ default base = main · description ต้องเขียนทุกครั้ง)
 - กรอกตาม PR template, ขอ reviewer, รอ approve
 - merge แล้วลบ branch
+- ✅ ขั้นนี้ **ผู้ช่วย/Claude ช่วยทำได้** (commit/push/เปิด PR เข้า uat)
 
 ### Step 6 — Promote `uat` → `main` (เมื่อ UAT ผ่าน)
 - เปิด PR: `uat` ──▶ `main`
 - ต้องผ่านการทดสอบบน UAT ก่อน
+- 🤝 ขั้นนี้ **user กดเองเท่านั้น** — เป็น gate ขึ้น production · **ผู้ช่วย/Claude ห้ามเปิด/merge แทน** (ทำได้แค่เตรียม + ชี้ลิงก์)
 
 ---
 
@@ -61,6 +65,7 @@ git push                                   # ครั้งถัดไป
 | # | กฎ (Rule) | คำอธิบาย (Why) |
 |---|---|---|
 | 1 | ❌ **ห้าม push ตรงเข้า `main`** (บังคับ) | ต้องผ่าน PR เสมอ — ล็อกด้วย GitHub Branch Protection. `uat` ใช้ PR ตามธรรมเนียมแต่ไม่บังคับ |
+| 1.5 | 🚧 **ห้าม PR ข้าม UAT** | `feature/*` PR เข้า `uat` เท่านั้น (base = `uat`) · `uat → main` user กดเอง — ผู้ช่วยห้ามทำแทน |
 | 2 | ✅ **push เฉพาะ `feature/*` ของตัวเอง** | แต่ละคนรับผิดชอบ branch ตัวเอง |
 | 3 | ⚠️ **ห้าม `--force` บน shared branch** | ใช้ได้เฉพาะ `feature/*` ของตัวเอง และใช้ `--force-with-lease` |
 | 4 | 🔄 **pull/rebase ก่อน push เสมอ** | ลด merge conflict |
