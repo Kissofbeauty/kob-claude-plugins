@@ -23,14 +23,15 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 - ทุกอย่างที่ต้องคงอยู่ **ต้องเขียนลง docs/โค้ด** ไม่ใช่พึ่งความจำ agent
 - ก่อน spawn subagent: ชี้ให้มันอ่าน docs ที่เกี่ยวข้อง · หลัง subagent เสร็จ: PM sync ผลลัพธ์กลับเข้า docs
 
-### 📁 ที่เก็บไฟล์ (convention — ทำตามเสมอเพื่อความเป็นระเบียบ)
-> ไฟล์ information ที่ PM สร้าง **ให้วางใน `docs/` ของ project ทุกไฟล์** — ถ้ายังไม่มีโฟลเดอร์ `docs/` ให้สร้างก่อน
+### 📁 ที่เก็บไฟล์ (กฎ — บังคับเสมอ)
+> **ทุกเอกสารที่ PM/subagent สร้างต้องอยู่ใน `docs/` ของ project** — ถ้ายังไม่มีโฟลเดอร์ `docs/` ให้สร้างก่อน (proposal อยู่นอก `docs/` = ผิดกฎ)
 
 | ไฟล์ | ที่อยู่ | เหตุผล |
 |---|---|---|
 | `project-proposal.md` (แกนหลัก) | `docs/project-proposal.md` | information doc |
-| `requirements.md` (รายละเอียด ถ้าจำเป็น) | `docs/requirements.md` | information doc |
-| design-brief / UAT / research / proposal อื่น ๆ | `docs/<ชื่อ>.md` | information doc |
+| `features.md` (สรุป module/feature ของ webapp — ใช้แทน requirements.md เดิม) | `docs/features.md` | information doc |
+| `stack.md` · `brief-design.md` · `data-model.md` | `docs/<ชื่อ>.md` | เอกสารตามลำดับ orchestration (ดู 2.5) |
+| UAT / research / เอกสารอื่น ๆ | `docs/<ชื่อ>.md` | information doc |
 | `CLAUDE.md` · `README.md` | **root (คงเดิม)** | spec บังคับให้ Claude/marketplace อ่านจาก root — ห้ามย้าย |
 
 > มีโครงเดิมที่ไฟล์เหล่านี้อยู่ root อยู่แล้ว → เคารพของเดิม (ไม่ต้องย้ายให้วุ่น) แต่ **ไฟล์ใหม่ที่สร้างต่อจากนี้ลง `docs/`**
@@ -75,7 +76,7 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 | 2 | **Goals & Objectives** | ✅ | ความสำเร็จหน้าตาเป็นยังไง (เน้น outcome ไม่ใช่ feature) |
 | 3 | **Stakeholders / Users** | – | ใครเกี่ยวข้อง ใครใช้ผลลัพธ์ ใครตัดสินใจ |
 | 4 | **Scope** | ✅ | อยู่ใน scope / นอก scope (กันบานปลาย) |
-| 5 | **Requirements / Needs** | – | functional + non-functional (รายละเอียดเยอะ → แตกไป `docs/requirements.md`) |
+| 5 | **Requirements / Needs** | – | functional + non-functional (สรุปเป็น module/feature → `docs/features.md` — ดู 2.5 ขั้น 2) |
 | 6 | **Proposed Approach** | ✅ | แนวทางแก้ระดับสูง — มีหลาย option ให้เทียบได้ · **จุดที่ตอบว่าปลายทางคืออะไร** (app/pipeline/report/process) |
 | 7 | **Deliverables** | ✅ | ผลลัพธ์ที่จับต้องได้ส่งมอบจริง |
 | 8 | **Success Criteria** | ✅ | วัดยังไงว่าสำเร็จ / acceptance |
@@ -89,7 +90,7 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 
 **ของที่ PM กำหนด (ไม่ delegate):** scope, priority/phasing, acceptance criteria, business rules, การ trade-off
 
-> 🎯 จบโหมด 1 = ได้ `project-proposal.md` ที่ user อนุมัติ · ถ้า proposal **ไม่ต้องลงมือสร้างของ** ก็จบที่นี่ได้ (ส่งมอบ proposal เป็นผลลัพธ์)
+> 🎯 จบโหมด 1 = ได้ `project-proposal.md` ที่ user อนุมัติ · ถ้า proposal **ไม่ต้องลงมือสร้างของ** ก็จบที่นี่ได้ (ส่งมอบ proposal เป็นผลลัพธ์) · **ถ้าต้องสร้าง (โดยเฉพาะ website/webapp) → อย่าปล่อย user เคว้ง — พาเข้าโหมด 2 แล้วเดินตามลำดับ 2.5 ทันที**
 
 ---
 
@@ -107,7 +108,7 @@ description: ใช้เมื่อ main agent ต้องทำหน้า�
 4. **เลือก agent type:** ใช้ตัวที่ environment มีจริงก่อน · ถ้าไม่มี agent เฉพาะ → ใช้ `general-purpose` + prompt ที่บอกบทบาทชัด
 
 ### 2.2 บทบาทอ้างอิง (ตัวอย่าง — ไม่บังคับ ใช้เท่าที่งานต้องการ)
-architect (data model/API) · fullstack (เขียนโค้ด) · ux-ui (design→component) · security (review/CVE gate) · devops (infra/CI/deploy) · qa (test vs acceptance)
+data-architect (data model/schema) · fullstack (เขียนโค้ด) · ux-ui (design→component) · security (review/CVE gate) · devops (infra/CI/deploy) · qa (test vs acceptance)
 > **กฎเหล็ก:** ผู้ลงมือ (architect/fullstack) **ห้ามคิด business rule เอง** — เจอกฎไม่ชัด หยุด → ส่งกลับ PM → PM ถาม user
 
 ### 2.3 วิธี spawn
@@ -120,6 +121,28 @@ architect (data model/API) · fullstack (เขียนโค้ด) · ux-ui (
 - งานที่เป็น software delivery → ทำตามมาตรฐาน git/CI ของทีม (ดู skill **`skill-git-standard`**: branch `main`←`uat`←`feature/<name>`, PR, credential gate)
 - ถ้ามี security/qa เป็น gate → ต้องผ่านก่อน deploy · findings → loop กลับให้ผู้ลงมือแก้จนผ่าน
 - PM ตัดสิน "ผ่าน acceptance criteria ไหม" ทุก handoff · pipeline ทำซ้ำต่อ deliverable/feature
+
+### 2.5 ลำดับ orchestration — งานสร้าง website / webapp (เดินตามลำดับเสมอ ห้ามข้ามขั้น)
+> ลำดับนี้ตอบว่า **"ขั้นไหนมาก่อน-หลัง"** · ส่วน **"ใครเล่น"** ยังยึด 2.1 — ถ้า environment ไม่มี subagent ตัวที่ระบุ ให้ใช้ `general-purpose` สวมบทบาทแทน (ลำดับขั้นไม่เปลี่ยน)
+> สัญญาณว่าเป็นงานมี UI: web/app/website/หน้าจอ/dashboard/form — ใช้เป็นสัญญาณช่วย ไม่ใช่กฎตายตัว ให้ประเมินเจตนาด้วย
+> งานที่ปลายทางไม่ใช่ app (data pipeline/report/เอกสาร) → ข้ามขั้น UI (ขั้น 4) ได้ · ไม่ต้องสร้างของเลย → จบที่ proposal
+
+1. **Proposal** — `docs/project-proposal.md` (โหมด 1) → user อนุมัติ
+2. **Features** — ชวน user สรุปว่า webapp มี **module/feature อะไรบ้าง** → ตกผลึกเขียน `docs/features.md`
+3. **Stack** — ถาม user: *"อยากกำหนด tech stack เองไหม?"*
+   - **ไม่กำหนด** → PM กำหนดตามมาตรฐาน `skill-architecture-standard`
+   - **กำหนดเอง** → ได้ แต่มี**จุดตายตัวห้ามเปลี่ยน: database = PostgreSQL · implement ด้วย docker compose**
+   - ผลสรุปเขียน `docs/stack.md`
+4. **System design (UI)** — แจ้ง user ว่าขั้นถัดไปคือออกแบบหน้าตา → เรียก **`ui-ux-pro-max`** สร้าง `docs/brief-design.md`
+   - brief ต้องสั่งให้ Claude Design สร้างเป็น **app หน้าเดียวที่กดปุ่มแล้วทำงานได้จริง** (interactive เสมือน webapp จริง) — ❌ ห้ามแตกเป็น mockup หลายหน้าแยก ๆ
+   - **หยุด ส่งกลับ user** พร้อมบอกวิธีทำต่อเป็นขั้น ๆ ภาษาคน: เอา `docs/brief-design.md` ไปวางใน **Claude Design** → ได้ source code กลับมา → เอากลับมาให้ PM แล้วบอกว่าเสร็จ
+   - (นี่คือจุดเดียวที่ต้องพึ่ง user — Claude Design เป็นเครื่องมือภายนอก agent ทำแทนไม่ได้ · source code ที่ได้ = **design system ของโปรเจกต์** ห้ามทีม build เขียนทิ้ง)
+5. **Data model** — อะไรก็ตามที่เกี่ยวกับ data model **ต้องผ่าน `subagent-data-architect` เท่านั้น** (ประเมินว่า สร้างใหม่ / แก้ของเดิม / ใช้ของเดิม) → ได้ `docs/data-model.md`
+   - ถ้าไม่ชัดว่าแอปต้องเก็บข้อมูลไหม → **ถาม user เป็นภาษาคน** เช่น *"ระบบนี้ต้องจำข้อมูลไว้ใช้ทีหลังไหม (เช่น ประวัติ รายการที่เคยบันทึก)?"* — ห้ามถามด้วยศัพท์เทคนิค (ดูชั้นแปลภาษา)
+6. **Gate: PM เคาะ schema** ใน `docs/data-model.md` ก่อนลงมือ code (data-architect ไม่อนุมัติเอง)
+7. **Build — `subagent-fullstack`**: เริ่ม **backend ก่อน** โดยใช้ `docs/data-model.md` เป็นเอกสารตั้งต้น (เขียน `.sql` + API) → backend แน่นแล้วค่อยต่อ **frontend** (ต่อยอด source code จาก Claude Design + ใช้ `ui-ux-pro-max` คุม design system)
+8. **Test บน dev stage** — ให้ user ทดลองใช้จริง + `subagent-qa-tester` (test/UAT/security) → วน defect → fix จนเรียบร้อย
+9. **ขึ้น Host = ทีม BI (คน)** — agent ไม่ deploy production เอง · งานจบที่ dev stage เรียบร้อยแล้วส่งมอบทีม BI
 
 ---
 
