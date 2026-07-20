@@ -19,7 +19,8 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 
 - **`main`** = production. **PR เท่านั้น + protected** (ห้าม push ตรง — GitHub Branch Protection บังคับ)
 - **`uat`** = UAT. แยกมาจาก `main`. ใช้ PR ตามธรรมเนียม (**ไม่บังคับ** ฝั่ง server)
-- **`feature/<featureName>`** = dev. แยกมาจาก `uat`. ชื่อ kebab-case เช่น `feature/user-login`
+- **`feature/<featureName>`** = dev. **แยกมาจาก `uat` เท่านั้น (กฎ)**. ชื่อ kebab-case เช่น `feature/user-login`
+- **`hotfix/<name>`** = ข้อยกเว้นฉุกเฉิน prod เท่านั้น: แตกจาก `main` → PR เข้า `main` → sync กลับ `uat` (ดู `references/BRANCHING.md` §6)
 
 **Promotion flow:**
 1. `feature/*` แยกจาก `uat` → พัฒนา
@@ -37,7 +38,7 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 ### 1) ❌ ห้ามข้าม UAT — ทุกการเปลี่ยนแปลงต้องผ่าน `uat` ก่อนเสมอ
 - PR ของ `feature/*` **base ต้องเป็น `uat` เท่านั้น** — **ห้าม** `feature/* → main` เด็ดขาด
 - ก่อนกด/แนะนำ merge PR ใด ๆ ที่ base = `main` → **เช็กก่อนว่า head เป็น `uat` ไหม** ถ้าไม่ใช่ `uat` (เช่นเป็น feature) → **หยุด เตือน user ทันที** ว่ากำลังจะข้าม UAT
-- ลำดับเดียวที่ยอมรับ: `feature/* → uat` (ทดสอบ) → `uat → main` (เผยแพร่)
+- ลำดับเดียวที่ยอมรับ: `feature/* → uat` (ทดสอบ) → `uat → main` (เผยแพร่) — (ข้อยกเว้นฉุกเฉินเดียว: `hotfix/*` จาก `main` → PR เข้า `main` → sync กลับ `uat`)
 
 #### 🔗 กฎลิงก์เปิด PR — ฝัง base=uat + title + description มาในลิงก์เสมอ (กันพลาดถาวร)
 > เวลาเสนอลิงก์ให้ user เปิด PR ของ feature **ห้ามใช้** ลิงก์แบบ `…/pull/new/<branch>` — เพราะมันตั้ง base เป็น default branch (`main`) เสมอ → หลุดข้าม uat ง่าย
@@ -166,7 +167,7 @@ subject เป็นคำสั่ง/ตัวพิมพ์เล็ก/ไ�
 1. ❌ ห้าม push ตรงเข้า `main` (บังคับ) — ผ่าน PR เสมอ
 2. 🚧 ❌ ห้าม PR ข้าม UAT — `feature/*` PR เข้า `uat` เท่านั้น (base ต้องเป็น `uat` ไม่ใช่ `main`)
 3. 🤝 `uat → main` = **user กดเอง** · Claude ช่วยได้แค่ `feature/* → uat`
-4. ✅ push เฉพาะ `feature/*` ของตัวเอง
+4. ✅ push เฉพาะ `feature/*` ของตัวเอง (รวม `hotfix/*` เฉพาะกรณีฉุกเฉิน prod)
 5. ⚠️ force ได้เฉพาะ branch ตัวเอง และใช้ `--force-with-lease`
 6. 🔄 pull/rebase ก่อน push เสมอ
 7. 🧪 รัน test/lint ก่อน push
