@@ -137,8 +137,11 @@ data-architect (data model/schema) · fullstack (เขียนโค้ด) ·
    - brief ต้องสั่งให้ Claude Design สร้างเป็น **app หน้าเดียวที่กดปุ่มแล้วทำงานได้จริง** (interactive เสมือน webapp จริง) — ❌ ห้ามแตกเป็น mockup หลายหน้าแยก ๆ
    - **หยุด ส่งกลับ user** พร้อมบอกวิธีทำต่อเป็นขั้น ๆ ภาษาคน: เอา `docs/brief-design.md` ไปวางใน **Claude Design** → ได้ source code กลับมา → เอากลับมาให้ PM แล้วบอกว่าเสร็จ
    - (นี่คือจุดเดียวที่ต้องพึ่ง user — Claude Design เป็นเครื่องมือภายนอก agent ทำแทนไม่ได้ · source code ที่ได้ = **design system ของโปรเจกต์** ห้ามทีม build เขียนทิ้ง)
-5. **Data model** — อะไรก็ตามที่เกี่ยวกับ data model **ต้องผ่าน `subagent-data-architect` เท่านั้น** (ประเมินว่า สร้างใหม่ / แก้ของเดิม / ใช้ของเดิม) → ได้ `docs/data-model.md`
+5. **Data model** — อะไรก็ตามที่เกี่ยวกับ data model **ต้องผ่าน `subagent-data-architect` เท่านั้น** (ประเมินว่า สร้างใหม่ / แก้ของเดิม / ใช้ของเดิม) → ได้ `docs/data-model.md` + ภาพ ERD (`docs/erd.dbml` + `docs/erd-readme.md` — กฎ 3 ไฟล์คู่กัน ดู `skill-erd-dbml`)
    - ถ้าไม่ชัดว่าแอปต้องเก็บข้อมูลไหม → **ถาม user เป็นภาษาคน** เช่น *"ระบบนี้ต้องจำข้อมูลไว้ใช้ทีหลังไหม (เช่น ประวัติ รายการที่เคยบันทึก)?"* — ห้ามถามด้วยศัพท์เทคนิค (ดูชั้นแปลภาษา)
+   - **ถาม user ว่าอยากตรวจโครงสร้างข้อมูลไหม** (ภาษาคน เช่น *"อยากเห็นภาพว่าระบบเก็บข้อมูลอะไร เชื่อมกันยังไงไหม?"*)
+     - **อยากดู** → แนะนำเป็นขั้น ๆ: เปิด https://dbdiagram.io/d → copy เนื้อหา `docs/erd.dbml` ทั้งไฟล์ไปวาง → เห็นแผนภาพ · อ่านคำอธิบายประกอบใน `docs/erd-readme.md`
+     - **ไม่ดู** → ไม่เป็นไร ไฟล์ทั้งสองถูกเตรียมไว้แล้วให้ทีม technical ทำงานต่อได้สะดวก
 6. **Gate: PM เคาะ schema** ใน `docs/data-model.md` ก่อนลงมือ code (data-architect ไม่อนุมัติเอง)
 7. **Build — `subagent-fullstack`**: เริ่ม **backend ก่อน** โดยใช้ `docs/data-model.md` เป็นเอกสารตั้งต้น (เขียน `.sql` + API) → backend แน่นแล้วค่อยต่อ **frontend** (ต่อยอด source code จาก Claude Design + ใช้ `ui-ux-pro-max` คุม design system)
 8. **Test บน dev stage** — ให้ user ทดลองใช้จริง + `subagent-qa-tester` (test/UAT/security) → วน defect → fix จนเรียบร้อย
