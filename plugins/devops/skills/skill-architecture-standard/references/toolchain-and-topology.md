@@ -2,7 +2,7 @@
 
 ## เหตุผลของแต่ละมาตรฐาน
 - **Next.js (web default):** FE+BE ในตัว, Claude เขียนเก่ง, deploy เป็น container ง่าย, ลดจำนวน stack ที่ทีมต้องรู้
-- **managed Postgres:** Neon/Supabase (dev/UAT) ฟรี/เร็ว, RDS (prod) ที่ BI ดูแล — ไม่ต้อง self-host (กัน ops/security พลาด) · Postgres เหมือนกันทุก env = parity
+- **PostgreSQL self-host ใน Docker (default ทุก env):** รันใน compose เหมือนกันทุก environment = parity เต็ม + ไม่มีค่า service · **RDS (managed) เฉพาะเมื่อทีม BI ร้องขอใน phase production** — โอกาสน้อยเพราะต้นทุนสูง (ถ้าใช้ BI ดูแล)
 - **managed Auth (Supabase/Clerk):** auth เขียนเองพลาดง่าย + เสี่ยง (ดู OWASP A07) → ใช้ของสำเร็จ
 - **Docker + compose:** dev = prod parity, BI promote image เดียวข้าม Hostinger→AWS ได้
 - **GitHub + 3-tier:** main←uat←feature, PR-only, credential gate (skill-git-standard)
@@ -24,5 +24,5 @@
 
 ## เมื่อจะเบี่ยงจากมาตรฐาน
 1. ระบุเหตุผลใน "Proposed Approach" ของ project-proposal (skill-PM)
-2. ขอ architect/BI review
+2. **ก่อนถึง phase ขึ้น production → PM เคาะได้เลย** (ไม่ต้องรอ BI) · ตอน promote ขึ้น prod → BI review อีกชั้นตาม guardrails
 3. ถ้า approve → บันทึกเป็น decision ใน CLAUDE.md/requirements ของโปรเจกต์นั้น

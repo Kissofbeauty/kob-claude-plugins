@@ -4,9 +4,9 @@
 มาตรฐานสถาปัตยกรรม + toolchain ที่องค์กรอนุมัติให้ใช้ — กำหนด default stack (app/data/auth/container), โครง deploy (UAT=Hostinger, prod=AWS), และ decision guide ว่างานชนิดไหนใช้อะไร เพื่อให้ทุกโปรเจกต์ (รวม hackathon) เลือกเครื่องมือไปในทิศทางเดียวกัน
 
 ## วิธีการคิดและการทำงานของ Skill
-1. **กำหนด default toolchain** — Next.js · managed Postgres · managed Auth · Docker · GitHub · security gate
+1. **กำหนด default toolchain** — Next.js · PostgreSQL self-host ใน Docker (RDS เฉพาะ BI ร้องขอตอน prod) · managed Auth · Docker · GitHub · security gate
 2. **Topology ชัด** — dev (compose) → UAT (Hostinger) → prod (AWS, BI promote เท่านั้น) ด้วย Docker parity
-3. **Decision guide** — web/API/AI/static เลือกอะไร + กฎ "เบี่ยงต้องมีเหตุผล + ถาม architect/BI"
+3. **Decision guide** — web/API/AI/static เลือกอะไร + กฎ "เบี่ยงต้องมีเหตุผล — ก่อน production PM เคาะได้เลย · BI review ตอน promote prod"
 4. **ผูกกับ skill อื่น** — skill-PM อ้างตอนเขียน proposal · บังคับด้วย git-standard + docker-standard + security plugin
 
 ## ผลลัพธ์ที่ได้จากการใช้งาน
@@ -23,6 +23,6 @@
 ## ตัวอย่าง
 ```
 user: "จะเริ่มทำ webapp ใหม่ ใช้อะไรดี"
-→ skill ตอบ default: Next.js + managed Postgres + Docker compose + GitHub,
+→ skill ตอบ default: Next.js + PostgreSQL ใน Docker compose + GitHub,
   deploy UAT Hostinger → BI promote AWS, ผ่าน /security-check ก่อน prod
 ```

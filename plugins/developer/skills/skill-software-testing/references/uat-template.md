@@ -12,7 +12,7 @@
 เวอร์ชัน / commit  : ____________________
 ผู้ทดสอบ (qa)      : ____________________
 วันที่ทดสอบ        : ____________________
-แหล่ง requirement  : requirements.md / project-proposal.md (อ้าง section/REQ-id)
+แหล่ง requirement  : docs/features.md / docs/project-proposal.md (อ้าง section/REQ-id)
 สภาพแวดล้อมทดสอบ   : (local / uat / staging) + ข้อมูลทดสอบที่ใช้
 ```
 

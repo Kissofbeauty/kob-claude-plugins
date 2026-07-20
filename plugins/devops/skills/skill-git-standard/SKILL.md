@@ -19,7 +19,8 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 
 - **`main`** = production. **PR เท่านั้น + protected** (ห้าม push ตรง — GitHub Branch Protection บังคับ)
 - **`uat`** = UAT. แยกมาจาก `main`. ใช้ PR ตามธรรมเนียม (**ไม่บังคับ** ฝั่ง server)
-- **`feature/<featureName>`** = dev. แยกมาจาก `uat`. ชื่อ kebab-case เช่น `feature/user-login`
+- **`feature/<featureName>`** = dev. **แยกมาจาก `uat` เท่านั้น (กฎ)**. ชื่อ kebab-case เช่น `feature/user-login`
+- **`hotfix/<name>`** = ข้อยกเว้นฉุกเฉิน prod เท่านั้น: แตกจาก `main` → PR เข้า `main` → sync กลับ `uat` (ดู `references/BRANCHING.md` §6)
 
 **Promotion flow:**
 1. `feature/*` แยกจาก `uat` → พัฒนา
@@ -37,7 +38,7 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 ### 1) ❌ ห้ามข้าม UAT — ทุกการเปลี่ยนแปลงต้องผ่าน `uat` ก่อนเสมอ
 - PR ของ `feature/*` **base ต้องเป็น `uat` เท่านั้น** — **ห้าม** `feature/* → main` เด็ดขาด
 - ก่อนกด/แนะนำ merge PR ใด ๆ ที่ base = `main` → **เช็กก่อนว่า head เป็น `uat` ไหม** ถ้าไม่ใช่ `uat` (เช่นเป็น feature) → **หยุด เตือน user ทันที** ว่ากำลังจะข้าม UAT
-- ลำดับเดียวที่ยอมรับ: `feature/* → uat` (ทดสอบ) → `uat → main` (เผยแพร่)
+- ลำดับเดียวที่ยอมรับ: `feature/* → uat` (ทดสอบ) → `uat → main` (เผยแพร่) — (ข้อยกเว้นฉุกเฉินเดียว: `hotfix/*` จาก `main` → PR เข้า `main` → sync กลับ `uat`)
 
 #### 🔗 กฎลิงก์เปิด PR — ฝัง base=uat + title + description มาในลิงก์เสมอ (กันพลาดถาวร)
 > เวลาเสนอลิงก์ให้ user เปิด PR ของ feature **ห้ามใช้** ลิงก์แบบ `…/pull/new/<branch>` — เพราะมันตั้ง base เป็น default branch (`main`) เสมอ → หลุดข้าม uat ง่าย
@@ -54,6 +55,7 @@ main  (production)  ←──PR──  uat  ←──PR──  feature/<featureN
 - **ต้อง URL-encode** ค่า title/body เสมอ (เว้นวรรค→`%20`, ขึ้นบรรทัด→`%0A`, `#`→`%23`, `&`→`%26`) — ไม่งั้นลิงก์เพี้ยน
 - **description ที่ฝัง ต้องเขียนทุกครั้ง** — สรุปสั้น ๆ ว่า PR นี้ทำอะไร/แก้อะไร/กระทบอะไร (อย่าปล่อยว่าง)
 - ถ้าจำเป็นต้องใช้หน้า GitHub ที่ base เป็น `main` อยู่ → **ย้ำ user ให้เปลี่ยน base dropdown เป็น `uat` ก่อน** create
+- 📎 **กฎ: ทุกครั้งที่งานถึงขั้นต้องเปิด PR → ต้องส่งลิงก์เปิด PR (ฟอร์แมตข้างบน) ให้ user เสมอ** — ห้ามจบงานแค่ "push แล้ว" โดยไม่แปะลิงก์ · user ต้องแค่กดลิงก์แล้ว Create ได้เลย
 
 ### 2) 🤝 ใครทำขั้นไหน — สำคัญ
 | ขั้น | ใครทำ | skill ช่วยได้ไหม |
@@ -165,11 +167,12 @@ subject เป็นคำสั่ง/ตัวพิมพ์เล็ก/ไ�
 1. ❌ ห้าม push ตรงเข้า `main` (บังคับ) — ผ่าน PR เสมอ
 2. 🚧 ❌ ห้าม PR ข้าม UAT — `feature/*` PR เข้า `uat` เท่านั้น (base ต้องเป็น `uat` ไม่ใช่ `main`)
 3. 🤝 `uat → main` = **user กดเอง** · Claude ช่วยได้แค่ `feature/* → uat`
-4. ✅ push เฉพาะ `feature/*` ของตัวเอง
+4. ✅ push เฉพาะ `feature/*` ของตัวเอง (รวม `hotfix/*` เฉพาะกรณีฉุกเฉิน prod)
 5. ⚠️ force ได้เฉพาะ branch ตัวเอง และใช้ `--force-with-lease`
 6. 🔄 pull/rebase ก่อน push เสมอ
 7. 🧪 รัน test/lint ก่อน push
 8. 🚨 credential gate ต้องผ่าน (ดูด้านบน)
+9. 📎 ต้องเปิด PR เมื่อไร → **ส่งลิงก์เปิด PR ให้ user เสมอ** (compare link ฝัง base=uat + title + description — ดูกฎลิงก์ด้านบน)
 
 ---
 

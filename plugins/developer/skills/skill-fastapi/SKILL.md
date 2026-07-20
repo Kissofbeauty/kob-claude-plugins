@@ -66,7 +66,7 @@ argument-hint: "[topic or question]"
 - `SessionDep = Annotated[Session, Depends(get_session)]`
 - PATCH: `model_dump(exclude_unset=True)` + `sqlmodel_update()`
 - Always paginate: `offset` + `limit` with `Query(le=100)`
-- Production: PostgreSQL + Alembic migrations
+- Production: PostgreSQL + **hand-written SQL migrations** (team standard — see `skill-data-modeling` / `skill-sql` · do NOT use Alembic)
 
 ### Application Structure
 - `APIRouter(prefix=, tags=, dependencies=, responses=)` — mini FastAPI

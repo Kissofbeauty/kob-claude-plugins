@@ -94,15 +94,17 @@ agent: Explore   # only if context: fork — pick: Explore, Plan, general-purpos
 
 ## Step 6: Use Dynamic Context If Needed
 
-Use `` !`command` `` to inject live shell output into the skill before Claude sees it:
+Use `` !\`command\` `` to inject live shell output into the skill before Claude sees it:
 
 ```markdown
 ## Current git status
-!`git status`
+!\`git status\`
 
 ## Recent commits
-!`git log --oneline -10`
+!\`git log --oneline -10\`
 ```
+
+> ⚠️ ตัวอย่างในไฟล์นี้ escape ด้วย `\` เพื่อกันระบบ execute คำสั่งจริงตอนโหลด skill-init — **ตอนเขียนลง skill จริงไม่ต้องใส่ `\`** (เขียน `!` ติด backtick ตรง ๆ)
 
 ---
 
@@ -207,9 +209,9 @@ allowed-tools: Bash(gh *)
 ---
 
 ## PR Context
-Diff: !`gh pr diff`
-Comments: !`gh pr view --comments`
-Files changed: !`gh pr diff --name-only`
+Diff: !\`gh pr diff\`
+Comments: !\`gh pr view --comments\`
+Files changed: !\`gh pr diff --name-only\`
 
 Summarize what this PR does, what risks it carries, and whether it's ready to merge.
 ```

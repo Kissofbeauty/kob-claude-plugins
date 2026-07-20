@@ -48,7 +48,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 
 ## 🔄 Migration
 
-- **Versioned** — ทุกการเปลี่ยน schema เป็นไฟล์ migration ที่ commit เข้า git (เครื่องมือ: Alembic / Flyway / `node-pg-migrate` / Prisma Migrate) — ห้ามแก้ schema prod ด้วยมือ
+- **Versioned** — ทุกการเปลี่ยน schema เป็นไฟล์ `.sql` ที่ commit เข้า git · **ทีมเขียน SQL migration เอง (ไม่ใช้ Alembic/Flyway/Prisma) — ดูมาตรฐานที่ `skill-data-modeling`** · ห้ามแก้ schema prod ด้วยมือ
 - **Reversible** — มี `up` และ `down` (rollback ได้) ทุก migration
 - **Forward-only & small** — แต่ละ migration ทำเรื่องเดียว, ไม่แก้ migration ที่ apply ไปแล้ว (ออกตัวใหม่แทน)
 - **Zero-downtime patterns** — เพิ่มคอลัมน์เป็น nullable/มี default ก่อน, backfill, ค่อยเพิ่ม constraint; แยก deploy โค้ดกับ migration ให้เข้ากันได้ทั้งเวอร์ชันเก่า/ใหม่

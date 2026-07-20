@@ -11,21 +11,21 @@ Comprehensive design guide for web and mobile applications. Contains 50+ styles,
 > รัน script จาก**โฟลเดอร์ของ skill นี้** — ถ้าตัวอย่างใน doc ขึ้นต้น `skills/ui-ux-pro-max/scripts/...` ให้ปรับ base เป็น path จริงของ skill (เช่น `plugins/developer/skills/ui-ux-pro-max/scripts/search.py`)
 > ใช้คู่กับ `skill-frontend-web` (โค้ด frontend) — ui-ux-pro-max เลือก design/สี/ฟอนต์, frontend-web ลงมือ implement
 
-## 🔄 kob Design Workflow — design-brief → Claude Design → fullstack
+## 🔄 kob Design Workflow — brief-design → Claude Design → fullstack
 
 เมื่อทำขั้น **design system** (`--design-system`) เสร็จ → **อย่าจบแค่นั้น** ให้ทำ handoff ต่อ:
 
-1. **เขียน `design-brief.md` ส่งให้ user** — สรุป design system เป็น brief ที่ **เอาไปป้อน Claude Design ได้ทันที** (เป็น material ตั้งต้นการออกแบบ)
-2. user นำ design-brief → **Claude Design** (ภายนอก) → ได้งานออกแบบ + **source code** (React/HTML/Tailwind ฯลฯ)
-3. **source code จาก Claude Design = material ส่งต่อให้ `subagent-fullstack`** พัฒนาต่อ (ต่อ backend/data/logic ตาม proposal)
+1. **เขียน `docs/brief-design.md` ส่งให้ user** — สรุป design system เป็น brief ที่ **เอาไปป้อน Claude Design ได้ทันที** (เป็น material ตั้งต้นการออกแบบ · เก็บใน `docs/` ตามกฎ skill-PM)
+2. user นำ brief → **Claude Design** (ภายนอก) → ได้งานออกแบบ + **source code** (React/HTML/Tailwind ฯลฯ)
+3. **source code จาก Claude Design = design system ของโปรเจกต์** ส่งต่อให้ `subagent-fullstack` พัฒนาต่อ (ต่อ backend/data/logic ตาม proposal) — fullstack ต้องต่อยอดจาก code นี้ ห้ามเขียน UI ใหม่ทิ้ง design
 
 ```
-ui-ux-pro-max (design system) → 📄 design-brief.md → 🧑 user → Claude Design → source code
-                                                                                   ↓
-                                                              material ให้ subagent-fullstack
+ui-ux-pro-max (design system) → 📄 docs/brief-design.md → 🧑 user → Claude Design → source code
+                                                                                        ↓
+                                                       design system ให้ subagent-fullstack ต่อยอด
 ```
 
-### โครง design-brief.md (material สำหรับ Claude Design)
+### โครง docs/brief-design.md (material สำหรับ Claude Design)
 - **Product & goal** — จาก proposal/PM (ทำอะไร เพื่อใคร)
 - **Target users + context** — ใครใช้ ใช้ตอนไหน
 - **Style direction** — pattern / style / mood (จาก design system)
@@ -35,8 +35,9 @@ ui-ux-pro-max (design system) → 📄 design-brief.md → 🧑 user → Claude 
 - **UX & a11y constraints** — priority 1–3 (contrast, touch target, responsive)
 - **Do / Don't** — anti-patterns ที่ต้องเลี่ยง
 - **Stack target** — default Next.js / web
+- **⚠️ Output format (ต้องเขียนกำกับใน brief เสมอ)** — สั่ง Claude Design ให้สร้างเป็น **app หน้าเดียวที่ interactive จริง: กดปุ่ม/นำทาง/เปลี่ยน state ได้เสมือน webapp จริง** — ❌ ห้ามแตกเป็น mockup หลายหน้าแยก ๆ (code หน้าเดียวที่ทำงานได้ = fullstack เอาไปต่อยอดได้ไร้รอยต่อ · mockup แยกชิ้น = โดนทิ้งแล้วเขียนใหม่)
 
-> design-brief เป็น **เอกสารส่งมอบ** (ไม่ใช่โค้ด) — เขียนให้ Claude Design เข้าใจทิศทางครบในไฟล์เดียว
+> brief-design เป็น **เอกสารส่งมอบ** (ไม่ใช่โค้ด) — เขียนให้ Claude Design เข้าใจทิศทางครบในไฟล์เดียว
 
 ## When to Apply
 
