@@ -1,161 +1,184 @@
 # kissofbeauty — Kiss of Beauty Marketplace
 
-Claude **plugin marketplace** ขององค์กร Kiss of Beauty (ดูแลโดยทีม BI)
-รวม plugin · skill · subagent และมาตรฐานการทำงาน — ติดตั้งครั้งเดียว ใช้ได้ทุก project และอัปเดตต่อเนื่อง
-
-> Kiss of Beauty's Claude plugin marketplace, maintained by the BI Team.
+Kiss of Beauty's **Claude plugin marketplace**, maintained by the **BI Team**.
+A single home for the org's plugins, skills, subagents, and working standards — install once, use in every project, and receive updates continuously.
 
 - **Marketplace:** `kissofbeauty`
 - **Owner:** BI-Team · database@kissofbeauty.co.th
 
 ---
 
-## 📦 Plugins ในนี้
+## 📦 Plugins
 
-| Plugin | รายละเอียด | Skills |
+| Plugin | What it covers | Skills / Agents |
 |---|---|---|
-| [`devops`](plugins/devops) | DevOps & standards | `skill-git-standard` (Git/GitHub) · `skill-docker-standard` (containerization) · `skill-architecture-standard` (approved stack + UAT/prod topology) |
-| [`management`](plugins/management) | PM & orchestration | `skill-PM` (discovery → Project Proposal) · `skill-init` (สร้าง skill ใหม่) |
-| [`security`](plugins/security) | Security toolkit | `skill-cybersecurity` (OWASP code scan) · `-api` (API Top 10:2023) · `-llm` (LLM Top 10:2025) · `-supply-chain` (SCA/deps) · `-secret-scan` (secret + git history) · `-container-iac` (Docker/K8s/Terraform) · `-threat-model` (STRIDE) · **subagent** `subagent-cybersecurity-auditor` (full audit รวมทุกด้าน) · **command** `/security-check [path]` (สั่ง audit ทั้ง project) |
-| [`developer`](plugins/developer) | Engineering team | `skill-frontend-web` · `skill-backend` · `skill-sql` · `skill-python` (venv-per-project) · `skill-fastapi` · `ui-ux-pro-max` (design intelligence) · `skill-software-testing` (test + UAT) · **subagents** `subagent-fullstack` (build per proposal) + `subagent-qa-tester` (test/UAT/security + PM-mediated fix loop) |
+| [`management`](plugins/management) | PM & orchestration | `skill-PM` (discovery → Project Proposal → build-ladder orchestration) · `precompact` (save PM state to `docs/pm-handoff.md` before compact) · `skill-init` (scaffold new skills) |
+| [`devops`](plugins/devops) | Engineering standards | `skill-git-standard` (Git/GitHub: main←uat←feature, credential gate, PR-only) · `skill-docker-standard` (containerization) · `skill-architecture-standard` (approved stack + UAT/prod topology) |
+| [`security`](plugins/security) | Security toolkit | `skill-cybersecurity` (OWASP code scan) · `-api` (API Top 10:2023) · `-llm` (LLM Top 10:2025) · `-supply-chain` (SCA/deps) · `-secret-scan` (secrets + git history) · `-container-iac` (Docker/K8s/Terraform) · `-threat-model` (STRIDE) · **subagent** `subagent-cybersecurity-auditor` (full audit) · **command** `/security-check [path]` |
+| [`developer`](plugins/developer) | Engineering team | `skill-frontend-web` · `skill-backend` · `skill-sql` · `skill-data-modeling` (UUID v7 / soft-delete / hand-written SQL migrations) · `skill-erd-dbml` (ERD docs for dbdiagram.io) · `skill-python` (venv-per-project) · `skill-fastapi` · `ui-ux-pro-max` (design intelligence) · `skill-software-testing` (test + UAT) · **subagents** `subagent-data-architect` (schema design, PM-gated) + `subagent-fullstack` (build per proposal) + `subagent-qa-tester` (test/UAT/security + PM-mediated fix loop) |
 
 ---
 
-## 🗺️ โครงสร้าง skill & flow การทำงาน
+## 🗺️ Skill Map & Team Workflow
 
-marketplace แบ่งเป็น 4 plugin ตามบทบาท — **management** (วางแผน) · **devops** (มาตรฐานวิศวกรรม) · **security** (ความปลอดภัย) · **developer** (ทีม dev ลงมือทำ)
+The marketplace has 4 plugins by role — **management** (plan) · **devops** (engineering standards) · **security** (safety) · **developer** (hands-on build).
 
-### โครงสร้าง skill ทั้งหมด
+### Full skill map
 
 ```
 kob-claude-plugins  (marketplace: kissofbeauty)
 │
-├── management ──┬── skill-init ───────────── สร้างโครง skill ใหม่ (SKILL.md + README) ตามมาตรฐาน
-│   (PM/วางแผน)  └── skill-PM ──────────────── main agent = PM: คุย user → 📄 Project Proposal
-│                                            (Full/Lean) → ประเมิน stack/subagent → คุมให้ทำตาม requirement
+├── management ──┬── skill-PM ──────────────── main agent = PM: user talks → 📄 Project Proposal
+│   (planning)   │                            → orchestration ladder (features → stack → design → data → build → test)
+│                ├── precompact ────────────── save PM state to docs/pm-handoff.md before compact (seamless resume)
+│                └── skill-init ───────────── scaffold a new skill (SKILL.md + README) to standard
 │
-├── devops ──────┬── skill-git-standard ───── มาตรฐาน git: main←uat←feature, credential gate, PR-only
-│   (มาตรฐาน     ├── skill-docker-standard ── containerize: dev ด้วย compose, ไม่ฝัง cred ใน image,
-│    วิศวกรรม)   │                            BI build จาก main → push registry (private)
-│               └── skill-architecture-standard ── stack/เครื่องมือที่อนุมัติ + topology UAT/prod
+├── devops ──────┬── skill-git-standard ───── git standard: main←uat←feature, credential gate, PR-only
+│   (standards)  ├── skill-docker-standard ── containerize: dev via compose, no creds in images,
+│                │                            BI builds from main → private registry
+│                └── skill-architecture-standard ── approved stack/tools + UAT/prod topology
 │
-├── security ────┬── skill-cybersecurity ──────────── สแกนโค้ด OWASP Top 10:2025
-│   (ความ        ├── skill-cybersecurity-api ───────── OWASP API Top 10:2023
-│    ปลอดภัย)    ├── skill-cybersecurity-llm ───────── OWASP LLM Top 10:2025
-│               ├── skill-cybersecurity-supply-chain ─ SCA/deps/CVE
-│               ├── skill-cybersecurity-secret-scan ── secret + git history
-│               ├── skill-cybersecurity-container-iac ─ Docker/K8s/Terraform
-│               ├── skill-cybersecurity-threat-model ─ STRIDE (design-level)
-│               ├── 🤖 subagent-cybersecurity-auditor ─ รวมทุกด้าน → report เดียว
-│               └── ⌘ /security-check ──────────────── สั่ง audit ทั้ง project
+├── security ────┬── skill-cybersecurity ──────────── code scan, OWASP Top 10:2025
+│   (safety)     ├── skill-cybersecurity-api ───────── OWASP API Top 10:2023
+│                ├── skill-cybersecurity-llm ───────── OWASP LLM Top 10:2025
+│                ├── skill-cybersecurity-supply-chain ─ SCA / deps / CVE
+│                ├── skill-cybersecurity-secret-scan ── secrets + git history
+│                ├── skill-cybersecurity-container-iac ─ Docker/K8s/Terraform
+│                ├── skill-cybersecurity-threat-model ─ STRIDE (design-level)
+│                ├── 🤖 subagent-cybersecurity-auditor ─ all dimensions → one report
+│                └── ⌘ /security-check ──────────────── audit the whole project
 │
 └── developer ───┬── skill-frontend-web ────── HTML/CSS/SCSS/Tailwind/JS/TS/React
-    (ทีม dev)    ├── skill-backend ─────────── API/server design + controller/service/repository
-                 ├── skill-sql ─────────────── schema/query/security/migration
-                 ├── skill-python ──────────── PEP8/OOP/SOLID + venv แยกต่อ project
+    (dev team)   ├── skill-backend ─────────── API/server design + controller/service/repository
+                 ├── skill-sql ─────────────── schema/query/security/migration (hand-written SQL)
+                 ├── skill-data-modeling ───── team data-model standard: UUID v7 PK, soft-delete,
+                 │                            new-table-vs-extend criteria, S3 for files
+                 ├── skill-erd-dbml ────────── docs/erd.dbml + docs/erd-readme.md (dbdiagram.io)
+                 ├── skill-python ──────────── PEP8/OOP/SOLID + venv per project
                  ├── skill-fastapi ─────────── FastAPI (data API / ML serving)
-                 ├── ui-ux-pro-max ─────────── design intelligence → design-brief → Claude Design
-                 ├── skill-software-testing ── test design + UAT + defect report
-                 ├── 🤖 subagent-fullstack ─── build ตาม proposal (ใช้ coding skills ทั้งหมด)
-                 └── 🤖 subagent-qa-tester ─── test + UAT + security → loop กลับ fullstack (ผ่าน PM)
+                 ├── ui-ux-pro-max ─────────── design intelligence → docs/brief-design.md → Claude Design
+                 ├── skill-software-testing ── test design + UAT + defect reports
+                 ├── 🤖 subagent-data-architect ─ schema design → docs/data-model.md + ERD (PM-gated)
+                 ├── 🤖 subagent-fullstack ─── build per proposal, backend-first (uses all coding skills)
+                 └── 🤖 subagent-qa-tester ─── test + UAT + security → fix loop via PM
 ```
 
-### flow การทำงานจริง (วงจรทีม)
+### Build workflow (orchestration ladder — `skill-PM` §2.5)
 
 ```
-🧑 user ↔ skill-PM ──► 📄 Project Proposal
-                          │
-              ui-ux-pro-max ──► 📄 design-brief ──► 🧑 Claude Design ──► source code
-                          │                                                  │
-                          ▼                                                  ▼
-                  subagent-fullstack ◄───────────────────────────── (เอา design มาต่อ)
-                  (frontend/backend/sql/python · docker · git)
-                          │  ส่งงาน
-                          ▼
-                  subagent-qa-tester  (test + UAT + /security-check)
-                          │  เจอ defect
-                          ▼
-                  🧑 PM เคาะว่าต้องแก้ไหม ──► loop กลับ fullstack ──► จน qa ผ่าน ──► deploy
+🧑 user ↔ skill-PM ──► 1. 📄 docs/project-proposal.md (approved)
+                       2. 📄 docs/features.md      (modules/features agreed with user)
+                       3. 📄 docs/stack.md         (user-defined or architecture standard;
+                          │                         fixed: PostgreSQL + docker compose)
+                       4. ui-ux-pro-max ──► 📄 docs/brief-design.md
+                          │        └─► 🧑 user pastes into Claude Design ──► source code
+                          │             (one-page interactive app = the project's design system)
+                       5. 🤖 subagent-data-architect ──► 📄 docs/data-model.md
+                          │                              + docs/erd.dbml + docs/erd-readme.md
+                       6. 🚧 gate: PM approves schema
+                       7. 🤖 subagent-fullstack — backend first (.sql + API from data-model.md),
+                          │                       then frontend on top of the Claude Design code
+                       8. 🤖 subagent-qa-tester + user test on dev stage → defect loop until clean
+                       9. 🚀 hosting/production deploy = BI team (human) — agents never deploy prod
 ```
 
-**อ่าน flow:**
-1. **PM** (`skill-PM`) คุยกับ user กลั่นความต้องการ → **Project Proposal** (ปลายทางไม่จำเป็นต้องเป็น app)
-2. ถ้าต้องสร้างของ → **ui-ux-pro-max** ออกแบบ design system แล้วเขียน **design-brief** ส่งให้ user ไปป้อน **Claude Design** → ได้ source code
-3. **subagent-fullstack** เอา design มาต่อ + เขียน backend/data ตาม proposal (ใช้ skill มาตรฐาน devops/developer)
-4. **subagent-qa-tester** ทดสอบ + ทำ UAT + ตรวจความปลอดภัย (`/security-check`) → เจอ defect ส่งกลับ
-5. **PM** เป็นคนเคาะว่าต้องแก้ตาม qa ไหม (PM รู้ความต้องการ user สุด) → วน loop จน qa ผ่าน → BI promote ขึ้น prod
+**Reading the flow:**
+1. **PM** (`skill-PM`) talks to the user and distills a **Project Proposal** (the outcome doesn't have to be an app — if nothing needs building, it ends here).
+2. For web/webapp work PM walks the ladder **in order, no skipping**: features → stack → design brief.
+3. **ui-ux-pro-max** writes `docs/brief-design.md`; the user feeds it to **Claude Design** (external) and brings back the source code — this code **is** the design system; builders extend it, never rewrite it.
+4. Anything touching the data model goes through **subagent-data-architect only** → `docs/data-model.md` + ERD docs (`erd.dbml` + `erd-readme.md` always updated together). PM gates the schema.
+5. **subagent-fullstack** builds backend first from `data-model.md`, then the frontend on top of the design code; **subagent-qa-tester** and the user verify on dev stage; the **BI team** takes it to hosting.
 
-> ทุก stage ยึดมาตรฐาน: git (`skill-git-standard`) · container (`skill-docker-standard`) · stack (`skill-architecture-standard`) · security gate ก่อน deploy
+> Every stage follows the standards: git (`skill-git-standard`) · containers (`skill-docker-standard`) · stack (`skill-architecture-standard`) · security gate before deploy.
 
 ---
 
-## 🚀 วิธีใช้งาน (แยกตาม surface)
+## 🚀 How to Install (per surface)
 
-ปัจจุบัน skill เผยแพร่ **2 ช่องทาง** เพราะ Claude Code กับ claude.ai ใช้กลไกคนละแบบ:
+Skills are distributed through **2 channels**, because Claude Code and claude.ai use different mechanisms:
 
-### A) Claude Code (ดึงจาก repo นี้ตรง ๆ)
+### A) Claude Code (pulls straight from this repo)
 
-> ✅ **repo นี้เป็น public** — ใครก็ `marketplace add` + ติดตั้งได้เลย ไม่ต้องเป็น member ของ org (Claude Code ใช้ git ดึงตรง)
-> (สิทธิ์ **เขียน/แก้** ยังจำกัดเฉพาะ collaborator/org — ดู `CONTRIBUTING.md`)
+> ✅ **This repo is public** — anyone can `marketplace add` and install without being an org member (Claude Code pulls via git).
+> (**Write** access is still limited to collaborators/org — see `CONTRIBUTING.md`.)
 
 ```bash
-# 1. เพิ่ม marketplace — ใส่ได้ทั้ง 2 แบบ:
-/plugin marketplace add Kissofbeauty/kob-claude-plugins              # แบบ owner/repo
-/plugin marketplace add https://github.com/Kissofbeauty/kob-claude-plugins.git   # แบบ git URL เต็ม (copy จากปุ่ม Code บน GitHub)
+# 1. Add the marketplace — either form works:
+/plugin marketplace add Kissofbeauty/kob-claude-plugins              # owner/repo
+/plugin marketplace add https://github.com/Kissofbeauty/kob-claude-plugins.git   # full git URL
 
-# 2. ติดตั้ง plugin
+# 2. Install a plugin
 /plugin install devops@kissofbeauty
 ```
-- หลังติดตั้ง `skill-git-standard` จะถูกหยิบมาใช้อัตโนมัติเมื่อทำงานกับ git หรือเรียกตรง `/devops:skill-git-standard`
-- **อัปเดต:** `/plugin marketplace update kissofbeauty` (ดึง commit ล่าสุดจาก git อัตโนมัติ)
-- plugin **ไม่ตั้ง `version`** → ทุก commit บน `main` คือเวอร์ชันล่าสุด
 
-> ❗ ถ้าขึ้น **"Repository not found"** = พิมพ์ชื่อ repo ผิด หรือ repo ยังไม่ถูกตั้งเป็น public (ตรวจ Settings → Visibility)
+- After installing, e.g. `skill-git-standard` is picked up automatically for git work, or invoke directly: `/devops:skill-git-standard`
+- **Update:** `/plugin marketplace update kissofbeauty` (pulls the latest commit automatically)
+- Plugins **don't set a `version`** → every commit on `main` is the latest version
+
+> ❗ **"Repository not found"** = repo name typo, or the repo isn't public (check Settings → Visibility)
 
 ### B) claude.ai — chat / cowork / Projects
-skill ตัวเดียวกันใช้บน claude.ai ได้ (รูปแบบ `SKILL.md` เป็น open format เดียวกัน) แต่ **ไม่ได้ดึงจาก GitHub** — **admin** ต้องอัปเข้า workspace:
-- admin อัป/อัปเดต skill ที่ **`claude.ai/admin-settings/skills`** → provision เปิดให้สมาชิกทุกคนในองค์กรอัตโนมัติ
-- แจกเฉพาะกลุ่ม: bundle skill เป็น plugin แล้ว assign ให้ group
-- ใช้ได้เฉพาะ **สมาชิกใน Claude for Team workspace** (บัญชี personal นอก workspace ต้องเชิญเข้ามาก่อน)
-- ⚠️ ปัจจุบัน publish เป็น **manual** — ยังไม่มี Admin API ให้ automate
 
-> รายละเอียด/ข้อจำกัดทั้งหมด: ดู [`requirements.md`](requirements.md) §5.1 (distribution matrix) และ §8 (Spike S1)
+The same skills work on claude.ai (`SKILL.md` is the same open format), but claude.ai **does not pull from GitHub** — an **admin** must publish them into the workspace:
+
+- Admin uploads/updates skills at **`claude.ai/admin-settings/skills`** → provisioned to every org member automatically
+- To target specific groups: bundle skills as a plugin and assign it to a group
+- Only available to members of the **Claude for Team workspace** (personal accounts must be invited in first)
+- ⚠️ Publishing is currently **manual** — there is no Admin API to automate it yet
+
+> Full details/constraints: see [`requirements.md`](requirements.md) §5.1 (distribution matrix) and §8 (Spike S1)
 
 ---
 
-## 🗂️ โครงสร้าง repo
+## 🗂️ Repo Structure
 
 ```
 .
-├── .claude-plugin/marketplace.json   # สารบัญ marketplace
+├── .claude-plugin/marketplace.json    # marketplace index
 ├── plugins/
-│   └── devops/                       # plugin: devops
-│       ├── .claude-plugin/plugin.json
-│       └── skills/skill-git-standard/   (SKILL.md + references/ hooks/ templates/)
-├── scripts/validate.py               # ตัวตรวจ manifest/skill (รันก่อนเปิด PR)
-├── .github/workflows/validate.yml    # CI: รัน validate.py ทุก push/PR
-├── CLAUDE.md                          # บริบทโปรเจกต์ (อ่านก่อนเริ่มงาน)
-├── requirements.md                   # requirement + scope + การตัดสินใจ
-├── CONTRIBUTING.md                   # วิธีเพิ่ม/แก้ plugin สำหรับ dev BI
+│   ├── management/                    # skill-PM · precompact · skill-init
+│   │   ├── .claude-plugin/plugin.json
+│   │   └── skills/<skill>/            (SKILL.md + README.md)
+│   ├── devops/                        # git / docker / architecture standards
+│   ├── security/                      # cybersecurity skills + auditor subagent
+│   │   ├── skills/  agents/  commands/
+│   └── developer/                     # coding skills + fullstack/qa/data-architect subagents
+│       ├── skills/  agents/
+├── scripts/validate.py                # manifest/skill validator (run before PRs)
+├── .github/workflows/validate.yml     # CI: validate.py on every push/PR
+├── CLAUDE.md                          # project context (read before working)
+├── requirements.md                    # requirements + scope + decisions
+├── CONTRIBUTING.md                    # how BI devs add/change plugins
 └── README.md
 ```
 
 ---
 
-## 📚 เอกสาร
+## 📚 Technical Information
 
-| ไฟล์ | สำหรับ |
+**Tech stack:** no runtime — this is a content/manifest repo (Markdown + JSON). `marketplace.json` / `plugin.json` follow the Claude Code plugin spec; `SKILL.md` follows the Agent Skills open format (works on both Claude Code and claude.ai).
+
+**Branch model (org standard):** `main` (production/published) ← `uat` ← `feature/<name>` — both `main` and `uat` are protected, PR-only. Conventional Commits. A pre-commit hook validates manifests and scans for credentials.
+
+**Key docs:**
+
+| File | For |
 |---|---|
-| [`CLAUDE.md`](CLAUDE.md) | บริบทโปรเจกต์ — อ่านก่อนเริ่มงานทุกครั้ง |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | **dev** ที่จะเพิ่ม/แก้ plugin · branch model · validation · governance |
-| [`requirements.md`](requirements.md) | scope · มติการออกแบบ · distribution strategy |
+| [`CLAUDE.md`](CLAUDE.md) | Project context — read before every work session |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | **Devs** adding/changing plugins · branch model · validation · governance |
+| [`requirements.md`](requirements.md) | Scope · design decisions · distribution strategy |
+
+**Gotchas:**
+- claude.ai does not auto-update from git → skills must be re-published by an admin after merge
+- Manifests must always be valid JSON — a broken `marketplace.json`/`plugin.json` breaks the whole marketplace
+- Secrets/PII must never enter git — `.gitignore` covers `.env` and secret files; the pre-commit gate enforces it
 
 ---
 
-## ➕ อยากเพิ่ม skill / plugin?
+## ➕ Adding a Skill / Plugin
 
-ดูขั้นตอนเต็มใน **[`CONTRIBUTING.md`](CONTRIBUTING.md)** โดยสรุป:
-1. แตก branch `feature/<name>` จาก `main`
-2. วางไฟล์ตามมาตรฐาน (skill → `plugins/<plugin>/skills/<name>/SKILL.md`)
-3. รัน `python scripts/validate.py` ให้ผ่าน
-4. เปิด PR → review โดยคน + security gate → merge
+Full steps in **[`CONTRIBUTING.md`](CONTRIBUTING.md)** — in short:
+1. Branch `feature/<name>` from `uat`
+2. Place files to standard (skill → `plugins/<plugin>/skills/<name>/SKILL.md` + `README.md`)
+3. Run `python scripts/validate.py` until it passes
+4. Open a PR to `uat` → human review + security gate → merge (then `uat` → `main` to publish)
