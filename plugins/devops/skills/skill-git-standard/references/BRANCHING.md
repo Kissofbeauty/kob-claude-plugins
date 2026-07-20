@@ -112,12 +112,12 @@ git push -u origin feature/user-login
 
 ## 6. การ Hotfix (กรณีฉุกเฉินบน Production)
 
-หากต้องแก้ด่วนบน production:
+หากต้องแก้ด่วนบน production — ใช้ branch ประเภท **`hotfix/*`** (ข้อยกเว้นเดียวที่แตกจาก `main` · **`feature/*` ยังคงกฎเดิม: แตกจาก `uat` เท่านั้น**):
 
 ```bash
 git checkout main
 git pull origin main
-git checkout -b feature/hotfix-payment-bug   # แยกจาก main
+git checkout -b hotfix/payment-bug   # hotfix/* แยกจาก main (ห้ามใช้ชื่อ feature/*)
 
 # แก้เสร็จ → PR เข้า main → จากนั้น sync กลับลง uat ด้วย
 ```

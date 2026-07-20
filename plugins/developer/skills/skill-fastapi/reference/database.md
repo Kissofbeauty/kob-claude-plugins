@@ -185,7 +185,7 @@ engine = create_engine(
 
 **Checklist:**
 - Use PostgreSQL for production (not SQLite)
-- Use Alembic for schema migrations
+- Use hand-written SQL migrations for schema changes (team standard — see `skill-data-modeling` / `skill-sql` · do NOT use Alembic)
 - Always paginate list endpoints (`offset` + `limit`)
 - Always check existence before update/delete
 - Use `exclude_unset=True` for all PATCH operations

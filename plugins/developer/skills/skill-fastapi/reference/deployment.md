@@ -259,6 +259,6 @@ Manage data pipelines, trigger runs, and monitor status.
 | Use `global` for shared state | Use `app.state` or dependency injection |
 | Hardcode secrets in code | Use env vars + `.env` + `BaseSettings` |
 | Commit `.env` to git | Add `.env` to `.gitignore`, commit `.env.example` |
-| Use SQLite in production | Use PostgreSQL + Alembic migrations |
+| Use SQLite in production | Use PostgreSQL + hand-written SQL migrations (team standard — `skill-data-modeling` / `skill-sql` · not Alembic) |
 | `async def` with sync blocking calls | Use regular `def` (FastAPI runs in threadpool) |
 | `def` with async libraries (httpx, asyncpg) | Use `async def` |

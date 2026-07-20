@@ -29,17 +29,20 @@ Kiss of Beauty ดูแลโดยทีม **BI** เป้าหมาย: �
 ```
 .
 ├── .claude-plugin/marketplace.json   # สารบัญ marketplace (kissofbeauty)
-├── plugins/
-│   └── devops/                       # plugin
-│       ├── .claude-plugin/plugin.json
-│       └── skills/skill-git-standard/  (SKILL.md + references/ hooks/ templates/)
+├── plugins/                          # 4 plugins — แต่ละตัวมี .claude-plugin/plugin.json
+│   ├── management/   # skill-PM · precompact · skill-init
+│   ├── devops/       # skill-git-standard · skill-docker-standard · skill-architecture-standard
+│   ├── security/     # skill-cybersecurity* ×7 · subagent-cybersecurity-auditor · /security-check
+│   └── developer/    # frontend/backend/sql/data-modeling/erd-dbml/python/fastapi/ui-ux/testing
+│                     # + subagent-data-architect · subagent-fullstack · subagent-qa-tester
+├── scripts/validate.py               # ตัวตรวจ manifest/skill (CI: .github/workflows/validate.yml)
 ├── CLAUDE.md · requirements.md · CONTRIBUTING.md · README.md
 └── .gitignore
 ```
 
 ## Conventions & workflow
 - **Branch model (org standard):** `main` (prod/เผยแพร่) ← `uat` ← `feature/<name>`
-  - แตก feature จาก `main` → merge เข้า `uat` ทดสอบ → merge เข้า `main`
+  - **กฎ: แตก `feature/*` จาก `uat` เท่านั้น** → merge เข้า `uat` ทดสอบ → PR `uat` → `main` (ข้อยกเว้นเดียว: `hotfix/*` แตกจาก `main` กรณีฉุกเฉิน prod แล้ว sync กลับ `uat`)
   - ทั้ง `uat` และ `main` protected เหมือนกัน เข้าได้ผ่าน **PR เท่านั้น** (PR + review + CI · bypass = admin `kiss-bim` ไว้ฉุกเฉิน)
 - **Commit:** Conventional Commits (`feat:`/`fix:`/`chore:`/`docs:`…)
 - **Credential gate:** pre-commit สแกน secret ก่อน commit (ดู `skill-git-standard`)
@@ -51,12 +54,12 @@ Kiss of Beauty ดูแลโดยทีม **BI** เป้าหมาย: �
 - **claude.ai (chat/cowork):** ไม่ pull จาก GitHub — ต้อง **publish ซ้ำ** (admin อัป Skills เข้า workspace / Skills API)
 - หลักการ: **เขียน skill ครั้งเดียว (surface-neutral SKILL.md) เผยแพร่ 2 ช่องทาง**
 
-## Subagent roster (เมื่อเริ่มพัฒนา — อิง skill-PM)
-architect · fullstack · ux-ui · security · devops · qa
+## Subagent roster (เมื่อเริ่มพัฒนา — อิงลำดับ orchestration ใน skill-PM §2.5)
+subagent-data-architect (schema+ERD) · subagent-fullstack (build backend-first) · subagent-qa-tester (test/UAT/security) · subagent-cybersecurity-auditor (full audit)
 (โปรเจกต์นี้เน้น docs/standard เป็นหลัก — เรียก subagent เมื่อมีงาน build/tooling จริง)
 
 ## Constraints & gotchas
-- repo **private** → ผู้ใช้ต้องมีสิทธิ์เข้า GitHub org ถึงจะ `add marketplace` ได้ (รวมผู้ใช้ personal)
+- repo **public** → ใครก็ `add marketplace` + ติดตั้งได้ (สิทธิ์เขียน/แก้ยังจำกัด collaborator/org — ดู `CONTRIBUTING.md`)
 - claude.ai ไม่ auto-update จาก git → ต้องมี publish step (ดู `requirements.md` open questions)
 - **secret/PII ห้ามหลุดเข้า git** — `.gitignore` ต้องครอบ `.env`, ไฟล์ลับ
 - manifest ต้อง valid เสมอ (marketplace.json / plugin.json) — JSON เสียทำให้ทั้ง marketplace พัง
