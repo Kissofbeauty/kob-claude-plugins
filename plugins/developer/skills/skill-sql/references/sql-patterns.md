@@ -18,26 +18,28 @@ CREATE TABLE orders (
 );
 ```
 
-### ✅ ดี
+### ✅ ดี (มาตรฐานทีม: PK = `uuid` — UUID v7 สร้างที่ backend, ดู `skill-data-modeling`)
 ```sql
 CREATE TABLE users (
-  id          bigint generated always as identity PRIMARY KEY,
+  id          uuid PRIMARY KEY,        -- UUID v7 gen ที่ backend (ห้ามเก็บเป็น text)
   email       text NOT NULL UNIQUE,
-  created_at  timestamptz NOT NULL DEFAULT now()
+  created_at  timestamptz NOT NULL DEFAULT now(),
+  updated_at  timestamptz NOT NULL DEFAULT now()
 );
 
 CREATE TYPE order_status AS ENUM ('pending', 'paid', 'cancelled');
 
 CREATE TABLE orders (
-  id          bigint generated always as identity PRIMARY KEY,
-  user_id     bigint NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+  id          uuid PRIMARY KEY,        -- UUID v7 gen ที่ backend
+  user_id     uuid NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
   amount      numeric(12,2) NOT NULL CHECK (amount >= 0),  -- เงินใช้ numeric
   status      order_status NOT NULL DEFAULT 'pending',
   created_at  timestamptz NOT NULL DEFAULT now(),
   updated_at  timestamptz NOT NULL DEFAULT now()
 );
 ```
-- PK ทุกตาราง · FK + `ON DELETE` ชัด · `numeric` สำหรับเงิน · `timestamptz` · `enum`/`CHECK` คุมค่า
+- PK ทุกตาราง = `uuid` (UUID v7 จาก backend) · FK เป็น `uuid` ตามกัน + `ON DELETE` ชัด · `numeric` สำหรับเงิน · `timestamptz` · `enum`/`CHECK` คุมค่า
+> pattern ทั่วไปนอกมาตรฐานทีม: `bigint generated always as identity` ใช้ได้ในโปรเจกต์ที่ไม่ยึดมาตรฐาน UUID v7 — แต่งานของทีม = `uuid` เสมอ
 
 ---
 
@@ -157,6 +159,6 @@ ALTER TABLE orders DROP COLUMN note;
 -- ✅ ไม่ lock เขียน (รันนอก transaction)
 CREATE INDEX CONCURRENTLY idx_orders_status ON orders (status);
 ```
-- versioned (commit เข้า git) · เครื่องมือ: Alembic / Flyway / node-pg-migrate / Prisma Migrate
+- versioned (commit เข้า git) · **ทีมเขียนไฟล์ `.sql` เอง — ไม่ใช้ Alembic/Flyway/Prisma (มติทีม ดู `skill-data-modeling`)** · ชื่อไฟล์มีลำดับ `NNNN_คำอธิบาย.sql` + history table
 - ไม่แก้ migration ที่ apply แล้ว → ออกตัวใหม่
 - เพิ่มคอลัมน์ NOT NULL บนตารางใหญ่: เพิ่ม nullable → backfill → ค่อยเติม `SET NOT NULL`
