@@ -29,7 +29,7 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Edit
 
 **กฎ:** map **ทุก requirement / acceptance criteria → test case** (ไม่มี requirement ไหนไม่มี test)
 
-1. อ่าน requirement จาก PM (`requirements.md` / project-proposal / acceptance criteria) — ใช้ `Read`/`Grep` หา
+1. อ่าน requirement จาก PM (`docs/features.md` / project-proposal / acceptance criteria) — ใช้ `Read`/`Grep` หา
 2. แตกแต่ละ requirement เป็น test case ครอบ 4 มุม:
    - **Positive** — input ถูกต้อง → ได้ผลตามคาด (happy path)
    - **Negative** — input ผิด/ไม่ครบ → error/ปฏิเสธอย่างเหมาะสม (ไม่ crash, ไม่รั่ว)

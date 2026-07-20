@@ -14,7 +14,7 @@ tools: Read, Glob, Grep, Write, Edit, Skill
 ---
 
 ## Input ที่ต้องอ่านก่อนเริ่ม
-- requirement / `docs/project-proposal.md` (จาก skill-PM) — ทำอะไร, acceptance criteria
+- `docs/project-proposal.md` / `docs/features.md` (จาก skill-PM) — ทำอะไร, module/feature, acceptance criteria
 - **source code (จาก Claude Design ถ้ามี)** — ดู entity/field ที่ UI ใช้จริง เพื่อออกแบบให้ตรง
 - schema ปัจจุบันของโปรเจกต์ (ถ้ามี) — ก่อนออกแบบใหม่ต้องรู้ของเดิม
 
