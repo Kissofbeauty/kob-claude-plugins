@@ -6,7 +6,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 
 # skill-architecture-standard — Architecture & Approved Toolchain
 
-มาตรฐานว่า **โปรเจกต์ขององค์กรใช้ stack/เครื่องมือ/โครง deploy อะไร** — ยึดเป็น default · เบี่ยงได้แต่ต้องมีเหตุผล + ถาม architect/BI
+มาตรฐานว่า **โปรเจกต์ขององค์กรใช้ stack/เครื่องมือ/โครง deploy อะไร** — ยึดเป็น default · เบี่ยงได้แต่ต้องมีเหตุผล — **ก่อนถึง phase ขึ้น production: PM เคาะได้เลย** · BI review ตอน promote ขึ้น prod
 
 > ใช้คู่กับ `skill-PM` (เขียน "Proposed Approach/Resources" ใน proposal อ้าง skill นี้) · บังคับด้วย `skill-git-standard` + `skill-docker-standard` + security plugin
 
@@ -49,7 +49,7 @@ Prod = AWS (App Runner / Lightsail Containers)  ← BI promote เท่าน�
 ---
 
 ## Rules
-- **ใช้ default ก่อนเสมอ** — เบี่ยงจากมาตรฐานต้องมีเหตุผลชัด + ระบุใน "Proposed Approach" ของ proposal + ถาม architect/BI
+- **ใช้ default ก่อนเสมอ** — เบี่ยงจากมาตรฐานต้องมีเหตุผลชัด + ระบุใน "Proposed Approach" ของ proposal · **ก่อน production: PM เคาะได้เลยไม่ต้องถาม BI** · BI review ตอน promote prod
 - ทุกแอป server-side → Docker + GitHub + ผ่าน security gate ก่อน prod
 - prod อยู่ AWS · UAT อยู่ Hostinger · **BI เท่านั้น promote ขึ้น prod**
 - ❌ ไม่ self-host DB/auth · ❌ ทีมทั่วไปไม่แตะ AWS เอง (รวมศูนย์ที่ BI — กัน cost/security)

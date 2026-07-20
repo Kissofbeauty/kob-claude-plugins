@@ -68,7 +68,7 @@ allowed-tools: Read, Glob, Grep
 ## 5. 🔄 Migration = SQL เขียนเอง (ไม่ใช้เครื่องมือ migration)
 
 - **มติทีม:** เขียนไฟล์ `.sql` เอง — เพราะ backend มี 2 ภาษา (Next.js/TypeScript และ FastAPI/Python) เครื่องมืออย่าง Alembic/Drizzle ผูกกับภาษาเดียว มาตรฐานเดียวที่ครอบทั้งคู่คือ SQL ล้วน
-- ⚠️ **ข้อนี้ override คำแนะนำเครื่องมือใน skill อื่น** — จุดที่ `skill-sql` / `skill-fastapi` กล่าวถึง Alembic / Flyway / node-pg-migrate / Prisma Migrate ให้ยึดมตินี้แทน (หลักการ versioned + reversible ของ `skill-sql` ยังใช้เต็ม เปลี่ยนเฉพาะเครื่องมือ)
+- ✅ `skill-sql` / `skill-fastapi` อ้างมตินี้แล้วทุกจุด (hand-written SQL — ไม่มีคำแนะนำ Alembic/Flyway/Prisma เหลือ) · หลักการ versioned + reversible ของ `skill-sql` ยังใช้เต็ม
 - convention ที่ต้องมี (เพราะ SQL เปล่าไม่มี versioning ในตัว):
   1. **ชื่อไฟล์มีลำดับ**: `NNNN_คำอธิบาย.sql` เช่น `0001_create_users.sql`, `0002_add_orders.sql`
   2. **ตาราง migration history** ใน DB — บันทึกว่า apply ไฟล์ไหนไปแล้วเมื่อไร
@@ -92,7 +92,7 @@ allowed-tools: Read, Glob, Grep
 | เรื่อง | สถานะ |
 |---|---|
 | retention policy | BI เคาะเบื้องต้น (soft 1.5 ปี ปกติ · 30 วันกรณี ม.33) · รอ legal ยืนยันก่อน go-live |
-| สายการถามเมื่อ business rule ไม่ชัด (ผ่าน skill-PM ก่อนถึงคน) | ทีม BI ปรับ — รอแจ้ง Lead BI รับทราบ |
+| สายการถามเมื่อ business rule ไม่ชัด | ✅ เคาะแล้ว: architect → skill-PM → user · **ก่อน production PM เคาะได้เลย** (BI review ตอน promote prod) |
 
 ## เชื่อมโยง skill อื่น
 

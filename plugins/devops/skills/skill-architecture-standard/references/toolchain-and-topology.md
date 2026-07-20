@@ -24,5 +24,5 @@
 
 ## เมื่อจะเบี่ยงจากมาตรฐาน
 1. ระบุเหตุผลใน "Proposed Approach" ของ project-proposal (skill-PM)
-2. ขอ architect/BI review
+2. **ก่อนถึง phase ขึ้น production → PM เคาะได้เลย** (ไม่ต้องรอ BI) · ตอน promote ขึ้น prod → BI review อีกชั้นตาม guardrails
 3. ถ้า approve → บันทึกเป็น decision ใน CLAUDE.md/requirements ของโปรเจกต์นั้น

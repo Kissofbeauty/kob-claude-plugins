@@ -137,7 +137,7 @@ data-architect (data model/schema) · fullstack (เขียนโค้ด) ·
 2. **Features** — ชวน user สรุปว่า webapp มี **module/feature อะไรบ้าง** → ตกผลึกเขียน `docs/features.md`
 3. **Stack** — ถาม user: *"อยากกำหนด tech stack เองไหม?"*
    - **ไม่กำหนด** → PM กำหนดตามมาตรฐาน `skill-architecture-standard`
-   - **กำหนดเอง** → ได้ แต่มี**จุดตายตัวห้ามเปลี่ยน: database = PostgreSQL · implement ด้วย docker compose**
+   - **กำหนดเอง** → ได้ แต่มี**จุดตายตัวห้ามเปลี่ยน: database = PostgreSQL · implement ด้วย docker compose** (compose = dev/UAT ตาม topology ของ `skill-architecture-standard` · prod ใช้ managed Postgres โดย BI)
    - ผลสรุปเขียน `docs/stack.md`
 4. **System design (UI)** — แจ้ง user ว่าขั้นถัดไปคือออกแบบหน้าตา → เรียก **`ui-ux-pro-max`** สร้าง `docs/brief-design.md`
    - brief ต้องสั่งให้ Claude Design สร้างเป็น **app หน้าเดียวที่กดปุ่มแล้วทำงานได้จริง** (interactive เสมือน webapp จริง) — ❌ ห้ามแตกเป็น mockup หลายหน้าแยก ๆ

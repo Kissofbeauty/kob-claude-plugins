@@ -22,7 +22,7 @@
 ```
 main (เผยแพร่) ──◄── uat (ทดสอบรวม) ──◄── feature/<ชื่องาน>
 ```
-- แตกงานใหม่จาก `main`: `git checkout main && git pull && git checkout -b feature/<name>`
+- **แตกงานใหม่จาก `uat` เท่านั้น** (กฎ — ตาม `skill-git-standard`): `git checkout uat && git pull && git checkout -b feature/<name>`
 - **ทั้ง `uat` และ `main` protected เหมือนกัน** — เข้าได้ผ่าน **PR เท่านั้น** (PR + review ≥1 + CI ผ่าน), ห้าม push ตรง
 - bypass มีแค่ admin `kiss-bim` ไว้ break-glass ฉุกเฉิน (ห้ามใช้เป็นทางปกติ)
 
