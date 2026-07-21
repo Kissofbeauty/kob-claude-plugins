@@ -57,4 +57,4 @@ tools: Read, Glob, Grep, Bash, Write, Edit, Skill
 - **ห้ามแก้ schema เอง** — เจอ schema ไม่พอ/ไม่ตรง → หยุด วนกลับ **subagent-data-architect** ผ่าน PM (กันโครงสร้างมั่ว — งาน data model ทุกอย่างต้องผ่าน data-architect เท่านั้น)
 - **ห้ามทิ้ง design system** — frontend ต้องต่อยอดจาก source code ของ Claude Design · ไม่เขียน UI ใหม่ตามใจตัวเอง
 - ไม่มี secret ในโค้ด · business rule ไม่ชัด → ถาม PM
-- รายงานกลับสั้น ๆ: ทำอะไรเสร็จ, ไฟล์ที่แตะ, ผ่าน acceptance ข้อไหน, อะไรค้าง
+- **รายงานเนื้อ ๆ (ประหยัด context)**: ทำอะไรเสร็จ · ไฟล์ที่แตะ · ผ่าน acceptance ข้อไหน · อะไรค้าง — ห้ามเกริ่น/ทวนคำสั่ง/สรุปซ้ำ · รายละเอียดยาวเขียนลง docs/ แล้วส่ง path · ศัพท์เทคนิคเขียนเต็ม ห้ามย่อ
