@@ -5,14 +5,14 @@
 ## Dockerfile — best practices
 - **Multi-stage build** — stage build แยกจาก stage runtime (ไม่ติด dev deps/secret มากับ runtime)
 - **Non-root user** — `USER node` / สร้าง user เอง ไม่รันเป็น root
-- **Pin base image** — `node:20-alpine` ไม่ใช่ `node:latest`
+- **Pin base image** — `node:24-alpine` ไม่ใช่ `node:latest` · ใช้ line ที่ยัง support เท่านั้น (Node 20 / Python 3.10 / PostgreSQL 14 EOL แล้ว — ดู `stack-baseline-versions.md` ใน `skill-architecture-standard`) · rebuild image เป็นประจำเพื่อให้ได้ `ca-certificates` + OpenSSL patch ใหม่
 - **`.dockerignore`** ครอบ `.env`, `*.pem`, `secrets*`, `.git`, `node_modules`
 - ❌ ห้าม `ENV SECRET=...`, `COPY .env .`, hardcode key
 
 ตัวอย่างโครง (Node/Next.js):
 ```dockerfile
 # ---- build stage ----
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # ---- runtime stage ----
-FROM node:20-alpine AS runtime
+FROM node:24-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/.next ./.next
@@ -43,7 +43,7 @@ services:
     env_file: .env          # .env อยู่ใน .gitignore + .dockerignore
     depends_on: [db]
   db:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     environment:
       POSTGRES_PASSWORD_FILE: /run/secrets/db_pw   # หรือ env_file
     volumes: ["pgdata:/var/lib/postgresql/data"]

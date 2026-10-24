@@ -44,8 +44,9 @@ allowed-tools: Read, Glob, Grep, Bash
 ## Phase 3: Known CVE — เทียบ version
 
 - เทียบ version ที่ pin จริง (จาก lockfile ถ้ามี ไม่งั้นจาก manifest) กับ known-vulnerable ranges
+- **runtime/framework ก่อน** (Node · Next.js/React · Python · Starlette/FastAPI · PostgreSQL · Docker · OpenSSL · CA bundle) → เทียบกับ **`security-advisory-digest-2026.md`** (อยู่ใน `skill-cybersecurity/references/`) ซึ่งสรุป patched version + EOL จากแหล่ง official · EOL = High เสมอ
 - รายงานเป็น `package@version → CVE-ID (severity) → fixed-in`
-- ไม่มี network → อ้างความรู้ที่มี + mark `ต้องยืนยันด้วย advisory DB` อย่างชัดเจน · conservative
+- ไม่มี network → อ้าง digest + ความรู้ที่มี แล้ว mark `ต้องยืนยันด้วย advisory DB` อย่างชัดเจน · conservative
 
 ## Phase 4: Typosquatting + Dependency Confusion
 
@@ -58,6 +59,7 @@ allowed-tools: Read, Glob, Grep, Bash
 - หา unpinned/loose ranges (`>=`, `^`, `~`, `*`, `latest`) — เสี่ยงดึง version ที่ถูก compromise
 - lockfile มีครบทุก ecosystem หรือไม่ · committed เข้า git หรือไม่
 - integrity/hash: `integrity` (npm), `--hash` (pip), `go.sum`, checksum อื่น ๆ มีและตรงหรือไม่
+- **cooldown:** มี `min-release-age` (npm ≥ 11.10) / `minimumReleaseAge` (pnpm) / Renovate `minimumReleaseAge` หรือไม่ — ไม่มี = Medium (worm ปี 2026 ทุก wave ถูกถอนภายใน 1–3 วัน)
 
 ## Phase 6: Malicious Install Scripts
 
@@ -65,12 +67,15 @@ allowed-tools: Read, Glob, Grep, Bash
 - pip: `setup.py` ที่รันโค้ดตอน install / `cmdclass` override
 - build/CI: `curl ... | bash`, `wget ... | sh`, `eval` จาก network, การ download binary แล้วรันทันที
 - mark ทุกจุดที่ download+execute โดยไม่ verify checksum/signature
+- **worm indicator (Shai-Hulud family 2025–2026):** `postinstall` ที่เรียก `bundle.js` / `setup_bun.js` / network, ไฟล์ workflow `.github/workflows/*.yml` ที่โผล่ใน package หรือถูก bot commit, version ใหม่ที่ไม่มี git tag/commit คู่กัน, wheel ที่มี `.pth` — ดู §2 ของ digest · ถ้าเจอ: ลำดับแก้ = ปิด persistence → rotate credential → reinstall (rotate ก่อนปิด = payload ลบ home directory)
 
 ## Phase 7: CI/CD Supply Chain
 
 - GitHub Actions ที่ pin ด้วย tag/branch (`@v4`, `@main`) แทน commit SHA → mutable
-- third-party actions จาก source ที่ไม่ verify · secrets ที่ส่งให้ step ภายนอก
-- base image ใน Dockerfile ที่ใช้ `:latest` หรือไม่ pin digest (`@sha256:...`)
+- third-party actions จาก source ที่ไม่ verify · secrets ที่ส่งให้ step ภายนอก · action ที่เคยถูก compromise (`aquasecurity/trivy-action` มี.ค. 2026, `actions-cool/*` พ.ค.+ก.ย. 2026, `tj-actions/changed-files`) → ต้องเป็น SHA ที่สะอาด
+- `pull_request_target` + checkout โค้ดจาก PR (ต้นเหตุ Trivy/TanStack ถูกยึด) · cache poisoning ข้าม workflow · OIDC token ที่รั่วจาก runner
+- **publish credential:** ยังใช้ npm classic token / long-lived `NPM_TOKEN`, PyPI API token แบบไม่หมดอายุ → เสนอ **Trusted Publishing (OIDC)** + `--provenance` (config ใน §3 ของ digest)
+- base image ใน Dockerfile ที่ใช้ `:latest` หรือไม่ pin digest (`@sha256:...`) · base image line ที่ EOL (เช่น `node:20`, `python:3.10`, `postgres:14`)
 
 ## Phase 8: SBOM + Report
 
@@ -93,4 +98,5 @@ allowed-tools: Read, Glob, Grep, Bash
 ## References
 | ไฟล์ | เนื้อหา |
 |---|---|
-| `references/supply-chain-patterns.md` | รายละเอียดต่อ ecosystem: pinning, lockfile, install-script field, dependency-confusion, CVE-prone packages, การอ่าน SBOM |
+| `references/supply-chain-patterns.md` | รายละเอียดต่อ ecosystem: pinning, lockfile, install-script field, dependency-confusion, CVE-prone packages, cooldown/trusted publishing, การอ่าน SBOM |
+| `../skill-cybersecurity/references/security-advisory-digest-2026.md` | patched version + EOL ของ runtime/framework, incident ปี 2026 (Shai-Hulud, Trivy, PyPI), severity mapping, working config |

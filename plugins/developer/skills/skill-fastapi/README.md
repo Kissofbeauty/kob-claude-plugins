@@ -31,7 +31,7 @@ Skill นี้ทำงานเป็น FastAPI Expert ที่มีคว�
 
 หลังจากใช้ `skills-fastapi` คุณโด่งจะได้:
 
-- **คำตอบภาษาไทย** พร้อม code ที่ถูกต้องตาม FastAPI standard ล่าสุด (Python 3.10+ syntax)
+- **คำตอบภาษาไทย** พร้อม code ที่ถูกต้องตาม FastAPI standard ล่าสุด (Python 3.12+ — 3.10 EOL ต.ค. 2026 · Starlette ≥ 1.3.1)
 - **Code patterns** ที่ครบถ้วน — validation, response filtering, error handling, security
 - **Best practices** ที่ป้องกันปัญหาที่พบบ่อย เช่น การ expose password, การ block event loop, CORS misconfiguration
 - **Production-ready patterns** — Docker, Uvicorn workers, settings management, lifespan events

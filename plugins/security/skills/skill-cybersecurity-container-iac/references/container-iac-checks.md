@@ -12,13 +12,13 @@ checklist ละเอียดสำหรับ Dockerfile / Kubernetes / Terr
 
 ```dockerfile
 # ❌ bad — ไม่มี USER, รันด้วย root
-FROM node:20
+FROM node:24
 COPY . /app
 CMD ["node", "server.js"]
 ```
 ```dockerfile
 # ✅ good — สร้าง non-root user แล้วสลับไปใช้
-FROM node:20
+FROM node:24
 RUN useradd --create-home --uid 10001 appuser
 COPY --chown=appuser . /app
 USER appuser
@@ -31,11 +31,22 @@ CMD ["node", "server.js"]
 ```dockerfile
 # ❌ bad
 FROM python:latest
+FROM python:3.10-slim      # pin แล้วแต่ line EOL (3.10 EOL 2026-10-01) — ก็ยังเป็น finding
 ```
 ```dockerfile
-# ✅ good — pin tag + digest
-FROM python:3.12.4-slim@sha256:2b3e6f1d6e... 
+# ✅ good — pin tag เต็ม + digest บน line ที่ยัง support
+FROM python:3.14.9-slim@sha256:2b3e6f1d6e...
 ```
+
+### 1.2b Base image line EOL / ไม่ได้ patch
+tag ที่ pin ถูกต้องแต่เป็น line ที่หมด support = ไม่ได้รับ security fix อีก → severity **High** · เทียบกับ `security-advisory-digest-2026.md` (ใน `skill-cybersecurity/references/`) + `stack-baseline-versions.md` (ใน `skill-architecture-standard/references/`)
+
+| base image | ❌ EOL / ห้าม | ✅ ใช้ |
+|---|---|---|
+| `node` | `node:20*` และต่ำกว่า | `node:24*` (→ `node:26*` หลัง 2026-10-28) · `node:22*` ยอมรับได้ถึง 2027-04 |
+| `python` | `python:3.10*` และต่ำกว่า | `python:3.14*` · `3.12*`/`3.13*` ยอมรับได้ (security-only) |
+| `postgres` | `postgres:14*` (EOL 2026-11-12) และต่ำกว่า | `postgres:17*` · `16*`/`18*` ยอมรับได้ |
+| image ใด ๆ ที่ build ก่อน **2026-10-17** | CA bundle ยังเชื่อ eMudhra intermediate ที่ key หลุด | rebuild ให้ได้ `ca-certificates` ใหม่ |
 
 ### 1.3 Secret ใน ENV / ARG
 ค่าที่ใส่ใน `ENV`/`ARG` ถูกฝังใน image layer และอ่านได้ด้วย `docker history`

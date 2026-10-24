@@ -14,7 +14,7 @@ A single home for the org's plugins, skills, subagents, and working standards �
 |---|---|---|
 | [`management`](plugins/management) | PM & orchestration | `skill-PM` (discovery → Project Proposal → build-ladder orchestration) · `precompact` (save PM state to `docs/pm-handoff.md` before compact) · `skill-init` (scaffold new skills) |
 | [`devops`](plugins/devops) | Engineering standards | `skill-git-standard` (Git/GitHub: main←uat←feature, credential gate, PR-only) · `skill-docker-standard` (containerization) · `skill-architecture-standard` (approved stack + UAT/prod topology) |
-| [`security`](plugins/security) | Security toolkit | `skill-cybersecurity` (OWASP code scan) · `-api` (API Top 10:2023) · `-llm` (LLM Top 10:2025) · `-supply-chain` (SCA/deps) · `-secret-scan` (secrets + git history) · `-container-iac` (Docker/K8s/Terraform) · `-threat-model` (STRIDE) · **subagent** `subagent-cybersecurity-auditor` (full audit) · **command** `/security-check [path]` |
+| [`security`](plugins/security) | Security toolkit | `skill-cybersecurity` (OWASP code scan) · `-api` (API Top 10:2023) · `-llm` (LLM Top 10:2026) · `-supply-chain` (SCA/deps) · `-secret-scan` (secrets + git history) · `-container-iac` (Docker/K8s/Terraform) · `-threat-model` (STRIDE) · **subagent** `subagent-cybersecurity-auditor` (full audit) · **command** `/security-check [path]` |
 | [`developer`](plugins/developer) | Engineering team | `skill-frontend-web` · `skill-backend` · `skill-sql` · `skill-data-modeling` (UUID v7 / soft-delete / hand-written SQL migrations) · `skill-erd-dbml` (ERD docs for dbdiagram.io) · `skill-python` (venv-per-project) · `skill-fastapi` · `ui-ux-pro-max` (design intelligence) · `skill-software-testing` (test + UAT) · **subagents** `subagent-data-architect` (schema design, PM-gated) + `subagent-fullstack` (build per proposal) + `subagent-qa-tester` (test/UAT/security + PM-mediated fix loop) |
 
 ---
@@ -40,7 +40,7 @@ kob-claude-plugins  (marketplace: kissofbeauty)
 │
 ├── security ────┬── skill-cybersecurity ──────────── code scan, OWASP Top 10:2025
 │   (safety)     ├── skill-cybersecurity-api ───────── OWASP API Top 10:2023
-│                ├── skill-cybersecurity-llm ───────── OWASP LLM Top 10:2025
+│                ├── skill-cybersecurity-llm ───────── OWASP LLM Top 10:2026
 │                ├── skill-cybersecurity-supply-chain ─ SCA / deps / CVE
 │                ├── skill-cybersecurity-secret-scan ── secrets + git history
 │                ├── skill-cybersecurity-container-iac ─ Docker/K8s/Terraform

@@ -74,7 +74,8 @@ allowed-tools: Read, Glob, Grep, Bash
 
 ## Phase 5: Base image / dependency CVE
 
-- ดึง base image + tag จาก Dockerfile/manifest → ระบุความเสี่ยง version เก่า / EOL / ไม่ pin
+- ดึง base image + tag จาก Dockerfile/manifest → ระบุความเสี่ยง version เก่า / EOL / ไม่ pin — เทียบกับ `security-advisory-digest-2026.md` (ใน `skill-cybersecurity/references/`): `node:20`, `python:≤3.10`, `postgres:≤14`, OpenSSL 3.0/3.4/3.6 = EOL → **High** · image ที่ build ก่อน 2026-10-17 → CA bundle เก่า (eMudhra) → Medium
+- Docker Engine ของ host/CI ต้อง ≥ 29.3.1 (CVE-2026-34040 AuthZ bypass) — แนะนำ 29.9.2+ · ถ้ามี `authorization-plugins` ใน daemon.json ให้เน้นข้อนี้
 - ถ้ามี `trivy`/`hadolint`/`grype` ใน PATH (เช็คด้วย Bash) → เสนอรันเสริม (ไม่บังคับ) — ไม่มีก็วิเคราะห์ด้วย pattern แบบ static
 - หา lockfile/manifest ของ dependency ใน image แล้วชี้ component ที่ควร audit
 

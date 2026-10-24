@@ -123,7 +123,7 @@ Global deps (FastAPI(dependencies=[...]))
 ### Dockerfile
 
 ```dockerfile
-FROM python:3.12-slim
+FROM python:3.14-slim   # line ที่ยัง bugfix · 3.12/3.13 ยอมรับได้ (security-only) · ห้าม ≤3.10 (EOL)
 
 WORKDIR /code
 
@@ -169,7 +169,7 @@ services:
     restart: unless-stopped
 
   db:
-    image: postgres:16
+    image: postgres:17
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -252,7 +252,7 @@ Manage data pipelines, trigger runs, and monitor status.
 
 | ❌ Don't | ✅ Do instead |
 |---|---|
-| Use `tiangolo/uvicorn-gunicorn-fastapi` image | Use official `python:3.12-slim` + `fastapi run` |
+| Use `tiangolo/uvicorn-gunicorn-fastapi` image | Use official `python:3.14-slim` + `fastapi run` (Starlette ≥ 1.3.1) |
 | Mix `lifespan` + `@app.on_event()` | Use `lifespan` only |
 | Shell form CMD: `CMD fastapi run ...` | Exec form: `CMD ["fastapi", "run", ...]` |
 | Share in-memory WebSocket list across workers | Use Redis pub/sub |

@@ -19,7 +19,7 @@
     {
       "name": "security",
       "source": "./plugins/security",
-      "description": "Security toolkit — stack-agnostic vulnerability scanner & report generator (OWASP Top 10:2025)"
+      "description": "Security toolkit — stack-agnostic vulnerability scanner & report generator (OWASP Top 10:2025 · LLM Top 10:2026 · monthly advisory digest)"
     },
     {
       "name": "developer",
