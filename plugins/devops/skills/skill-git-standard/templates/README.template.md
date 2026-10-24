@@ -27,9 +27,9 @@
 > (เป้าหมาย: dev ใหม่อ่านจบแล้วเริ่มงานต่อได้เองโดยไม่ต้องถาม)
 
 ## Tech Stack
-- **Language/Runtime:** <เช่น Python 3.12 / Node 20>
+- **Language/Runtime:** <เช่น Python 3.14 / Node 24 — ใช้ line ที่ยัง support ตาม stack-baseline-versions>
 - **Framework:** <เช่น FastAPI / Next.js>
-- **Database:** <เช่น PostgreSQL 16>
+- **Database:** <เช่น PostgreSQL 17>
 - **Key libraries:** <รายการสำคัญ + เวอร์ชัน>
 
 ## Project Structure

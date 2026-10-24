@@ -63,6 +63,7 @@ subagent-data-architect (schema+ERD) · subagent-fullstack (build backend-first)
 - claude.ai ไม่ auto-update จาก git → ต้องมี publish step (ดู `requirements.md` open questions)
 - **secret/PII ห้ามหลุดเข้า git** — `.gitignore` ต้องครอบ `.env`, ไฟล์ลับ
 - manifest ต้อง valid เสมอ (marketplace.json / plugin.json) — JSON เสียทำให้ทั้ง marketplace พัง
+- **advisory digest + stack baseline มีวันหมดอายุ** — `plugins/security/skills/skill-cybersecurity/references/security-advisory-digest-2026.md` และ `plugins/devops/skills/skill-architecture-standard/references/stack-baseline-versions.md` ต้อง refresh จากแหล่ง official **เดือนละครั้ง** (เปลี่ยนวันที่หัวไฟล์ด้วย) ไม่งั้น `/security-check` จะเทียบกับข้อมูลเก่า
 
 ## Commands
 - ติดตั้ง (teammate): ดู `README.md`

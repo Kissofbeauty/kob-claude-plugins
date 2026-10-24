@@ -33,6 +33,7 @@ allowed-tools: Read, Glob, Grep, Bash
    > เจอภาษาอื่น/หลายภาษา → หา manifest + นามสกุลหลักของภาษานั้นให้ครบ (ปรับ glob เอง)
 3. อ่าน **config + secrets surface** (ทุก stack): `.env*`, `*.config.*`, `*.yaml`/`*.yml`, `*.toml`, `*.ini`, `Dockerfile`, CI config (`.github/`, `.gitlab-ci.yml`)
 4. อ่าน **dependency manifest** ที่เจอ (เทียบ version หา known CVE)
+5. **Runtime / framework version check** — ดึง version ของ Node.js / Next.js / Python / Starlette / PostgreSQL / Docker / base image จาก lockfile, `Dockerfile`, `.nvmrc`, `pyproject.toml`, compose → เทียบกับ **`references/security-advisory-digest-2026.md`** (patched version + EOL) → ต่ำกว่า patched หรือ EOL = finding ตั้งแต่ Phase 1 (severity ตาม §4 ของ digest)
 
 ---
 
@@ -70,3 +71,4 @@ allowed-tools: Read, Glob, Grep, Bash
 |---|---|
 | `references/owasp-top10-2025.md` | pattern A01–A10 ละเอียด + ตัวอย่างโค้ด |
 | `references/scoring-and-report.md` | เกณฑ์ CVSS scoring + เทมเพลต finding/report |
+| `references/security-advisory-digest-2026.md` | patched version / EOL ของ Node · Next.js · Python · Starlette · PostgreSQL · Docker · OpenSSL · CA + supply-chain incident 2026 + severity mapping (refresh เดือนละครั้ง) |

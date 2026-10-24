@@ -33,11 +33,13 @@ Patterns to detect:
 - Build scripts ที่ download แล้ว pipe to shell: `curl | bash`
 - Missing integrity checks บน downloaded artifacts
 
-Common Python CVE packages to check:
-- `cryptography < 41.0.0` — หลาย CVE
-- `pillow < 10.0.0` — arbitrary code execution
-- `pyyaml < 6.0` — arbitrary code execution
-- `requests < 2.28.0` — multiple issues
+Runtime / framework ที่ต้องเทียบ version เสมอ (ตัวเลขล่าสุด + CVE อยู่ใน `security-advisory-digest-2026.md` — อย่าจำตัวเลขจากไฟล์นี้):
+- **Node.js** ต่ำกว่า 26.12.1 / 24.22.1 / 22.23.4 หรือ line 20 (EOL) — Brotli RCE, TLS hostname bypass
+- **Next.js** ต่ำกว่า 16.4.1 / 15.5.28 — RCE ใน `use cache`, Image Optimization, `next/og`; `sharp` < 0.35.5
+- **Starlette** < 1.3.1 (FastAPI) — form DoS, Host-header path poisoning
+- **Python** ≤ 3.10 (EOL) · **PostgreSQL** ต่ำกว่า 18.6 / 17.11 / 16.15 หรือ ≤ 14 · **Docker Engine** < 29.3.1
+- Python lib ที่พบบ่อย: `cryptography`, `pillow`, `pyyaml` (`yaml.load`), `requests`/`urllib3` เก่า · `litellm` 1.82.7–1.82.8 (compromised 2026)
+- CA bundle (`certifi` / `ca-certificates`) เก่ากว่า 2026-10-17 (eMudhra key compromise)
 
 ## A04:2025 — Cryptographic Failures (was #2)
 **CWEs:** 29 mapped

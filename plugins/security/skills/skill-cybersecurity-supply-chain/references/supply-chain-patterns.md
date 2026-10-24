@@ -93,15 +93,30 @@ remediation: pin private registry ผ่าน `.npmrc` scope mapping
 
 ## 5. CVE-prone packages ที่พบบ่อย (ตัวอย่าง — ต้องยืนยันด้วย advisory DB เสมอ)
 
+**ชั้น runtime/framework (เช็คก่อนเสมอ — ตัวเลข patched/EOL ล่าสุดอยู่ใน `security-advisory-digest-2026.md`):**
+
+| Component | เสี่ยงเมื่อ | ประเด็น (2026) |
+|---|---|---|
+| `node` | < 26.12.1 / 24.22.1 / 22.23.4 · line 20 (EOL) | Brotli decoder RCE, TLS hostname bypass, entropy ซ้ำใน SEA/snapshot |
+| `next` | < 16.4.1 / 15.5.28 · ≤ 14.x | RCE `use cache` · Image Optimization (SVG/AVIF) · `next/og` · middleware auth bypass · React2Shell |
+| `sharp` (ผ่าน next) | < 0.35.5 | memory bug → RCE บน glibc Linux |
+| `starlette` (ผ่าน fastapi) | < 1.3.1 | form DoS · Host-header path poisoning · NTLM leak (Windows) |
+| `python` | ≤ 3.10 (EOL) · 3.11–3.13 security-only | tarfile, coordinated fix ต.ค. 2026 |
+| `postgres` | < 18.6 / 17.11 / 16.15 · ≤ 14 | 44 CVE ปี 2026 (หลายตัว 8.8 RCE), pgcrypto cleartext |
+| `docker` engine | < 29.3.1 (ต้อง ≥ 29.9.2) | AuthZ bypass, `docker cp` escape, eMudhra CA |
+| `openssl` ใน image | 3.0 / 3.4 / 3.6 (EOL) → ใช้ 3.5 LTS ≥ 3.5.9 | DTLS, CMS, PKCS7 UAF |
+| `certifi` / `ca-certificates` | ออกก่อน 2026-10-17 | eMudhra intermediate key compromise |
+
+**ชั้น library (ตัวอย่าง — ต้องยืนยันด้วย advisory DB เสมอ):**
+
 | Package | ecosystem | บริบทที่ควรเช็คเป็นพิเศษ |
 |---|---|---|
-| `lodash` < 4.17.21 | npm | prototype pollution |
-| `log4j-core` 2.0–2.14 | maven | Log4Shell (RCE) |
+| `keyv` และ package ของ maintainer เดียวกัน (ส.ค. 2026) · TanStack / AntV / `@mistralai` (พ.ค. 2026) | npm | ถูก Shai-Hulud/CHAINDROP ฝัง worm — เช็ค version ที่ติดตั้งว่าไม่ใช่ช่วงที่ถูก compromise |
+| `litellm` 1.82.7–1.82.8 (มี.ค. 2026) · `durabletask` 1.4.1–1.4.3 · `mistralai` / `guardrails-ai` (พ.ค. 2026) | pip | publish ด้วย credential ที่ขโมยมา — version ถูกถอนแล้ว แต่ lockfile เก่าอาจยัง pin อยู่ |
+| `lodash` < 4.17.21 · `minimist` < 1.2.6 | npm | prototype pollution |
 | `event-stream` 3.3.6 | npm | เคยถูกฝัง malware (compromised maintainer) |
-| `requests`/`urllib3` เก่า | pip | TLS/redirect issues |
-| `minimist` < 1.2.6 | npm | prototype pollution |
-| `pyyaml` < 5.4 (`yaml.load`) | pip | unsafe deserialization |
-| `xstream`/`fastjson` เก่า | maven | deserialization RCE |
+| `log4j-core` 2.0–2.14 · `xstream`/`fastjson` เก่า | maven | Log4Shell / deserialization RCE |
+| `requests`/`urllib3` เก่า · `pyyaml` < 5.4 (`yaml.load`) | pip | TLS/redirect · unsafe deserialization |
 
 > รายการนี้เป็น starting point ไม่ใช่ทั้งหมด — เทียบ version จริงกับ advisory (GHSA/OSV/NVD) แล้ว mark `ยืนยันแล้ว` หรือ `ต้องยืนยัน`
 
@@ -117,12 +132,35 @@ remediation: pin private registry ผ่าน `.npmrc` scope mapping
 - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 ```
 
-**Dockerfile — pin digest:**
+**Dockerfile — pin digest + line ที่ยัง support:**
 ```dockerfile
-# ❌ FROM node:20
-# ✅ FROM node:20@sha256:abcd...   ไม่ใช้ :latest
+# ❌ FROM node:20            (line 20 EOL 2026-04-30 — ไม่ได้ patch Brotli RCE)
+# ✅ FROM node:24-alpine@sha256:abcd...   ไม่ใช้ :latest · ย้ายเป็น 26 หลัง 2026-10-28
 ```
-flag เพิ่ม: secrets ที่ส่งให้ third-party action, action จาก repo ที่ไม่ verify, `pull_request_target` + checkout PR code
+flag เพิ่ม: secrets ที่ส่งให้ third-party action, action จาก repo ที่ไม่ verify, `pull_request_target` + checkout PR code (ต้นเหตุ Trivy/TanStack ถูกยึดปี 2026), action ที่เคย compromise แล้วกลับมาออนไลน์พร้อม tag เดิม (`actions-cool/*` ก.ย. 2026)
+
+**Publish credential → Trusted Publishing (OIDC):** npm classic token ถูก revoke ถาวร (2025-12-09) · granular token write ต้อง 2FA + ≤ 90 วัน → CI ควรใช้ OIDC แทน
+```yaml
+# ✅ npm publish ผ่าน OIDC (ตั้ง trusted publisher บน npmjs.com ก่อน) — ไม่มี NPM_TOKEN ใน secrets
+permissions: { id-token: write, contents: read }
+steps:
+  - run: npm publish --provenance --access public
+# PyPI: pypa/gh-action-pypi-publish@<sha> + trusted publisher บน pypi.org — ไม่ใช้ API token
+```
+
+**Cooldown (กัน version ที่เพิ่ง publish ภายในชั่วโมงแรก — ทุก worm wave ปี 2026 ถูกถอนใน 1–3 วัน):**
+```ini
+# .npmrc (npm >= 11.10)
+min-release-age=7
+```
+```yaml
+# pnpm-workspace.yaml (หน่วยนาที)
+minimumReleaseAge: 4320
+```
+```json
+// renovate.json
+{ "extends": ["config:best-practices"], "minimumReleaseAge": "3 days" }
+```
 
 ---
 

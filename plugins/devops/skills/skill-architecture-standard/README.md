@@ -8,6 +8,7 @@
 2. **Topology ชัด** — dev (compose) → UAT (Hostinger) → prod (AWS, BI promote เท่านั้น) ด้วย Docker parity
 3. **Decision guide** — web/API/AI/static เลือกอะไร + กฎ "เบี่ยงต้องมีเหตุผล — ก่อน production PM เคาะได้เลย · BI review ตอน promote prod"
 4. **ผูกกับ skill อื่น** — skill-PM อ้างตอนเขียน proposal · บังคับด้วย git-standard + docker-standard + security plugin
+5. **Runtime baseline** — กำหนด line ที่ใช้ได้/ห้าม (Node 24→26, Python 3.14, PostgreSQL 17, ห้าม EOL) ใน `references/stack-baseline-versions.md` อิง advisory digest ของ security plugin
 
 ## ผลลัพธ์ที่ได้จากการใช้งาน
 - ทีมรู้ทันทีว่า "ใช้เครื่องมืออะไร" โดยไม่ต้องเดา/ถามทุกครั้ง
