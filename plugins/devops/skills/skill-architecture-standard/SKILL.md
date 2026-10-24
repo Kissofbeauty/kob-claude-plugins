@@ -24,6 +24,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 | **Container** | **Docker + compose** | ตาม `skill-docker-standard` |
 | **Source/CI** | **GitHub** + CI/CD | ตาม `skill-git-standard` (main←uat←feature) |
 | **Security gate** | security plugin + **`/security-check`** | ก่อน promote prod |
+| **Runtime baseline** | **Node 24 LTS** (→ 26 หลัง 2026-10-28) · **Next.js 16.4.x** · **Python 3.14** · **PostgreSQL 17** · Docker Engine 29.9+ | ห้าม line ที่ EOL (Node 20, Python ≤3.10, PostgreSQL ≤14) — ดู `references/stack-baseline-versions.md` |
 
 ## 🌐 Deploy Topology (สำคัญ)
 ```
@@ -51,6 +52,7 @@ Prod = AWS (App Runner / Lightsail Containers)  ← BI promote เท่าน�
 ## Rules
 - **ใช้ default ก่อนเสมอ** — เบี่ยงจากมาตรฐานต้องมีเหตุผลชัด + ระบุใน "Proposed Approach" ของ proposal · **ก่อน production: PM เคาะได้เลยไม่ต้องถาม BI** · BI review ตอน promote prod
 - ทุกแอป server-side → Docker + GitHub + ผ่าน security gate ก่อน prod
+- **ใช้ LTS/supported line + patch ล่าสุดเสมอ** — runtime ที่ EOL ห้ามทุก env (รวม UAT) · `/security-check` จะ flag เป็น High · baseline ใน `references/stack-baseline-versions.md` (BI refresh เดือนละครั้ง)
 - prod อยู่ AWS · UAT อยู่ Hostinger · **BI เท่านั้น promote ขึ้น prod**
 - DB default = **self-host PostgreSQL ใน Docker** ทุก env · **RDS เฉพาะเมื่อทีม BI ร้องขอตอน production** — ❌ ห้าม hand-roll auth (auth ใช้ managed) · ❌ ทีมทั่วไปไม่แตะ AWS เอง (รวมศูนย์ที่ BI — กัน cost/security)
 
@@ -58,3 +60,4 @@ Prod = AWS (App Runner / Lightsail Containers)  ← BI promote เท่าน�
 | ไฟล์ | เนื้อหา |
 |---|---|
 | `references/toolchain-and-topology.md` | รายละเอียด stack แต่ละชั้น + เหตุผล + topology UAT/prod + cost/security guardrails |
+| `references/stack-baseline-versions.md` | เวอร์ชัน default / ยอมรับได้ / ห้าม ของทุกชั้น + Docker tag + วิธีเช็ค (อิง advisory digest ของ security plugin) |

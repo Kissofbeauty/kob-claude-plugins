@@ -21,8 +21,9 @@ tools: Read, Glob, Grep, Bash, Skill
 |---|---|---|
 | source code (.py/.js/.go/.java/...) | Code vulnerabilities (OWASP) | `skill-cybersecurity` |
 | API routes/endpoints, OpenAPI/Swagger, GraphQL schema | API security (OWASP API Top 10) | `skill-cybersecurity-api` |
-| LLM SDK/prompt/agent/RAG (openai, anthropic, langchain, genai, MCP) | LLM/GenAI security (OWASP LLM Top 10) | `skill-cybersecurity-llm` |
+| LLM SDK/prompt/agent/RAG (openai, anthropic, langchain, genai, MCP) | LLM/GenAI security (OWASP LLM Top 10:2026 + Agentic) | `skill-cybersecurity-llm` |
 | dependency manifest (package.json, pyproject.toml, go.mod...) | Supply chain / SCA | `skill-cybersecurity-supply-chain` |
+| **runtime/framework version** (lockfile, `Dockerfile`, `.nvmrc`, `pyproject.toml`, compose, `daemon.json`) | **Patch level / EOL** — ทำเสมอทุก project | `skill-cybersecurity/references/security-advisory-digest-2026.md` |
 | โค้ด/config/.env/git history | Secret leak | `skill-cybersecurity-secret-scan` |
 | Dockerfile / k8s yaml / *.tf | Container & IaC | `skill-cybersecurity-container-iac` |
 | design/architecture docs (requirements, proposal, README) | Threat model (STRIDE) | `skill-cybersecurity-threat-model` |
@@ -37,10 +38,11 @@ tools: Read, Glob, Grep, Bash, Skill
 **Checklist ย่อต่อด้าน** (รายละเอียดเต็มอยู่ใน reference ของแต่ละ skill):
 - **Code/OWASP:** A01 Access Control · A02 Misconfig · A03 Supply Chain · A04 Crypto · A05 Injection · A06 Insecure Design · A07 Auth · A08 Integrity · A09 Logging · A10 Exceptional Conditions
 - **API (ถ้ามี API):** BOLA, broken auth, property-level authz/mass-assignment, resource consumption, function-level authz, SSRF, inventory (shadow API)
-- **LLM (ถ้ามี AI/LLM):** prompt injection, sensitive info disclosure, improper output handling (output→exec/SQL/XSS), excessive agency (tool สิทธิ์เกิน), system prompt leakage, unbounded consumption
-- **Supply chain:** unpinned deps, known CVE, typosquatting, dependency confusion, lockfile/integrity, malicious install scripts, CI pinning (tag→SHA)
+- **LLM (ถ้ามี AI/LLM):** prompt injection (รวม indirect ผ่าน tool/MCP output), sensitive info disclosure, **excessive agency** (tool สิทธิ์เกิน / ไม่มี approval gate), hidden context exposure (system prompt + RAG chunk + memory + tool response), improper output handling (output→exec/SQL/XSS/**shell/file ที่ coding agent รัน**), unbounded consumption (token/step/cost cap)
+- **Patch level / EOL (ทำเสมอ):** เทียบ version ของ Node · Next.js/React · Python · Starlette/FastAPI · PostgreSQL · Docker Engine · OpenSSL · CA bundle กับ digest → ต่ำกว่า patched = finding · **EOL = High** (Node 20, Python ≤3.10, PostgreSQL ≤14, OpenSSL 3.0) · Critical RCE ที่ unauthenticated (Node Brotli, Next.js `use cache`/Image/`next/og`) = Critical · ถ้า digest เก่ากว่า 45 วัน ให้ระบุว่า "ต้องยืนยันกับ advisory DB"
+- **Supply chain:** unpinned deps, known CVE, typosquatting, dependency confusion, lockfile/integrity, malicious install scripts + **worm indicator** (postinstall→`bundle.js`, workflow ที่ bot เพิ่ม, version ไม่มี git tag), CI pinning (tag→SHA + SHA สะอาด), `pull_request_target`, publish credential (classic token → Trusted Publishing), **cooldown** (`min-release-age`/`minimumReleaseAge`)
 - **Secret:** hardcoded key/token/password ในโค้ด + **git history** · mask ค่าจริงเมื่อแสดง
-- **Container/IaC:** run-as-root, `:latest`, secret ใน ENV, privileged, hostPath, no limits, public bucket, SG 0.0.0.0/0
+- **Container/IaC:** run-as-root, `:latest` / ไม่ pin digest / **base image line EOL** (`node:20`, `python:3.10`, `postgres:14`), image build ก่อน 2026-10-17 (CA bundle เก่า), secret ใน ENV, privileged, hostPath, no limits, public bucket, SG 0.0.0.0/0, Docker Engine < 29.3.1
 - **Threat model:** STRIDE ต่อ component + trust boundary (ทำเมื่อมี design ให้วิเคราะห์)
 
 ### Step 3 — Consolidate & Score
@@ -48,9 +50,9 @@ tools: Read, Glob, Grep, Bash, Skill
 
 | ระดับ | คะแนน | เกณฑ์ |
 |---|---|---|
-| Critical | 9.0–10.0 | RCE, auth bypass, secret หลุดที่ใช้ได้จริง, data breach |
-| High | 7.0–8.9 | Priv-esc, SQLi, hardcoded secret, dep ที่มี CVE ร้ายแรง |
-| Medium | 4.0–6.9 | IDOR, XSS, weak crypto, misconfig, unpinned dep |
+| Critical | 9.0–10.0 | RCE, auth bypass, secret หลุดที่ใช้ได้จริง, data breach, runtime/framework ที่ยังไม่ patch Critical RCE แบบ unauthenticated |
+| High | 7.0–8.9 | Priv-esc, SQLi, hardcoded secret, dep ที่มี CVE ร้ายแรง, **runtime EOL**, Docker Engine < 29.3.1, Starlette < 1.3.1 รับ form จาก internet |
+| Medium | 4.0–6.9 | IDOR, XSS, weak crypto, misconfig, unpinned dep, ไม่มี cooldown/Trusted Publishing, action pin tag, CA bundle เก่า |
 | Low | 0.1–3.9 | missing headers, verbose error, minor outdated |
 | Info | 0 | best-practice suggestion |
 
@@ -59,6 +61,7 @@ tools: Read, Glob, Grep, Bash, Skill
 ## 🔒 Security Assessment — <project>
 
 **Scope ที่ตรวจ:** <ด้านที่รัน>  ·  **ข้าม:** <ด้านที่ข้าม + เหตุผล>
+**Stack / patch level:** Node X (patched Y · EOL?) · Next.js X · Python X · PostgreSQL X · Docker X — digest ณ <วันที่หัวไฟล์ digest>
 **Total:** Critical X | High X | Medium X | Low X | Info X
 
 ### Ranked Findings
