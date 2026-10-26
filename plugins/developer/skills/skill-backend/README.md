@@ -7,7 +7,7 @@
 1. **API design** — REST/GraphQL contract, status codes, pagination, error shape เดียวกันทั้งระบบ
 2. **Server patterns** — validate ที่ boundary, error handling รวมศูนย์, ไม่ leak internal
 3. **Layering** — controller บาง → service (business logic) → repository (data); business rule ไม่ชัด → ถาม PM
-4. **Security** — managed auth, authorization ทุก endpoint, secret จาก env, ตรวจด้วย cybersecurity-api ก่อนส่ง
+4. **Security** — Microsoft Entra ID auth, authorization ทุก endpoint, secret จาก env, ตรวจด้วย cybersecurity-api ก่อนส่ง
 
 ## ผลลัพธ์ที่ได้จากการใช้งาน
 - API/server code ที่ validate ครบ, error สม่ำเสมอ, แยกชั้นชัด
