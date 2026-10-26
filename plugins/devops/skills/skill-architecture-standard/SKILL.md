@@ -20,7 +20,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 | **API** | Next.js API routes (เล็ก) · FastAPI (Python/data) | เลือกตามทีม/โหลด |
 | **AI/LLM** | Claude API + MCP | ตรวจด้วย `skill-cybersecurity-llm` |
 | **Data** | **PostgreSQL self-host ใน Docker (compose)** — default ทุก environment | **RDS (managed)** เฉพาะเมื่อ**ทีม BI ร้องขอ**ใน phase production (โอกาสน้อย — ต้นทุนสูง) |
-| **Auth** | managed — Supabase Auth / Clerk | ❌ ห้าม hand-roll auth |
+| **Auth** | **Microsoft Authentication — Microsoft Entra ID** (บัญชีองค์กร, OIDC/OAuth 2.0) · Next.js ใช้ Auth.js provider `microsoft-entra-id` หรือ MSAL · FastAPI verify JWT ของ Entra (JWKS) | ❌ ห้าม hand-roll auth · app registration / client secret ขอผ่าน BI (เก็บใน secret manager เท่านั้น) |
 | **Container** | **Docker + compose** | ตาม `skill-docker-standard` |
 | **Source/CI** | **GitHub** + CI/CD | ตาม `skill-git-standard` (main←uat←feature) |
 | **Security gate** | security plugin + **`/security-check`** | ก่อน promote prod |
@@ -54,7 +54,7 @@ Prod = AWS (App Runner / Lightsail Containers)  ← BI promote เท่าน�
 - ทุกแอป server-side → Docker + GitHub + ผ่าน security gate ก่อน prod
 - **ใช้ LTS/supported line + patch ล่าสุดเสมอ** — runtime ที่ EOL ห้ามทุก env (รวม UAT) · `/security-check` จะ flag เป็น High · baseline ใน `references/stack-baseline-versions.md` (BI refresh เดือนละครั้ง)
 - prod อยู่ AWS · UAT อยู่ Hostinger · **BI เท่านั้น promote ขึ้น prod**
-- DB default = **self-host PostgreSQL ใน Docker** ทุก env · **RDS เฉพาะเมื่อทีม BI ร้องขอตอน production** — ❌ ห้าม hand-roll auth (auth ใช้ managed) · ❌ ทีมทั่วไปไม่แตะ AWS เอง (รวมศูนย์ที่ BI — กัน cost/security)
+- DB default = **self-host PostgreSQL ใน Docker** ทุก env · **RDS เฉพาะเมื่อทีม BI ร้องขอตอน production** — ❌ ห้าม hand-roll auth (auth ใช้ **Microsoft Entra ID**) · ❌ ทีมทั่วไปไม่แตะ AWS เอง (รวมศูนย์ที่ BI — กัน cost/security)
 
 ## References
 | ไฟล์ | เนื้อหา |

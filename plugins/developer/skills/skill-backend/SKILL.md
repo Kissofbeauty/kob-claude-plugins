@@ -34,7 +34,7 @@ HTTP (controller/handler)  →  Service (business logic)  →  Repository (data 
 - ❗ business rule ไม่ชัด → หยุด ถาม PM (ตามหลัก skill-PM — rule ไหลจาก business → PM)
 
 ## 4. Auth & Security
-- ใช้ **managed auth** (Supabase/Clerk ตาม architecture-standard) — ❌ ไม่ hand-roll
+- ใช้ **Microsoft Entra ID** (ตาม architecture-standard) — ❌ ไม่ hand-roll · Next.js ใช้ Auth.js provider `microsoft-entra-id` · FastAPI verify JWT ของ Entra ด้วย JWKS + ตรวจ `iss` / `aud` / `exp` / scope
 - verify token/session **ฝั่ง server เสมอ** · authorization check ทุก endpoint ที่ละเอียดอ่อน (กัน BOLA/broken-function-authz — A01/API1/API5)
 - secret มาจาก **env/secret manager** ไม่ hardcode · rate limit + idempotency บน endpoint สำคัญ
 - ก่อนส่งงาน → ตรวจด้วย **`/skill-cybersecurity-api`** + secret-scan
