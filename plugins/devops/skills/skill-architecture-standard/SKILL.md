@@ -24,7 +24,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 | **Container** | **Docker + compose** | ตาม `skill-docker-standard` |
 | **Source/CI** | **GitHub** + CI/CD | ตาม `skill-git-standard` (main←uat←feature) |
 | **Security gate** | security plugin + **`/security-check`** | ก่อน promote prod |
-| **Runtime baseline** | **Node 24 LTS** (→ 26 หลัง 2026-10-28) · **Next.js 16.4.x** · **Python 3.14** · **PostgreSQL 17** · Docker Engine 29.9+ | ห้าม line ที่ EOL (Node 20, Python ≤3.10, PostgreSQL ≤14) — ดู `references/stack-baseline-versions.md` |
+| **Runtime baseline** | **Node 26 LTS** · **Next.js 16.4.x** · **Python 3.14** · **PostgreSQL 17** · Docker Engine 29.10+ | ห้าม line ที่ EOL (Node 20/25, Python ≤3.10, PostgreSQL ≤14, OpenSSL 3.6) — ดู `references/stack-baseline-versions.md` |
 
 ## 🌐 Deploy Topology (สำคัญ)
 ```
